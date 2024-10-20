@@ -69,7 +69,7 @@
     <div class="card mb-4 border-0 shadow">
       <div class="row g-0 p-3 align-items-center">
         <div class="col-md-5 mb-lg-0 mb-md-0 mb-3">
-          <img src="images/carousel/kamar.jpg" class="img-fluid rounded">
+          <img src="../../images/carousel/kamar.jpg" class="img-fluid rounded">
         </div>
         <div class="col-md-5 px-lg-3 px-md-3 px-0">
           <h5 class="mb-1">Kamar A</h5>
@@ -98,7 +98,7 @@
     <div class="card mb-4 border-0 shadow">
       <div class="row g-0 p-3 align-items-center">
         <div class="col-md-5 mb-lg-0 mb-md-0 mb-3">
-          <img src="images/carousel/kamar.jpg" class="img-fluid rounded">
+          <img src="../../images/carousel/kamar.jpg" class="img-fluid rounded">
         </div>
         <div class="col-md-5 px-lg-3 px-md-3 px-0">
           <h5 class="mb-1">Kamar B</h5>
