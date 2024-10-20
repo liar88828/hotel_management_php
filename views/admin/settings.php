@@ -266,7 +266,7 @@ adminLogin();
                     <div class="row" id="team-data">
                         <div class="col-md-2 mb-3">
                             <div class="card bg-dark text-white">
-                                <img src="../images/about/team.jpg" class="card-img">
+                                <img src="../../images/about/team.jpg" class="card-img">
                                 <div class="card-img-overlay text-end">
                                     <button type="button" class="btn btn-danger btn-sm shadow-none">
                                         <i class="bi bi-trash3"></i>Delete

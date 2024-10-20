@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-    <?php require('inc/links.php') ?>
+    <?php require('./views/assets/php/links.php') ?>
     <title>About Us</title>
     <style>
       .box{
@@ -14,7 +13,7 @@
 </head>
 <body class="bg-light">
 
-<?php require('inc/header.php'); ?>
+<?php require('./views/components/header.php'); ?>
 
 <div class="my-5 px-4">
   <h2 class="fw-bold h-font text-center">About Us</h2>
@@ -103,30 +102,8 @@
   </div>
 </div>
 
-<?php require('inc/footer.php'); ?>
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<?php require('views/components/footer.php'); ?>
+<?php require('views/assets/php/swiper.php'); ?>
 
-<script>
-    var swiper = new Swiper(".mySwiper", {
-      spaceBetween: 40,
-      pagination: {
-        el: ".swiper-pagination",
-      },
-      breakpoints: {
-      320: {
-        slidesPerView: 1,
-      },
-      640: {
-        slidesPerView: 2,
-      },
-      768: {
-        slidesPerView: 2,
-      },
-      1024: {
-        slidesPerView: 3,
-      }
-    }
-    });
-</script>
 </body>
 </html>

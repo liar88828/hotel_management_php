@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php require('inc/links.php') ?>
+    <?php require('./views/assets/php/links.php') ?>
     <title>ASRAMA DIKLAT - ROOMS</title>
 </head>
 <body class="bg-light">
 
-<?php require('inc/header.php'); ?>
+<?php require('./views/components/header.php'); ?>
 
 <div class="my-5 px-4">
   <h2 class="fw-bold h-font text-center">Rooms</h2>
@@ -80,7 +80,7 @@
               <span class="badge rounded-pill text-bg-light text-wrap"> 1 Wardrobe</span>          </div>
           <div class="facilities mb-3">
             <h6 class="mb-1">Facilities</h6>
-            <span class="badge rounded-pill text-bg-light text-wrap">Wifi</span>
+            <span class="badge rounded-pill text-bg-light text-wrap">Wi-Fi</span>
             <span class="badge rounded-pill text-bg-light text-wrap">Television</span>
             <span class="badge rounded-pill text-bg-light text-wrap">AC</span>          </div>
           <div class="guests">
@@ -110,7 +110,7 @@
           </div>
           <div class="facilities mb-3">
             <h6 class="mb-1">Facilities</h6>
-            <span class="badge rounded-pill text-bg-light text-wrap">Wifi</span>
+            <span class="badge rounded-pill text-bg-light text-wrap">Wi-Fi</span>
             <span class="badge rounded-pill text-bg-light text-wrap">Television</span>
             <span class="badge rounded-pill text-bg-light text-wrap">AC</span>
           </div>
@@ -131,7 +131,7 @@
 </div>
 
 
-<?php require('inc/footer.php'); ?>
+<?php require('./views/components/footer.php'); ?>
 
 </body>
 </html>
