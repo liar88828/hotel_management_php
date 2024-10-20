@@ -1,6 +1,7 @@
 <?php
-require('inc/essentials.php');
-require('inc/db_config.php');
+require('views/assets/php/essentials.php');
+
+require('config/db_config.php');
 adminLogin();
 ?>
 <!DOCTYPE html>
@@ -14,8 +15,6 @@ adminLogin();
 <body class="bg-light">
 
 <?php require('inc/header.php') ?>
-
-</div>
 
 <div class="container-fluid" id="main-content">
     <div class="row">
@@ -319,7 +318,7 @@ adminLogin();
 </div>
 
 
-<?php require('inc/scripts.php'); ?>
+<?php require('views/assets/php/scripts.php') ?>
 <script>
 	let general_data, contacts_data;
 

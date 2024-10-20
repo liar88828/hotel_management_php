@@ -1,6 +1,6 @@
 <?php
-require('inc/essentials.php');
-require('inc/db_config.php');
+require('views/assets/php/essentials.php');
+require('config/db_config.php');
 
 session_start();
 if (isset($_SESSION['adminLogin']) && $_SESSION['adminLogin'] == true) {
@@ -14,16 +14,9 @@ if (isset($_SESSION['adminLogin']) && $_SESSION['adminLogin'] == true) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login Panel</title>
-  <?php require('inc/links.php') ?>
-    <style>
-        .login-form {
-            position: absolute;
-            top: 35%;
-            left: 35%;
-            transform: translate(-50%, -50%);
-            width: 400px;
-        }
-    </style>
+  <?php require('./views/assets/php/admin/links.php') ?>
+
+
 </head>
 <body class="bg-light">
 
@@ -64,6 +57,7 @@ if (isset($_POST['login'])) {
 }
 ?>
 
-<?php require('inc/scripts.php') ?>
+<?php require('views/assets/php/scripts.php') ?>
+
 </body>
 </html>

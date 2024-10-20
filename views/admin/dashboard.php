@@ -1,5 +1,5 @@
 <?php
-   require('inc/essentials.php');
+   require('views/assets/php/essentials.php');
    adminLogin();
 ?>
 
@@ -10,10 +10,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <?php require('inc/links.php') ?>
+    <?php require('./views/assets/php/admin/links.php') ?>
 </head>
 <body class="bg-white">
-<?php require('inc/header.php'); ?>
+<?php require('views/components/admin/header.php'); ?>
 
     <div class="container-fluid" id="main-content">
        <div class="row">
@@ -24,7 +24,7 @@
     </div>
 
 
-    <?php require('inc/scripts.php') ?>
+    <?php require('views/assets/php/scripts.php') ?>
 </body>
 </html>
 

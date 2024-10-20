@@ -1,6 +1,6 @@
-<?php 
+<?php
 
-require('inc/essentials.php');
+require('views/assets/php/essentials.php');
 
 session_start();
 session_destroy();
