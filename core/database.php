@@ -1,9 +1,9 @@
 <?php
 
-namespace Core;
+//namespace Core;
 
-use PDO;
-use PDOException;
+//use PDO;
+//use PDOException;
 
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
@@ -76,5 +76,10 @@ class Database
   {
     $this->execute();
     return $this->stmt->fetch(PDO::FETCH_OBJ);
+  }
+
+  public function close()
+  {
+    $this->close();
   }
 }

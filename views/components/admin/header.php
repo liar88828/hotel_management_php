@@ -13,7 +13,7 @@
         <div class="collapse navbar-collapse flex-column align-items-stretch mt-2" id="adminDropdown">
           <ul class="nav nav-pills flex-column">
              <li class="nav-item">
-                <a class="nav-link text-white" href="dashboard.php">Dashboard</a>
+                <a class="nav-link text-white" href="/admin/dashboard">Dashboard</a>
              </li>
              <li class="nav-item">
                 <a class="nav-link text-white" href="#">Rooms</a>
@@ -22,7 +22,7 @@
                <a class="nav-link text-white" href="#">Users</a>
              </li>
              <li class="nav-item">
-               <a class="nav-link text-white" href="settings.php">Settings</a>
+               <a class="nav-link text-white" href="/admin/settings">Settings</a>
              </li>
           </ul>
         </div>

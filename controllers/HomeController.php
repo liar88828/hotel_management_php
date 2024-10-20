@@ -1,8 +1,5 @@
 <?php
 
-//use Core\Controller;
-
-//use Core\Controller;
 require_once 'core/controller.php';
 
 class HomeController extends Controller

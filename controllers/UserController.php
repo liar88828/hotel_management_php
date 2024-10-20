@@ -1,8 +1,6 @@
 <?php
 
-use Core\Controller;
-use Models\User;
-
+require_once 'core/controller.php';
 
 class UserController extends Controller
 {

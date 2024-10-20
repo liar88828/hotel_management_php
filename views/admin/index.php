@@ -2,8 +2,7 @@
 require('views/assets/php/essentials.php');
 require('config/db_config.php');
 
-session_start();
-if (isset($_SESSION['adminLogin']) && $_SESSION['adminLogin'] == true) {
+if (isset($_SESSION['adminLogin']) && $_SESSION['adminLogin']) {
   redirect('dashboard.php');
 }
 ?>
@@ -24,14 +23,14 @@ if (isset($_SESSION['adminLogin']) && $_SESSION['adminLogin'] == true) {
     <form method="POST">
         <h4 class="bg-dark text-white py-3">Admin Login Panel</h4>
         <div class="p-4">
-            <div class="mb-3">
-                <input name="admin_name" require type="text" class="form-control shadow-none text-center"
+            <label class="mb-3">
+                <input name="admin_name" required type="text" class="form-control shadow-none text-center"
                        placeholder="Admin Name">
-            </div>
-            <div class="mb-3">
-                <input name="admin_pass" require type="password" class="form-control shadow-none text-center"
+            </label>
+            <label class="mb-3">
+                <input name="admin_pass" required type="password" class="form-control shadow-none text-center"
                        placeholder="Password">
-            </div>
+            </>
             <button name="login" type="submit" class="btn text-white custom-bg shadow-none">LOGIN</button>
         </div>
     </form>

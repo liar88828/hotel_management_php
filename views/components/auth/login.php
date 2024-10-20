@@ -13,15 +13,19 @@
                             aria-label="Close">
                     </button>
                 </div>
-                <form action="" class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label">Email address</label>
-                        <input type="email" class="form-control shadow-none" aria-describedby="emailHelp">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Password</label>
-                        <input type="password" class="form-control shadow-none" aria-describedby="emailHelp">
-                    </div>
+                <form action="/auth/login" method="POST" class="modal-body">
+                    <label class="mb-3">
+                        <span class="form-label">Email address</span>
+                        <input
+                                name="admin_name"
+                                type="text" class="form-control shadow-none" aria-describedby="emailHelp">
+                    </label>
+                    <label class="mb-3">
+                        <span class="form-label">Password</span>
+                        <input type="password"
+                               name="admin_pass"
+                               class="form-control shadow-none" aria-describedby="emailHelp">
+                    </label>
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <button type="submit" class="btn btn-dark shadow-none">LOGIN</button>
                         <a href="javascript: void(0)" class="text-secoundary text-decoration-none">Forgot Password?</a>

@@ -1,6 +1,5 @@
 <?php
 require('views/assets/php/essentials.php');
-
 require('config/db_config.php');
 adminLogin();
 ?>
@@ -10,11 +9,11 @@ adminLogin();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel -Settings</title>
-  <?php require('inc/links.php') ?>
+  <?php require('./views/assets/php/links.php') ?>
 </head>
 <body class="bg-light">
 
-<?php require('inc/header.php') ?>
+<?php require('views/components/admin/header.php') ?>
 
 <div class="container-fluid" id="main-content">
     <div class="row">
@@ -23,11 +22,10 @@ adminLogin();
 
             <!-- General Setting section admin panel -->
 
-
             <div class="card border-0 shadow-sm mb-4">
                 <div class="card-body">
                     <div class="d-flex align-items-center justify-content-between mb-3">
-                        <h5 clas="card-title m-0">General Settings</h5>
+                        <h5 class="card-title m-0">General Settings</h5>
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-dark shadow-none btn-sm" data-bs-toggle="modal"
                                 data-bs-target="#general-s">
@@ -54,16 +52,18 @@ adminLogin();
                                         aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <div class="mb-3">
-                                    <label class="form-label">Site Title</label>
+                                <label class="mb-3">
+                                    <span class="form-label">Site Title</span>
                                     <input type="text" name="site_title" id="site_title_inp"
-                                           class="form-control shadow-none" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">About Us</Address></label>
+                                           class="form-control shadow-none" required/>
+                                </label>
+                                <label class="mb-3">
+                                    <span class="form-label">About Us</Address></span>
                                     <textarea name="site_about" id="site_about_inp" class="form-control shadow-none"
-                                              rows="6" required></textarea>
-                                </div>
+                                              rows="6" required>
+
+                                    </textarea>
+                                </label>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" onclick="site_title.value = general_data.site_title"
@@ -80,7 +80,7 @@ adminLogin();
             <div class="card border-0 shadow-sm mb-4">
                 <div class="card-body">
                     <div class="d-flex align-items-center justify-content-between mb-3">
-                        <h5 clas="card-title m-0">Shutdown Settings</h5>
+                        <h5 class="card-title m-0">Shutdown Settings</h5>
                         <div class="form-check form-switch">
                             <form>
                                 <input onchange="upd_shutdown(this.value)" class="form-check-input" type="checkbox"
@@ -100,7 +100,7 @@ adminLogin();
             <div class="card border-0 shadow-sm mb-4">
                 <div class="card-body">
                     <div class="d-flex align-items-center justify-content-between mb-3">
-                        <h5 clas="card-title m-0">Contact Settings</h5>
+                        <h5 class="card-title m-0">Contact Settings</h5>
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-dark shadow-none btn-sm" data-bs-toggle="modal"
                                 data-bs-target="#contacts-s">
@@ -177,63 +177,64 @@ adminLogin();
                                 <div class="container-fluid p-0">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label class="form-label fw-bold">Addres</label>
+                                            <label class="mb-3">
+                                                <span class="form-label fw-bold">Addres</span>
                                                 <input type="text" name="addres_title" id="addres_inp"
                                                        class="form-control shadow-none" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label class="form-label fw-bold">Google Map Links</label>
+                                            </label>
+                                            <label class="mb-3">
+                                                <span class="form-label fw-bold">Google Map Links</span>
                                                 <input type="text" name="gmap" id="gmap_inp"
                                                        class="form-control shadow-none" required>
-                                            </div>
+                                            </label>
                                             <div class="mb-3">
-                                                <label class="form-label fw-bold">Phone Numbers (with country)</label>
-                                                <div class="input-group mb-3">
+                                                <span class="form-label fw-bold">Phone Numbers (with country)</span>
+                                                <label class="input-group mb-3">
                                                     <span class="input-group-text"><i
                                                                 class="bi bi-telephone-inbound-fill"></i></span>
                                                     <input type="text" name="pn1" id="pn1_inp"
                                                            class="form-control shadow-none" required>
-                                                </div>
-                                                <div class="input-group mb-3">
+                                                </label>
+                                                <label class="input-group mb-3">
                                                     <span class="input-group-text"><i
                                                                 class="bi bi-telephone-inbound-fill"></i></span>
                                                     <input type="text" name="pn2" id="pn2_inp"
                                                            class="form-control shadow-none" required>
-                                                </div>
+                                                </label>
                                             </div>
-                                            <div class="mb-3">
-                                                <label class="form-label fw-bold">Email</label>
+                                            <label class="mb-3">
+                                                <span class="form-label fw-bold">Email</span>
                                                 <input type="text" name="email" id="email_inp"
                                                        class="form-control shadow-none" required>
-                                            </div>
+                                            </label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label fw-bold">Social Links</label>
-                                            <div class="input-group mb-3">
+                                            <div class="form-label fw-bold">Social Links</>
+                                            <label class="input-group mb-3">
                                                 <span class="input-group-text"><i class="bi bi-twitter me-1"></i></span>
                                                 <input type="text" name="tw" id="tw_inp"
                                                        class="form-control shadow-none" required>
-                                            </div>
+                                            </label>
                                             <div class="input-group mb-3">
                                                 <span class="input-group-text"><i class="bi bi-instagram me-1"></i></i></span>
                                                 <input type="text" name="ig" id="ig_inp"
                                                        class="form-control shadow-none" required>
                                             </div>
-                                            <div class="input-group mb-3">
-                                                <span class="input-group-text"><i
-                                                            class="bi bi-youtube me-1"></i></i></i></span>
+                                            <label class="input-group mb-3">
+                                                <span class="input-group-text">
+                                                    <i class="bi bi-youtube me-1"></i>
+                                                </span>
                                                 <input type="text" name="yt" id="yt_inp"
                                                        class="form-control shadow-none" required>
-                                            </div>
+                                            </label>
                                         </div>
-                                        <div class="mb-3">
-                                            <label class="form-label fw-bold">iFrame Src</label>
+                                        <label class="mb-3">
+                                            <span class="form-label fw-bold">iFrame Src</span>
                                             <input type="text" name="iframe" id="iframe_inp"
                                                    class="form-control shadow-none" required>
-                                        </div>
+                                        </label>
                                     </div>
 
                                 </div>
@@ -255,7 +256,7 @@ adminLogin();
             <div class="card border-0 shadow-sm mb-4">
                 <div class="card-body">
                     <div class="d-flex align-items-center justify-content-between mb-3">
-                        <h5 clas="card-title m-0">Management Team</h5>
+                        <h5 class="card-title m-0">Management Team</h5>
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-dark shadow-none btn-sm" data-bs-toggle="modal"
                                 data-bs-target="#team-s">
@@ -265,7 +266,7 @@ adminLogin();
                     <div class="row" id="team-data">
                         <div class="col-md-2 mb-3">
                             <div class="card bg-dark text-white">
-                                <img src="../../images/about/team.jpg" class="card-img">
+                                <img src="../../images/about/team.jpg" class="card-img" alt="team"/>
                                 <div class="card-img-overlay text-end">
                                     <button type="button" class="btn btn-danger btn-sm shadow-none">
                                         <i class="bi bi-trash3"></i>Delete
@@ -290,11 +291,11 @@ adminLogin();
                                         aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <div class="mb-3">
-                                    <label class="form-label">Name</label>
+                                <label class="mb-3">
+                                    <span class="form-label">Name</span>
                                     <input type="text" name="member_name" id="member_name_inp"
                                            class="form-control shadow-none" required>
-                                </div>
+                                </label>
                                 <div class="mb-3">
                                     <label class="form-label">Picture</Address></label>
                                     <input type="file" name="member_picture" id="member_picture_inp"
@@ -319,213 +320,7 @@ adminLogin();
 
 
 <?php require('views/assets/php/scripts.php') ?>
-<script>
-	let general_data, contacts_data;
+<?php require('views/assets/php/admin/setting.php') ?>
 
-	let general_s_form = document.getElementById('general_s_form');
-	let site_title_inp = document.getElementById('site_title_inp');
-
-	let site_about_inp = document.getElementById('site_about_inp');
-	let contacts_s_form = document.getElementById('contact_s_form');
-
-	let team_s_form = document.getElementById('team_s_form');
-	let member_name_inp = document.getElementById('member_name_inp');
-	let member_picture_inp = document.getElementById('member_picture_inp');
-
-	function get_general() {
-		let site_title = document.getElementById('site_title');
-		let site_about = document.getElementById('site_about');
-
-		let shutdown_toogle = document.getElementById('shutdown-toogle');
-
-		let xhr = new XMLHttpRequest();
-		xhr.open("POST", "ajax/settings_crud.php", true);
-		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-		xhr.onload = function () {
-			general_data = JSON.parse(this.responseText);
-
-			site_title.innerText = general_data.site_title;
-			site_about.innerText = general_data.site_about;
-
-			site_title_inp.value = general_data.site_title;
-			site_about_inp.value = general_data.site_about;
-
-			if (general_data.shutdown === 0) {
-				shutdown.toogle.checked = false;
-				shutdown_toogle.value = 0;
-			} else {
-				shutdown.toogle.checked = true;
-				shutdown_toogle.value = 1;
-			}
-
-		}
-		xhr.send('get_general');
-	}
-
-	general_s_form.addEventListener('submit', function (e) {
-		e.preventDefault();
-		upd_general(site_title_inp.value, site_about_inp.value);
-	})
-
-	function upd_general(site_title_val, site_about_val) {
-		let xhr = new XMLHttpRequest();
-		xhr.open("POST", "ajax/settings_crud.php", true);
-		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-		xhr.onload = function () {
-
-			var myModal = document.getElementById('general-s');
-			var modal = bootstrap.Modal.getInstance(myModal); // Returns a Bootstrap modal instance
-			modal.hide();
-
-			if (this.responseText == 1) {
-				alert('succes', 'Changes saved!');
-				get_general();
-			} else {
-				alert('error', 'No changes saved!');
-			}
-
-		}
-		xhr.send('site_title' + site_title_val + '&site_about=' + site_about_val + '&upd_general');
-	}
-
-	function upd_shutdown(val) {
-		let xhr = new XMLHttpRequest();
-		xhr.open("POST", "ajax/settings_crud.php", true);
-		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-		xhr.onload = function () {
-			if (this.responseText == 1 && general_data.shutdown == 0) {
-				alert('succes', 'Website under shutdown');
-			} else {
-				alert('succes', 'Shutdown mode off');
-			}
-			get_general();
-		}
-		xhr.send('upd_shutdown=' + val);
-	}
-
-	function get_contacts() {
-		let contacts_p_id = ['address', 'gmap', 'pn1', 'pn2', 'email', 'tw', 'fb', 'ig'];
-		let iframe = document.getElementById('iframe');
-
-		let xhr = new XMLHttpRequest();
-		xhr.open("POST", "ajax/settings_crud.php", true);
-		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-		xhr.onload = function () {
-
-			contacts_data = JSON.parse(this.responseText);
-			contacts_data = Object.values(contacts_data);
-
-			for (i = 0; i < contacts_p_id.length; i++) {
-				document.getElementById(contacts_p_id[i]).innerText = contacts_data[i + 1];
-			}
-			iframe.src = contact_data[9];
-			contacts_inp(contacts_data);
-		}
-		xhr.send('get_contacts');
-	}
-
-	function contacts_inp(contacts_data) {
-		let contacts_inp_id = ['address_inp', 'gmap_inp', 'pn1_inp', 'pn2_inp', 'email_inp', 'tw_inp', 'fb_inp', 'ig_inp', 'iframe_inp'];
-
-
-		for (i = 0; i < contacts_inp_id.length; i++) {
-			document.getElementById(contacts_inp_id[i]).value = data[i + 1];
-		}
-	}
-
-	contacts_s_form.addEventListener('submit', function (e) {
-		e.preventDefault();
-		upd_contact();
-	})
-
-	function upd_contact() {
-		let index = ['address', 'gmap', 'pn1', 'pn2', 'email', 'tw', 'fb', 'ig', 'iframe'];
-		let_contactss_inp_d = ['address_inp', 'gmap_inp', 'pn1_inp', 'pn2_inp', 'email_inp', 'tw_inp', 'fb_inp', 'ig_inp', 'iframe_inp'];
-
-		let data_str = "";
-
-		for (i = 0; i < index.length; i++) {
-			data_str += index[i] + "=" + document.getElementById(contacts_inp_id[i]).value + '&';
-		}
-		data_str += "upd_contacts";
-
-		let xhr = new XMLHttpRequest();
-		xhr.open("POST", "ajax/settings_crud.php", true);
-		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-		xhr.onload = function () {
-			var myModal = document.getElementById('contacts-s');
-			var modal = bootstrap.Modal.getInstance(myModal); // Returns a Bootstrap modal instance
-			modal.hide();
-			if (this.responseText == 1) {
-				alert('succes', 'Changes saved!');
-				get_contacts();
-			} else {
-				alert('error', 'No changes made!');
-			}
-			get_general();
-		}
-
-		xhr.send(data_str);
-	}
-
-
-	team_s_form.addEventListener('submit', function (e) {
-		e.preventDefault();
-		add.member();
-	})
-
-	function add_member() {
-		let data = new FormData();
-		data.append('name', member_name_inp.value);
-		data.append('picture', member_picture_inp.file[0]);
-		data.append('add_member', '');
-
-		let xhr = new XMLHttpRequest();
-		xhr.open("POST", "ajax/settings_crud.php", true);
-
-		xhr.onload = function () {
-			console.log(this.responseText);
-			var myModal = document.getElementById('teams-s');
-			var modal = bootstrap.Modal.getInstance(myModal); // Returns a Bootstrap modal instance
-			modal.hide();
-
-			if (this.responseText == 'inv_img') {
-				alert('error', 'Only JPG,PNG,and JPEG images are allowed!');
-			} else if (this.responseText == 'inv_size') {
-				alert('error', 'Image should be less than 2MB!')
-			} else if (this.responseText == 'upd_failed') {
-				alert('error', 'Image upload failed. Server Down!');
-			} else {
-				alert('success', 'New Member added');
-				member_name_inp.value = '';
-				member_picture_inp.value = '';
-			}
-		}
-		xhr.send(data);
-
-	}
-
-	function get_member() {
-		let xhr = new XMLHttpRequest();
-		xhr.open("POST", "ajax/settings_crud.php", true);
-		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-		xhr.onload = function () {
-
-		}
-		xhr.send('get_member');
-	}
-
-	window.onload = function () {
-		get_general();
-		get_contacts();
-	}
-
-</script>
 </body>
 </html>

@@ -13,7 +13,7 @@
 
                     </button>
                 </div>
-                <form action="" class="modal-body">
+                <form action="/auth/register" class="modal-body" >
                     <span class="badge rounded-pill text-bg-light mb-3 text-wrap ls-base">Note: Your detais must match with ID (Adhar Card, passport, Driving Licence, etc) that will be required during check in.</span>
                     <div class="container-fluid">
                         <div class="row">

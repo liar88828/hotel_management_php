@@ -1,10 +1,9 @@
 <?php
 
-namespace Models;
 
 use Core\Database;
 
-class User
+class UserModel
 {
   private Database $db;
 
