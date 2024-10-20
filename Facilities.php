@@ -5,13 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php require('views/assets/php/links.php') ?>
     <title>ASRAMA DIKLAT - FACILITIES</title>
-    <style>
-        .pop:hover {
-            border-top-color: var(--teal) !important;
-            transform: scale(1.03);
-            transition: all 0.3s;
-        }
-    </style>
+
 </head>
 <body class="bg-light">
 
