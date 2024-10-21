@@ -16,16 +16,14 @@ class AuthController extends Controller
   // Login function
   public function login()
   {
-//print_r($_POST);
-//print_r($_SERVER["REQUEST_METHOD"]);
-
+    if ($_SERVER["REQUEST_METHOD"] == "GET") {
+      header('Location: /');
+    }
     try {
-      // Enable exceptions for MySQLi
-      mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-
       // Check if form was submitted
       if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Sanitize user input
+        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+        // Sanitize guess input
 //        $admin_name = filter_var($_POST['admin_name'], FILTER_SANITIZE_EMAIL);
         $admin_name = $_POST['admin_name'];
         $password = $_POST['admin_pass'];
@@ -41,9 +39,9 @@ class AuthController extends Controller
         // Verify password
         if (!
 //        password_verify(
-          $password== $foundAdmin->admin_pass
+          $password == $foundAdmin->admin_pass
 //      )
-          ) {
+        ) {
           throw new Exception("Invalid password!");
         }
 
@@ -51,14 +49,15 @@ class AuthController extends Controller
         $_SESSION['adminLogin'] = $admin_name;
 
         // Redirect to a protected page
-//        header("Location: dashboard.php");
+        header("Location: /admin/dashboard");
 
-        $this->view('admin/dashboard');
+
+//        $this->view('admin/dashboard');
 
       }
 
     } catch (Exception $e) {
-      // Handle error (log it or display user-friendly message)
+      // Handle error (log it or display guess-friendly message)
       echo "Error: " . $e->getMessage();
     }
   }
@@ -72,7 +71,7 @@ class AuthController extends Controller
 
       // Check if form was submitted
       if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Sanitize user input
+        // Sanitize guess input
         $name = filter_var($_POST['admin_name'], FILTER_SANITIZE_EMAIL);
         $password = $_POST['admin_pass'];
         $confirmPassword = $_POST['confirm_password'];
@@ -95,7 +94,7 @@ class AuthController extends Controller
           throw new Exception("Email is already registered!");
         }
 
-        // Insert the new user into the database
+        // Insert the new guess into the database
         $this->adminModel->register($name, $hashedPassword);
 
         // Registration successful
@@ -104,7 +103,7 @@ class AuthController extends Controller
       }
 
     } catch (Exception $e) {
-      // Handle error (log it or display user-friendly message)
+      // Handle error (log it or display guess-friendly message)
       echo "Error: " . $e->getMessage();
     }
   }
@@ -113,10 +112,13 @@ class AuthController extends Controller
   // Logout function
   public function logout()
   {
-    session_start();
+//    print_r('test');
+//    session_start();
     session_unset();
     session_destroy();
-    header("Location: login.php");
-    exit();
+//    header("Location: login.php");
+//    exit();
+    $this->view('home/index');
+
   }
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php require('views/assets/php/links.php') ?>
+  <?php require('views/assets/php/links.php') ?>
     <title>ASRAMA DIKLAT - HOME</title>
 
 </head>
@@ -49,7 +49,8 @@
                     <div class="col-lg-3 mb-3">
                         <label
                                 for="check_in"
-                                class="form-label" style="font-weight: 500">Check in</label>
+                                class="form-label" style="font-weight: 500">Check in
+                        </label>
                         <input
                                 name="check_in"
                                 type="date" class="form-control shadow-none" aria-describedby="emailHelp">
@@ -145,7 +146,7 @@
                     </div>
                     <div class="facilities mb-4">
                         <h6 class="mb-1">Facilities</h6>
-                        <span class="badge rounded-pill text-bg-light text-wrap">Wifi</span>
+                        <span class="badge rounded-pill text-bg-light text-wrap">Wi-Fi</span>
                         <span class="badge rounded-pill text-bg-light text-wrap">Television</span>
                         <span class="badge rounded-pill text-bg-light text-wrap">AC</span>
                     </div>
@@ -160,7 +161,6 @@
           <i class="bi bi-star-fill text-warning"></i>
           <i class="bi bi-star-fill text-warning"></i>
         </span>
-                        </span>
                     </div>
                     <div class="d-flex justify-content-evenly mb-2">
                         <a href="#" class="btn btn-sm text-white custom-bg shadow-none">Book Now</a>
@@ -177,7 +177,7 @@
                     <h6 class="mb-5">Rp.1.250.000/day</h6>
                     <div class="facilities mb-4">
                         <h6 class="mb-1">Facilities</h6>
-                        <span class="badge rounded-pill text-bg-light text-wrap">Wifi</span>
+                        <span class="badge rounded-pill text-bg-light text-wrap">Wi-Fi</span>
                         <span class="badge rounded-pill text-bg-light text-wrap">CCTV 24 Hr</span>
                         <span class="badge rounded-pill text-bg-light text-wrap">AC</span>
                         <span class="badge rounded-pill text-bg-light text-wrap">Dining Room</span>
@@ -201,7 +201,7 @@
             </div>
         </div>
         <div class="col-lg-12 text-center mt-5">
-            <a href="" class="btn btn-sm btn-outline-dark rounded-0 fw-bold shadow-none">MORE ROOMS >></a>
+            <a href="/room" class="btn btn-sm btn-outline-dark rounded-0 fw-bold shadow-none">MORE ROOMS >></a>
         </div>
     </div>
 </div>
@@ -210,15 +210,21 @@
 <div class="container">
     <div class="row justify-content-evenly px-lg-0 px-md-0 px-5">
         <div class="col-lg-2 col-md-2 text-center bg-white rounded shadow py-4 my-3">
-            <img src="../../images/facilities/IMG_43553.svg" width="80px">
+            <img src="../../images/facilities/IMG_43553.svg" width="80px"
+                 alt="facilities"
+            />
             <h5 class="mt-3">wifi</h5>
         </div>
         <div class="col-lg-2 col-md-2 text-center bg-white rounded shadow py-4 my-3">
-            <img src="../../images/facilities/cctvcamera.svg" width="80px">
+            <img src="../../images/facilities/cctvcamera.svg" width="80px"
+                 alt="facilities"
+            />
             <h5 class="mt-3">CCTV</h5>
         </div>
         <div class="col-lg-2 col-md-2 text-center bg-white rounded shadow py-4 my-3">
-            <img src="../../images/facilities/IMG_49949.svg" width="80px">
+            <img src="../../images/facilities/IMG_49949.svg" width="80px"
+                 alt="facilities"
+            />
             <h5 class="mt-3">AC</h5>
         </div>
         <div class="col-lg-2 col-md-2 text-center bg-white rounded shadow py-4 my-3">
@@ -226,7 +232,7 @@
             <h5 class="mt-3">TV</h5>
         </div>
         <div class="col-lg-12 text-center mt-5">
-            <a href="" class="btn btn-sm btn-outline-dark rounded-0 fw-bold shadow-none">MORE FACILITIES >></a>
+            <a href="/facility" class="btn btn-sm btn-outline-dark rounded-0 fw-bold shadow-none">MORE FACILITIES >></a>
         </div>
     </div>
 </div>
@@ -234,31 +240,34 @@
 <!-- Testimonials -->
 <h2 class="mt-4 pt-4 mb-4 text-center fw-bold h-font">TESTIMONIALS</h2>
 <div class="container">
-
     <!-- Swiper -->
     <div class="swiper swiper-testimonials">
         <div class="swiper-wrapper mb-5">
 
             <div class="swiper-slide bg-white p-4">
                 <div class="profile d-flex align-items-center p-4">
-                    <img src="../../images/person/orang1.jpg" width="30px">
+                    <img src="../../images/person/orang1.jpg" width="30px"
+                         alt="orang1"
+                    />
                     <h6 class="m-0 ms-2">Katarina</h6>
                 </div>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
                     Sint numquam amet impedit, sunt voluptas expedita dolorum
                 </p>
                 <div class="rating">
-          <span class="badge-rounded-pill bg-light">
-           <i class="bi bi-star-fill text-warning"></i>
-           <i class="bi bi-star-fill text-warning"></i>
-           <i class="bi bi-star-fill text-warning"></i>
-           <i class="bi bi-star-fill text-warning"></i>
-         </span>
+                      <span class="badge-rounded-pill bg-light">
+                       <i class="bi bi-star-fill text-warning"></i>
+                       <i class="bi bi-star-fill text-warning"></i>
+                       <i class="bi bi-star-fill text-warning"></i>
+                       <i class="bi bi-star-fill text-warning"></i>
+                     </span>
                 </div>
             </div>
+
             <div class="swiper-slide bg-white p-4">
                 <div class="profile d-flex align-items-center p-4">
-                    <img src="../../images/person/person2.jpg" width="30px">
+                    <img src="../../images/person/person2.jpg" width="30px"
+                         alt="orang2"/>
                     <h6 class="m-0 ms-2">Kairos</h6>
                 </div>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -275,7 +284,9 @@
             </div>
             <div class="swiper-slide bg-white p-4">
                 <div class="profile d-flex align-items-center p-4">
-                    <img src="../../images/person/person3.jpg" width="30px">
+                    <img src="../../images/person/person3.jpg" width="30px"
+                         alt="orang3"
+                    />
                     <h6 class="m-0 ms-2">Hwang In-Yeop</h6>
                 </div>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -313,7 +324,8 @@
     </div>
 
     <div class="col-lg-12 text-center mt-5">
-        <a href="" class="btn btn-sm btn-outline-dark rounded-0 fw-bold shadow-none">MORE Testimonials >></a>
+        <a href="/testimonial" class="btn btn-sm btn-outline-dark rounded-0 fw-bold shadow-none">MORE Testimonials
+            >></a>
     </div>
 </div>
 

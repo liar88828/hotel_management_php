@@ -12,7 +12,7 @@ if (!$con) {
 }
 
 //checkout notion PHP Login System
-//Yeh filteration function user input ko clean aur secure karne ke liye use hota hai.
+//Yeh filteration function guess input ko clean aur secure karne ke liye use hota hai.
 function filteration($data)
 {
   foreach ($data as $key => $value) {
