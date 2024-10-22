@@ -17,15 +17,19 @@ adminLogin();
     <div class="row">
       <?php require('views/components/admin/header.php'); ?>
         <div class="col-lg-10 ms-auto p-4 overflow-hidden">
+          <?php showMessage() ?>
+
           <?php if (empty($room)): ?>
-              <p>No rooms available.</p>
+              <div class="alert alert-info">
+                  <p> Room Is Not Found</p>
+              </div>
           <?php else: ?>
 
               <div class="container mt-5">
                   <h1 class="mb-3"><?= htmlspecialchars($room->name) ?></h1>
                   <div class="row">
                       <div class="col-md-6">
-                          <img src="../../images/carousel/kamar.jpg" class="img-fluid rounded" alt="Room Image">
+                          <img src="/images/rooms/<?= htmlspecialchars($room->image) ?>" class="img-fluid rounded" alt="Room Image">
                       </div>
                       <div class="col-md-6">
                           <h4>Room Details</h4>

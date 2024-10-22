@@ -20,14 +20,9 @@ adminLogin();
 
         <div class="container mt-5">
             <h1>Create Room</h1>
-
-          <?php if (!empty($message)): ?>
-              <div class="alert alert-info">
-                <?= htmlspecialchars($message) ?>
-              </div>
-          <?php endif; ?>
-
-            <form method="POST" action="/admin/room/store">
+            <?php showMessage(); ?>
+            <form method="post" action="/admin/room/store"
+                  enctype="multipart/form-data">
                 <!-- Form Fields as in the previous example -->
                 <div class="mb-3">
                     <label for="name" class="form-label">Room Name</label>
@@ -106,6 +101,11 @@ adminLogin();
                 <div class="form-group">
                     <label for="wardrobe">Wardrobe</label>
                     <input type="number" class="form-control" id="wardrobe" name="wardrobe" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" id="image">Profile Image</label>
+                    <input type="file" class="form-control shadow-none" id="image" name="image"
+                           required >
                 </div>
                 <button type="submit" class="btn btn-primary mt-2">Create Room</button>
             </form>

@@ -5,63 +5,96 @@ require_once 'core/controller.php';
 class HomeController extends Controller
 {
 
-  private RoomModel $roomModel;
+    private RoomModel $roomModel;
+    private TestimonialModel $testimonialModel;
 
-  // Constructor to initialize database connection
-  public function __construct()
-  {
-    $this->roomModel = $this->model('RoomModel');
+    // Constructor to initialize database connection
+    public function __construct()
+    {
+        $this->roomModel = $this->model('RoomModel');
+        $this->testimonialModel = $this->model('TestimonialModel');
 
-  }
+
+    }
 
 
-  public function index()
-  {
+    public function index()
+    {
+        $data = [
+            'rooms' => $this->roomModel->findHome(),
+            'testimonials' => $this->testimonialModel->findAll()
+        ];
 
-    $this->view('home/index');
-  }
+        $this->view('home/index', $data);
+    }
 
-  public function room()
-  {
 
-    $data = ['rooms' => $this->roomModel->findHome()];
-    $this->view('home/room', $data);
-  }
+    public function room()
+    {
 
-  public function facility()
-  {
+        $data = ['rooms' => $this->roomModel->findHome()];
+        $this->view('home/room', $data);
+    }
 
-    $this->view('home/facility');
-  }
+    public function room_search($id)
+    {
+        try {
+            mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $data = ['room' => $this->roomModel->findSearch($_POST)];
+                $this->view('home/room', $data);
+            }
 
-  public function contact()
-  {
+        } catch (Exception $e) {
+            echo "Error: " . $e->getMessage();
+        }
+    }
 
-    $this->view('home/contact');
-  }
 
-  public function about()
-  {
+    public function room_detail($id)
+    {
 
-    $this->view('home/about');
-  }
+        $data = ['room' => $this->roomModel->findId($id)];
+        $this->view('home/roomDetail', $data);
 
-  public function testimonial()
-  {
+    }
 
-    $this->view('home/testimonial');
-  }
 
-  public function detail($id)
-  {
+    public function facility()
+    {
 
-    print_r($id);
-    $data = [
-      'test' => $id
-    ];
+        $this->view('home/facility');
+    }
 
-    $this->view('home/detail', $data);
-  }
+    public function contact()
+    {
+
+        $this->view('home/contact');
+    }
+
+    public function about()
+    {
+
+        $this->view('home/about');
+    }
+
+    public function testimonial()
+    {
+
+        $data = ['testimonials' => $this->testimonialModel->findAll()];
+        $this->view('home/testimonial', $data);
+    }
+
+    public function detail($id)
+    {
+
+        print_r($id);
+        $data = [
+            'test' => $id
+        ];
+
+        $this->view('home/detail', $data);
+    }
 
 
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <?php require('views/assets/php/links.php') ?>
+    <?php require('views/assets/php/links.php') ?>
     <title>ASRAMA DIKLAT - HOME</title>
 
 </head>
@@ -40,7 +40,7 @@
     </div>
 </div>
 <!-- Check Availability Form -->
-<div class="container availablity-form">
+<div class="container availability-form">
     <div class="row">
         <div class="col-lg-12 bg-white p-4 rounded">
             <h4 class="mb-4">Check Booking Availability </h4>
@@ -244,80 +244,99 @@
     <div class="swiper swiper-testimonials">
         <div class="swiper-wrapper mb-5">
 
-            <div class="swiper-slide bg-white p-4">
-                <div class="profile d-flex align-items-center p-4">
-                    <img src="../../images/person/orang1.jpg" width="30px"
-                         alt="orang1"
-                    />
-                    <h6 class="m-0 ms-2">Katarina</h6>
-                </div>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Sint numquam amet impedit, sunt voluptas expedita dolorum
-                </p>
-                <div class="rating">
+            <?php if (isset($testimonials)): ?>
+                <?php foreach ($testimonials
+
+                               as $testimonial): ?>
+                    <div class="swiper-slide bg-white p-4">
+                        <div class="profile d-flex align-items-center p-4">
+                            <img
+                                    src="/images/person/<?php print_r($testimonial->image); ?>"
+                                    width="100px"
+                                    height="100px"
+                                    class="rounded-circle"
+                                    alt="<?= print_r($testimonial->image); ?>"
+                            />
+                            <h2><?php print_r($testimonial->name) ?></h2>
+                        </div>
+                        <p class="my-5 "
+                           style="
+               display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 6;
+                overflow: hidden;
+                text-overflow: ellipsis;
+">
+                            <?php print_r($testimonial->text) ?>
+                        </p>
+                        <div class="rating">
+                         <span class="badge-rounded-pill bg-light">
+                             <?php foreach (range(1, $testimonial->rating) as $star): ?>
+                                 <i class="bi bi-star-fill text-warning"></i>
+                             <?php endforeach; ?>
+                         </span>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="swiper-slide bg-white p-4">
+                    <div class="profile d-flex align-items-center p-4">
+                        <img src="../../images/person/orang1.jpg" width="30px"
+                             alt="orang1"
+                        />
+                        <h6 class="m-0 ms-2">Katarina</h6>
+                    </div>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Sint numquam amet impedit, sunt voluptas expedita dolorum
+                    </p>
+                    <div class="rating">
                       <span class="badge-rounded-pill bg-light">
                        <i class="bi bi-star-fill text-warning"></i>
                        <i class="bi bi-star-fill text-warning"></i>
                        <i class="bi bi-star-fill text-warning"></i>
                        <i class="bi bi-star-fill text-warning"></i>
                      </span>
+                    </div>
                 </div>
-            </div>
+                <div class="swiper-slide bg-white p-4">
+                    <div class="profile d-flex align-items-center p-4">
+                        <img src="../../images/person/person2.jpg" width="30px"
+                             alt="orang2"/>
+                        <h6 class="m-0 ms-2">Kairos</h6>
+                    </div>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Sint numquam amet impedit, sunt voluptas expedita dolorum
+                    </p>
+                    <div class="rating">
+          <span class="badge-rounded-pill bg-light">
+           <i class="bi bi-star-fill text-warning"></i>
+           <i class="bi bi-star-fill text-warning"></i>
+           <i class="bi bi-star-fill text-warning"></i>
+           <i class="bi bi-star-fill text-warning"></i>
+         </span>
+                    </div>
+                </div>
+                <div class="swiper-slide bg-white p-4">
+                    <div class="profile d-flex align-items-center p-4">
+                        <img src="../../images/person/person3.jpg" width="30px"
+                             alt="orang3"
+                        />
+                        <h6 class="m-0 ms-2">Hwang In-Yeop</h6>
+                    </div>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Sint numquam amet impedit, sunt voluptas expedita dolorum
+                    </p>
+                    <div class="rating">
+          <span class="badge-rounded-pill bg-light">
+           <i class="bi bi-star-fill text-warning"></i>
+           <i class="bi bi-star-fill text-warning"></i>
+           <i class="bi bi-star-fill text-warning"></i>
+           <i class="bi bi-star-fill text-warning"></i>
+         </span>
+                    </div>
+                </div>
+            <?php endif; ?>
 
-            <div class="swiper-slide bg-white p-4">
-                <div class="profile d-flex align-items-center p-4">
-                    <img src="../../images/person/person2.jpg" width="30px"
-                         alt="orang2"/>
-                    <h6 class="m-0 ms-2">Kairos</h6>
-                </div>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Sint numquam amet impedit, sunt voluptas expedita dolorum
-                </p>
-                <div class="rating">
-          <span class="badge-rounded-pill bg-light">
-           <i class="bi bi-star-fill text-warning"></i>
-           <i class="bi bi-star-fill text-warning"></i>
-           <i class="bi bi-star-fill text-warning"></i>
-           <i class="bi bi-star-fill text-warning"></i>
-         </span>
-                </div>
-            </div>
-            <div class="swiper-slide bg-white p-4">
-                <div class="profile d-flex align-items-center p-4">
-                    <img src="../../images/person/person3.jpg" width="30px"
-                         alt="orang3"
-                    />
-                    <h6 class="m-0 ms-2">Hwang In-Yeop</h6>
-                </div>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Sint numquam amet impedit, sunt voluptas expedita dolorum
-                </p>
-                <div class="rating">
-          <span class="badge-rounded-pill bg-light">
-           <i class="bi bi-star-fill text-warning"></i>
-           <i class="bi bi-star-fill text-warning"></i>
-           <i class="bi bi-star-fill text-warning"></i>
-           <i class="bi bi-star-fill text-warning"></i>
-         </span>
-                </div>
-            </div>
-            <div class="swiper-slide bg-white p-4">
-                <div class="profile d-flex align-items-center p-4">
-                    <img src="../../images/about/rating.svg" width="20px">
-                    <h6 class="m-0 ms-2">Rendom User 1</h6>
-                </div>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Sint numquam amet impedit, sunt voluptas expedita dolorum
-                </p>
-                <div class="rating">
-          <span class="badge-rounded-pill bg-light">
-           <i class="bi bi-star-fill text-warning"></i>
-           <i class="bi bi-star-fill text-warning"></i>
-           <i class="bi bi-star-fill text-warning"></i>
-           <i class="bi bi-star-fill text-warning"></i>
-         </span>
-                </div>
-            </div>
 
         </div>
         <div class="swiper-pagination"></div>

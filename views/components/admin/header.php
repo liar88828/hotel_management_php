@@ -7,7 +7,8 @@
     </form>
 </div>
 
-<div class="col-lg-2 bg-dark border-top border-3 border-secondary" id="dashboard-menu">
+<div class="col-lg-2 bg-dark border-top border-3 border-secondary h-auto"
+     id="dashboard-menu">
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid flex-lg-column align-items-stretch">
             <h4 class="mt-2 text-light">ADMIN PANEL</h4>
@@ -28,12 +29,14 @@
                         <a class="nav-link text-white" href="/admin/staff">Staff</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="/admin/guess">Guess</a>
+                        <a class="nav-link text-white" href="/admin/guest">Guest</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-white" href="/admin/settings">Settings</a>
                     </li>
-
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/admin/testimonial">Testimonial</a>
+                    </li>
                 </ul>
             </div>
         </div>

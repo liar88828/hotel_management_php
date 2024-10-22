@@ -1,124 +1,176 @@
 <?php
 require_once 'core/controller.php';
 require_once 'models/AdminModel.php';
+require_once 'models/StaffModel.php';
+require_once 'models/GuestModel.php';
 
 class AuthController extends Controller
 {
 
-  private AdminModel $adminModel;
+    private AdminModel $adminModel;
+    private StaffModel $staffModel;
+    private GuestModel $guestModel;
 
-  // Constructor to initialize database connection
-  public function __construct()
-  {
-    $this->adminModel = $this->model('AdminModel');
-  }
+    // Constructor to initialize database connection
+    public function __construct()
+    {
+        $this->adminModel = $this->model('AdminModel');
+        $this->staffModel = $this->model('StaffModel');
+        $this->guestModel = $this->model('GuestModel');
 
-  // Login function
-  public function login()
-  {
-    if ($_SERVER["REQUEST_METHOD"] == "GET") {
-      header('Location: /');
     }
-    try {
-      // Check if form was submitted
-      if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-        // Sanitize guess input
-//        $admin_name = filter_var($_POST['admin_name'], FILTER_SANITIZE_EMAIL);
-        $admin_name = $_POST['admin_name'];
-        $password = $_POST['admin_pass'];
 
-        // Prepare SQL statement
-        $foundAdmin = $this->adminModel->findName($admin_name);
-        if (!$foundAdmin) {
-          throw new Exception('admin is not found');
-//          throw new Exception("Failed to prepare statement: " . mysqli_error($this->adminModel->conn));
-//          throw new Exception("Failed to prepare statement: " . $this->conn->error);
+    // Login function
+    public function login()
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+            header('Location: /');
         }
-//print_r($password, $foundAdmin->admin_pass);
-        // Verify password
-        if (!
-//        password_verify(
-          $password == $foundAdmin->admin_pass
-//      )
-        ) {
-          throw new Exception("Invalid password!");
+        try {
+            // Check if form was submitted
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+                // Sanitize guest input
+
+
+                $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+                $password = trim($_POST['password']);
+                $role = trim($_POST['role']);
+
+                // Prepare SQL statement
+                $foundEmail = [];
+                if ($role == 'admin') {
+                    $foundEmail = $this->adminModel->findEmail($email);
+                } else if ($role == 'staff') {
+                    $foundEmail = $this->staffModel->findEmail($email);
+                } else if ($role == 'guest') {
+                    $foundEmail = $this->guestModel->findEmail($email);
+                }
+
+                if (!$foundEmail) {
+                    throw new Exception('Email is not found');
+                }
+                // Verify password
+                if ($role == 'admin') {
+                    if (!$password == $foundEmail->password) {
+                        throw new Exception("Invalid password!");
+                    }
+                } elseif ($role != 'admin') {
+                    if (!password_verify($password, $foundEmail->password)) {
+                        throw new Exception("Invalid password!");
+                    }
+                } else {
+                    throw new Exception("Invalid role!");
+                }
+
+                if ($role == 'admin') {
+                    // Set session variables
+                    $_SESSION['adminLogin'] = $foundEmail->email;
+                    // Redirect to a protected page
+                    header("Location: /admin/dashboard");
+                }
+                if ($role == 'staff') {
+                    $_SESSION['staffLogin'] = $foundEmail->id;
+                    header("Location: /");
+                }
+                if ($role == 'guest') {
+                    $_SESSION['guestLogin'] = $foundEmail->id;
+                    header("Location: /");
+                }
+            }
+
+        } catch (Exception $e) {
+            // Handle error (log it or display guess-friendly message)
+            echo "Error: " . $e->getMessage();
         }
-
-        // Set session variables
-        $_SESSION['adminLogin'] = $admin_name;
-
-        // Redirect to a protected page
-        header("Location: /admin/dashboard");
-
-
-//        $this->view('admin/dashboard');
-
-      }
-
-    } catch (Exception $e) {
-      // Handle error (log it or display guess-friendly message)
-      echo "Error: " . $e->getMessage();
     }
-  }
 
-  // Register function
-  public function register()
-  {
-    try {
-      // Enable exceptions for MySQLi
-      mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+    // Register function
+    public function register()
+    {
+        try {
+            // Enable exceptions for MySQLi
+            mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+            // Check if form was submitted
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+//                print_r($_POST);
+                $data = [
+                    'name' => trim($_POST['name']),
+                    'email' => filter_var($_POST['email'], FILTER_SANITIZE_EMAIL),
+                    'phone' => trim($_POST['phone']),
+                    'image' => $_FILES['image']['name'], // Handle file upload separately
+                    'address' => trim($_POST['address']),
+                    'pin_code' => trim($_POST['pin_code']),
+                    'date_of_birth' => trim($_POST['date_of_birth']),
+                    'password' => trim($_POST['password']),
+                    'confirm_password' => trim($_POST['confirm_password']),
+                    'role' => trim($_POST['role'])
+                ];
+                $foundEmail = [];
+                if ($data['role'] == 'guest') {
+                    $foundEmail = $this->guestModel->findEmail($data['email']);
+                    print_r('is guest');
+                } elseif ($data['role'] === 'staff') {
+                    $foundEmail = $this->staffModel->findEmail($data['email']);
+                    print_r('is staff');
+                } else {
+                    throw new Exception('Invalid role');
+                }
+                print_r($foundEmail);
 
-      // Check if form was submitted
-      if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Sanitize guess input
-        $name = filter_var($_POST['admin_name'], FILTER_SANITIZE_EMAIL);
-        $password = $_POST['admin_pass'];
-        $confirmPassword = $_POST['confirm_password'];
+                if (count($foundEmail) > 0) {
+                    throw new Exception("Email is already registered!");
+                }
 
-        // Check if passwords match
-        if ($password !== $confirmPassword) {
-          throw new Exception("Passwords do not match!");
+                // Validate passwords
+                if ($data['password'] !== $data['confirm_password']) {
+                    throw new Exception("Passwords do not match!");
+                }
+
+                // Hash the password for security
+                $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
+
+                // Handle image upload (store image in a directory and get the path)
+
+                // Insert the new guess into the database
+                if ($data['role'] == 'guest') {
+                    $this->guestModel->create($data);
+                } elseif ($data['role'] == 'staff') {
+                    $this->staffModel->create($data);
+                } else {
+                    throw new Exception("Invalid role!");
+                }
+                if ($data['image']) {
+                    $target_dir = "images/person/";
+                    $target_file = $target_dir . basename($_FILES["image"]["name"]);
+                    move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
+                }
+//                $this->adminModel->register($data);
+
+                // Registration successful
+//                echo "Registration successful! You can now log in.";
+//                $this->adminModel->close();
+                header("Location: /");
+
+            }
+
+        } catch (Exception $e) {
+            // Handle error (log it or display guess-friendly message)
+            echo "Error: " . $e->getMessage();
         }
-        // Hash the password
-        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-
-        $foundAdmin = $this->adminModel->findName($name);
-        if (!$foundAdmin) {
-          throw new Exception('admin is not found');
-//          throw new Exception("Failed to prepare statement: " . mysqli_error($this->adminModel->conn));
-//          throw new Exception("Failed to prepare statement: " . $this->conn->error);
-        }
-
-        if ($foundAdmin->num_rows > 0) {
-          throw new Exception("Email is already registered!");
-        }
-
-        // Insert the new guess into the database
-        $this->adminModel->register($name, $hashedPassword);
-
-        // Registration successful
-        echo "Registration successful! You can now log in.";
-        $this->adminModel->close();
-      }
-
-    } catch (Exception $e) {
-      // Handle error (log it or display guess-friendly message)
-      echo "Error: " . $e->getMessage();
     }
-  }
 
 
-  // Logout function
-  public function logout()
-  {
+    // Logout function
+    public function logout()
+    {
 //    print_r('test');
 //    session_start();
-    session_unset();
-    session_destroy();
+        session_unset();
+        session_destroy();
 //    header("Location: login.php");
 //    exit();
-    $this->view('home/index');
+        $this->view('home/index');
 
-  }
+    }
 }
