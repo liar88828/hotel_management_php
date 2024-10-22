@@ -37,6 +37,12 @@
                     <li class="nav-item">
                         <a class="nav-link text-white" href="/admin/testimonial">Testimonial</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/admin/booking">Booking</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/admin/carousel">Carousel</a>
+                    </li>
                 </ul>
             </div>
         </div>

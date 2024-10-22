@@ -7,12 +7,14 @@ class HomeController extends Controller
 
     private RoomModel $roomModel;
     private TestimonialModel $testimonialModel;
+    private CarouselModel $carouselModel;
 
     // Constructor to initialize database connection
     public function __construct()
     {
         $this->roomModel = $this->model('RoomModel');
         $this->testimonialModel = $this->model('TestimonialModel');
+        $this->carouselModel = $this->model('CarouselModel');
 
 
     }
@@ -22,10 +24,18 @@ class HomeController extends Controller
     {
         $data = [
             'rooms' => $this->roomModel->findHome(),
-            'testimonials' => $this->testimonialModel->findAll()
+            'testimonials' => $this->testimonialModel->findAll(),
+            'carousels' => $this->carouselModel->findAll(),
         ];
 
         $this->view('home/index', $data);
+    }
+
+
+    public function test()
+    {
+
+        $this->view('home/test');
     }
 
 

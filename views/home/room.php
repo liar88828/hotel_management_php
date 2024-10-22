@@ -87,10 +87,14 @@
                 <div class="card mb-4 border-0 shadow">
                     <div class="row g-0 p-3 align-items-center">
                         <div class="col-md-5 mb-lg-0 mb-md-0 mb-3">
-                            <img src="../../images/carousel/kamar.jpg" class="img-fluid rounded">
+                            <img
+                                    src="../../images/carousel/kamar.jpg"
+                                    class="img-fluid rounded">
                         </div>
                         <div class="col-md-5 px-lg-3 px-md-3 px-0">
-                            <h5 class="mb-1"><?= htmlspecialchars($room->name) ?>
+                            <h5 class="mb-1">
+                                <?= htmlspecialchars($room->name) ?>
+
                                 <!--                                <span class="badge rounded-pill text-bg--->
                                 <?php //= $room->status == 1 ? 'success' : 'danger' ?><!-- ">-->
                                 <!--                                        --><?php //= htmlspecialchars($room->status == 1 ? 'Available' : 'Unavailable') ?>
@@ -138,7 +142,9 @@
                                 <?php
                                 setlocale(LC_MONETARY, "id_ID");
                                 echo "Rp. " . number_format((int)$room->price, 0, ',', '.');
-                                ?>/night</h6>
+                                ?>
+                                /night
+                            </h6>
                             <a href="#" class="btn btn-info w-100 shadow-none mb-2">
                                 Book Now
                             </a>

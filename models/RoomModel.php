@@ -51,7 +51,7 @@ class RoomModel
 
     public function findHome()
     {
-        $this->db->query("SELECT * FROM rooms LIMIT 4");
+        $this->db->query("SELECT * FROM rooms LIMIT 3");
         return $this->db->resultSet();
     }
 

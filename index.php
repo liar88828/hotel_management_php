@@ -13,6 +13,7 @@ $router->addRoute('POST', '/auth/logout', 'AuthController@logout');
 
 // home route
 $router->addRoute('GET', '/', 'HomeController@index');
+$router->addRoute('GET', '/test', 'HomeController@test');
 //
 $router->addRoute('GET', '/room', 'HomeController@room');
 $router->addRoute('POST', '/room/search', 'HomeController@room_search');
@@ -66,7 +67,13 @@ $router->addRoute('POST', '/admin/testimonial/store', 'TestimonialController@sto
 $router->addRoute('GET', '/admin/testimonial/update/{id}', 'TestimonialController@update');
 $router->addRoute('POST', '/admin/testimonial/edit/{id}', 'TestimonialController@edit');
 $router->addRoute('GET', '/admin/testimonial/{id}', 'TestimonialController@detail');
-//
+// admin carousel
+$router->addRoute('GET', '/admin/carousel', 'CarouselController@index');
+$router->addRoute('GET', '/admin/carousel/create', 'CarouselController@create');
+$router->addRoute('POST', '/admin/carousel/store', 'CarouselController@store');
+$router->addRoute('GET', '/admin/carousel/update/{id}', 'CarouselController@update');
+$router->addRoute('POST', '/admin/carousel/edit/{id}', 'CarouselController@edit');
+$router->addRoute('GET', '/admin/carousel/{id}', 'CarouselController@detail');
 
 
 //$router->addRoute('GET', '/admin/create', 'GuestController@create');

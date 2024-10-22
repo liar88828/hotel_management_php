@@ -57,3 +57,10 @@ input::-webkit-inner-spin-button {
     transform: scale(1.03);
     transition: all 0.3s;
 }
+.my-text-ellipsis{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 6;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

@@ -68,9 +68,25 @@ adminLogin();
                                 <td><?php echo htmlspecialchars($guest->pin_code); ?></td>
                                 <td><?php echo htmlspecialchars($guest->date_of_birth); ?></td>
                                 <td class="">
-                                    <button class="btn btn-danger m-2"><i class="bi bi-trash"></i></button>
-                                    <a href="/admin/guest/update/<?php print_r($guest->id) ?>" class="btn btn-info m-2"><i
-                                                class="bi bi-pencil-square"></i></a>
+                                    <button class="btn btn-danger m-2">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+
+                                    <a href="/admin/guest/update/<?php print_r($guest->id) ?>"
+                                       class="btn btn-info m-2">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    <a
+                                            href="/admin/guest/<?php print_r($guest->id) ?>"
+                                            class="btn btn-success m-2">
+                                        <i class="bi bi-person"></i>
+
+
+
+
+
+                                    </a>
+
                                 </td>
                             </tr>
                         <?php endforeach; ?>

@@ -13,32 +13,51 @@
 
 <!-- Swiper -->
 <div class="container-fluid px-lg-4 mt-4">
+
     <div class="swiper swiper-container mySwiper">
         <div class="swiper-wrapper">
-            <div class="swiper-slide">
-                <img src="../../images/carousel/diklat1.jpg" class="w-100 d-block" alt="image1"/>
-            </div>
-            <div class="swiper-slide">
-                <img src="../../images/carousel/diklat7.jpg" class="w-100 d-block" alt="image2"/>
-            </div>
-            <div class="swiper-slide">
-                <img src="../../images/carousel/diklat5.jpg" class="w-100 d-block" alt="image3"/>
-            </div>
+            <?php if (isset($carousels)): ?>
+                <?php foreach ($carousels as $carousel): ?>
+                    <div class="swiper-slide">
+                        <img
+                                src="/images/carousel/<?php print_r($carousel->image); ?>"
+                                class="w-100  d-block  "
+                                alt="image1"
+                                style="object-fit:cover;
+                                object-position:center;
+                                /*width: 200px;*/
+                                height: 400px;"
+                        >
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
 
-            <div class="swiper-slide">
-                <img src="../../images/carousel/diklat6.jpg" class="w-100 d-block" alt="image4"/>
-            </div>
-            <div class="swiper-slide">
-                <img src="../../images/carousel/kamar.jpg" class="w-100 d-block" alt="image4"/>
-            </div>
+                <div class="swiper-slide">
+                    <img src="../../images/carousel/diklat1.jpg" class="w-100  d-block " alt="image1">
+                </div>
+                <div class="swiper-slide">
+                    <img src="../../images/carousel/diklat7.jpg" class="w-100 d-block" alt="image2"/>
+                </div>
+                <div class="swiper-slide">
+                    <img src="../../images/carousel/diklat5.jpg" class="w-100 d-block" alt="image3"/>
+                </div>
+
+                <div class="swiper-slide">
+                    <img src="../../images/carousel/diklat6.jpg" class="w-100 d-block" alt="image4"/>
+                </div>
+                <div class="swiper-slide">
+                    <img src="../../images/carousel/kamar.jpg" class="w-100 d-block" alt="image4"/>
+                </div>
+            <?php endif; ?>
         </div>
 
         <!-- Add Arrows -->
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
-
     </div>
 </div>
+
+
 <!-- Check Availability Form -->
 <div class="container availability-form">
     <div class="row">
@@ -92,117 +111,153 @@
 <h2 class="mt-4 pt-4 mb-4 text-center fw-bold h-font">OUR ROOMS</h2>
 <div class="container">
     <div class="row">
-        <div class="col-lg-4 col-md-6 my-3">
-            <div class="card border-0 shadow" style="max-width: 350px; margin: auto;">
-                <img src="../../images/carousel/kamar.jpg" class="card-img-top"
-                     alt="image1"
-                />
-                <div class="card-body">
-                    <h5>Kamar A</h5>
-                    <h6 class="mb-5">Rp.200.000/night</h6>
-                    <div class="features mb-4">
-                        <h6 class="mb-1">Features</h6>
-                        <span class="badge rounded-pill text-bg-light text-wrap">2 Bedroom</span>
-                        <span class="badge rounded-pill text-bg-light text-wrap">1 Bathrooms</span>
-                        <span class="badge rounded-pill text-bg-light text-wrap">Wardrobe</span>
-                    </div>
-                    <div class="facilities mb-4">
-                        <h6 class="mb-1">Facilities</h6>
-                        <span class="badge rounded-pill text-bg-light text-wrap">Wi-Fi</span>
-                        <span class="badge rounded-pill text-bg-light text-wrap">Television</span>
-                        <span class="badge rounded-pill text-bg-light text-wrap">AC</span>
-                    </div>
-                    <div class="guests mb-4">
-                        <h6 class="mb-1">Guests</h6>
-                        <span class="badge rounded-pill text-bg-light text-wrap">2 Adults</span>
-                    </div>
-                    <div class="rating mb-4">
-                        <h6 class="mb-1">Rating</h6>
-                        <span class="badge-rounded-pill bg-light">
-          <i class="bi bi-star-fill text-warning"></i>
-          <i class="bi bi-star-fill text-warning"></i>
-          <i class="bi bi-star-fill text-warning"></i>
-        </span>
-                    </div>
-                    <div class="d-flex justify-content-evenly mb-2">
-                        <a href="#" class="btn btn-sm text-white custom-bg shadow-none">Book Now</a>
-                        <a href="#" class="btn btn-sm btn-outline-dark shadow-none">More Details</a>
-                    </div>
-                </div>
+        <?php if (isset($rooms)): ?>
+            <?php foreach ($rooms as $room): ?>
+                <div class="col-lg-4 col-md-6 my-3">
+                    <div class="card border-0 shadow" style="max-width: 350px; margin: auto;"><img
+                                src="../../images/carousel/kamar.jpg" class="card-img-top" alt="image1"/>
+                        <div class="card-body"><h5>
+                                <?= htmlspecialchars($room->name) ?>
+                            </h5>
+                            <h6 class="mb-5">
+                                <?php
+                                setlocale(LC_MONETARY, "id_ID");
+                                echo "Rp. " . number_format((int)$room->price, 0, ',', '.');
+                                ?>
+                                /night
 
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-6 my-3">
-            <div class="card border-0 shadow" style="max-width: 350px; margin: auto;">
-                <img src="../../images/carousel/kamar.jpg" class="card-img-top">
-                <div class="card-body">
-                    <h5>Kamar B</h5>
-                    <h6 class="mb-5">Rp.200.000/night</h6>
-                    <div class="features mb-4">
-                        <h6 class="mb-1">Features</h6>
-                        <span class="badge rounded-pill text-bg-light text-wrap">2 Bedroom</span>
-                        <span class="badge rounded-pill text-bg-light text-wrap">1 Bathrooms</span>
-                        <span class="badge rounded-pill text-bg-light text-wrap">Wardrobe</span>
-                    </div>
-                    <div class="facilities mb-4">
-                        <h6 class="mb-1">Facilities</h6>
-                        <span class="badge rounded-pill text-bg-light text-wrap">Wi-Fi</span>
-                        <span class="badge rounded-pill text-bg-light text-wrap">Television</span>
-                        <span class="badge rounded-pill text-bg-light text-wrap">AC</span>
-                    </div>
-                    <div class="guests mb-4">
-                        <h6 class="mb-1">Guests</h6>
-                        <span class="badge rounded-pill text-bg-light text-wrap">2 Adults</span>
-                    </div>
-                    <div class="rating mb-4">
-                        <h6 class="mb-1">Rating</h6>
-                        <span class="badge-rounded-pill bg-light">
-          <i class="bi bi-star-fill text-warning"></i>
-          <i class="bi bi-star-fill text-warning"></i>
-          <i class="bi bi-star-fill text-warning"></i>
-        </span>
-                    </div>
-                    <div class="d-flex justify-content-evenly mb-2">
-                        <a href="#" class="btn btn-sm text-white custom-bg shadow-none">Book Now</a>
-                        <a href="#" class="btn btn-sm btn-outline-dark shadow-none">More Details</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-6 my-3">
-            <div class="card border-0 shadow" style="max-width: 350px; margin: auto;">
-                <img src="../../images/carousel/kelas.jpg" class="card-img-top">
-                <div class="card-body">
-                    <h5>Meeting Room Kecil</h5>
-                    <h6 class="mb-5">Rp.1.250.000/day</h6>
-                    <div class="facilities mb-4">
-                        <h6 class="mb-1">Facilities</h6>
-                        <span class="badge rounded-pill text-bg-light text-wrap">Wi-Fi</span>
-                        <span class="badge rounded-pill text-bg-light text-wrap">CCTV 24 Hr</span>
-                        <span class="badge rounded-pill text-bg-light text-wrap">AC</span>
-                        <span class="badge rounded-pill text-bg-light text-wrap">Dining Room</span>
-                        <span class="badge rounded-pill text-bg-light text-wrap">Parking Area</span>
-                    </div>
-                    <div class="rating mb-4">
-                        <h6 class="mb-1">Rating</h6>
-                        <span class="badge-rounded-pill bg-light">
-          <i class="bi bi-star-fill text-warning"></i>
-          <i class="bi bi-star-fill text-warning"></i>
-          <i class="bi bi-star-fill text-warning"></i>
-          <i class="bi bi-star-fill text-warning"></i>
-        </span>
-                    </div>
-                    <div class="d-flex justify-content-evenly mb-2">
-                        <a href="#" class="btn btn-sm text-white custom-bg shadow-none">Book Now</a>
-                        <a href="#" class="btn btn-sm btn-outline-dark shadow-none">More Details</a>
-                    </div>
-                </div>
+                            </h6>
+                            <div class="features mb-3">
+                                <h6 class="mb-1">Features</h6>
+                                <span class="badge rounded-pill text-bg-light text-wrap"><?= htmlspecialchars($room->bedrooms) ?> Bedrooms</span>
+                                <span class="badge rounded-pill text-bg-light text-wrap"><?= htmlspecialchars($room->bathrooms) ?> Bathrooms</span>
+                                <span class="badge rounded-pill text-bg-light text-wrap"><?= htmlspecialchars($room->wardrobe) ?> Wardrobe</span>
+                            </div>
+                            <div class="facilities mb-3">
+                                <h6 class="mb-1">Facilities</h6>
+                                <?php if ($room->wifi): ?>
+                                    <span class="badge rounded-pill text-bg-light text-wrap">Wi-Fi</span>
+                                <?php endif; ?>
+                                <?php if ($room->television): ?>
+                                    <span class="badge rounded-pill text-bg-light text-wrap">Television</span>
+                                <?php endif; ?>
+                                <?php if ($room->ac): ?>
+                                    <span class="badge rounded-pill text-bg-light text-wrap">AC</span>
+                                <?php endif; ?>
+                                <?php if ($room->cctv): ?>
+                                    <span class="badge rounded-pill text-bg-light text-wrap">CCTV</span>
+                                <?php endif; ?>
+                                <?php if ($room->dining_room): ?>
+                                    <span class="badge rounded-pill text-bg-light text-wrap">Dining Room</span>
+                                <?php endif; ?>
+                                <?php if ($room->parking_area): ?>
+                                    <span class="badge rounded-pill text-bg-light text-wrap">Parking Area</span>
+                                <?php endif; ?>
+                            </div>
+                            <div class="guests">
+                                <h6 class="mb-1">Guests</h6>
+                                <?php if ($room->adult > 0) {
+                                    echo "<span class='badge rounded-pill text-bg-light text-wrap'> $room->adult Adults </span>";
+                                } ?>
+                                <?php if ($room->children > 0) {
+                                    echo "<span class='badge rounded-pill text-bg-light text-wrap'> $room->adult Children </span>";
+                                } ?>
+                            </div>
+                            <div class="rating mb-4">
+                                <h6 class="mb-1">Rating</h6>
+                                <span class="badge-rounded-pill bg-light">
+                                  <i class="bi bi-star-fill text-warning"></i>
+                                  <i class="bi bi-star-fill text-warning"></i>
+                                  <i class="bi bi-star-fill text-warning"></i>
+                                </span>
+                            </div>
+                            <div class="d-flex justify-content-evenly mb-2">
+                                <a href="#" class="btn btn-sm text-white custom-bg shadow-none">Book Now</a>
 
+                                <a href="/room/detail/<?= $room->id ?>" class="btn btn-sm btn-outline-dark shadow-none">More Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php else : ?>
+
+            <div class="col-lg-4 col-md-6 my-3">
+                <div class="card border-0 shadow" style="max-width: 350px; margin: auto;">
+                    <img src="../../images/carousel/kamar.jpg" class="card-img-top">
+                    <div class="card-body">
+                        <h5>Kamar B</h5>
+                        <h6 class="mb-5">Rp.200.000/night</h6>
+                        <div class="features mb-4">
+                            <h6 class="mb-1">Features</h6>
+                            <span class="badge rounded-pill text-bg-light text-wrap">2 Bedroom</span>
+                            <span class="badge rounded-pill text-bg-light text-wrap">1 Bathrooms</span>
+                            <span class="badge rounded-pill text-bg-light text-wrap">Wardrobe</span>
+                        </div>
+                        <div class="facilities mb-4">
+                            <h6 class="mb-1">Facilities</h6>
+                            <span class="badge rounded-pill text-bg-light text-wrap">Wi-Fi</span>
+                            <span class="badge rounded-pill text-bg-light text-wrap">Television</span>
+                            <span class="badge rounded-pill text-bg-light text-wrap">AC</span>
+                        </div>
+                        <div class="guests mb-4">
+                            <h6 class="mb-1">Guests</h6>
+                            <span class="badge rounded-pill text-bg-light text-wrap">2 Adults</span>
+                        </div>
+                        <div class="rating mb-4">
+                            <h6 class="mb-1">Rating</h6>
+                            <span class="badge-rounded-pill bg-light">
+          <i class="bi bi-star-fill text-warning"></i>
+          <i class="bi bi-star-fill text-warning"></i>
+          <i class="bi bi-star-fill text-warning"></i>
+        </span>
+                        </div>
+                        <div class="d-flex justify-content-evenly mb-2">
+                            <a href="#" class="btn btn-sm text-white custom-bg shadow-none">Book Now</a>
+                            <a href="#" class="btn btn-sm btn-outline-dark shadow-none">More Details</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+
+            <div class="col-lg-4 col-md-6 my-3">
+                <div class="card border-0 shadow" style="max-width: 350px; margin: auto;">
+                    <img src="../../images/carousel/kelas.jpg" class="card-img-top">
+                    <div class="card-body">
+                        <h5>Meeting Room Kecil</h5>
+                        <h6 class="mb-5">Rp.1.250.000/day</h6>
+                        <div class="facilities mb-4">
+                            <h6 class="mb-1">Facilities</h6>
+                            <span class="badge rounded-pill text-bg-light text-wrap">Wi-Fi</span>
+                            <span class="badge rounded-pill text-bg-light text-wrap">CCTV 24 Hr</span>
+                            <span class="badge rounded-pill text-bg-light text-wrap">AC</span>
+                            <span class="badge rounded-pill text-bg-light text-wrap">Dining Room</span>
+                            <span class="badge rounded-pill text-bg-light text-wrap">Parking Area</span>
+                        </div>
+                        <div class="rating mb-4">
+                            <h6 class="mb-1">Rating</h6>
+                            <span class="badge-rounded-pill bg-light">
+          <i class="bi bi-star-fill text-warning"></i>
+          <i class="bi bi-star-fill text-warning"></i>
+          <i class="bi bi-star-fill text-warning"></i>
+          <i class="bi bi-star-fill text-warning"></i>
+        </span>
+                        </div>
+                        <div class="d-flex justify-content-evenly mb-2">
+                            <a href="#" class="btn btn-sm text-white custom-bg shadow-none">Book Now</a>
+                            <a href="#" class="btn btn-sm btn-outline-dark shadow-none">More Details</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        <?php endif; ?>
+
         <div class="col-lg-12 text-center mt-5">
             <a href="/room" class="btn btn-sm btn-outline-dark rounded-0 fw-bold shadow-none">MORE ROOMS >></a>
         </div>
+
     </div>
 </div>
 <!-- OUR FACILITIES -->
@@ -245,9 +300,7 @@
         <div class="swiper-wrapper mb-5">
 
             <?php if (isset($testimonials)): ?>
-                <?php foreach ($testimonials
-
-                               as $testimonial): ?>
+                <?php foreach ($testimonials as $testimonial): ?>
                     <div class="swiper-slide bg-white p-4">
                         <div class="profile d-flex align-items-center p-4">
                             <img
@@ -259,14 +312,7 @@
                             />
                             <h2><?php print_r($testimonial->name) ?></h2>
                         </div>
-                        <p class="my-5 "
-                           style="
-               display: -webkit-box;
-                -webkit-box-orient: vertical;
-                -webkit-line-clamp: 6;
-                overflow: hidden;
-                text-overflow: ellipsis;
-">
+                        <p class="my-5 my-text-ellipsis ">
                             <?php print_r($testimonial->text) ?>
                         </p>
                         <div class="rating">
@@ -393,7 +439,7 @@
 
 <?php require('views/components/footer.php') ?>
 <?php require('views/assets/php/swiper.php') ?>
-
+<?php require('views/assets/php/scripts.php') ?>
 
 </body>
 </html>

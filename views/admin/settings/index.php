@@ -1,6 +1,5 @@
 <?php
 require('views/assets/php/essentials.php');
-require('config/db_config.php');
 adminLogin();
 ?>
 <!DOCTYPE html>
@@ -18,6 +17,7 @@ adminLogin();
     <div class="row">
       <?php require('views/components/admin/header.php') ?>
         <div class="col-lg-10 ms-auto p-4 overflow-hidden">
+
             <h3 class="mb-4">SETTINGS</h3>
           <?php require('views/admin/settings/form-general.php'); ?>
             <!-- Shutdown Settings -->
@@ -41,7 +41,6 @@ adminLogin();
 
           <?php require('views/admin/settings/form-management.php'); ?>
           <?php require('views/admin/settings/form-contract.php'); ?>
-
 
         </div>
     </div>
