@@ -48,6 +48,17 @@ class RoomModel
         return $this->db->resultSet();
     }
 
+    public function findAllStatus($status)
+    {
+        $this->db->query("SELECT * FROM rooms
+         WHERE status = :status
+         LIMIT 100");
+        $this->db->bind(':status', $status);
+
+        return $this->db->resultSet();
+    }
+
+
 
     public function findHome()
     {
@@ -89,6 +100,18 @@ class RoomModel
         $this->db->bind(':id', $id);
         return $this->db->single();
     }
+    public function findIdGuest(int $guestId)
+    {
+        $this->db->query("
+            SELECT 
+                guest_id,b.id as id_booking, guest_id, room_id, check_in_date, check_out_date, total_price, b.status as status_booking, created_at,  name, area, price, quantity, adult, children, description, r.status as status_room, wifi, television, ac, cctv, dining_room, parking_area, bedrooms, bathrooms, wardrobe, security, image  
+            FROM booking b
+            JOIN rooms r ON b.room_id = r.id
+            WHERE b.guest_id = :guest_id");
+        $this->db->bind(':guest_id', $guestId);
+        return $this->db->resultSet();
+    }
+
 
     public function delete($id)
     {

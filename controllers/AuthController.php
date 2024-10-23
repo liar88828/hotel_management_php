@@ -24,7 +24,8 @@ class AuthController extends Controller
     public function login()
     {
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
-            header('Location: /');
+            $this->redirect('/');
+//            header('Location: /');
         }
         try {
             // Check if form was submitted
@@ -50,13 +51,14 @@ class AuthController extends Controller
                 if (!$foundEmail) {
                     throw new Exception('Email is not found');
                 }
+
                 // Verify password
                 if ($role == 'admin') {
                     if (!$password == $foundEmail->password) {
                         throw new Exception("Invalid password!");
                     }
-                } elseif ($role != 'admin') {
-                    if (!password_verify($password, $foundEmail->password)) {
+                } elseif ($role == 'guest' || $role == 'staff') {
+                    if (!password_verify($password, $foundEmail[0]->password)) {
                         throw new Exception("Invalid password!");
                     }
                 } else {
@@ -67,15 +69,24 @@ class AuthController extends Controller
                     // Set session variables
                     $_SESSION['adminLogin'] = $foundEmail->email;
                     // Redirect to a protected page
-                    header("Location: /admin/dashboard");
+//                    header("Location: /admin/dashboard");
+                    $this->redirect('/admin/dashboard');
                 }
                 if ($role == 'staff') {
-                    $_SESSION['staffLogin'] = $foundEmail->id;
-                    header("Location: /");
+                    $data = $foundEmail[0];
+                    $data->password = '';
+                    $_SESSION['staffLogin'] = $data;
+                    $this->redirect('/staff/dashboard');
+//                    header("Location: /");
                 }
                 if ($role == 'guest') {
-                    $_SESSION['guestLogin'] = $foundEmail->id;
-                    header("Location: /");
+                    $data = $foundEmail[0];
+                    $data->password = '';
+                    $data->role = $role;
+                    print_r($data);
+                    $_SESSION['guestLogin'] = $data;
+                    $this->redirect('/guest/profile');
+//                    header("Location: /");
                 }
             }
 
@@ -89,6 +100,10 @@ class AuthController extends Controller
     public function register()
     {
         try {
+            if ($_SERVER["REQUEST_METHOD"] == "GET") {
+                $this->redirect('/');
+            }
+
             // Enable exceptions for MySQLi
             mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
             // Check if form was submitted
@@ -109,14 +124,14 @@ class AuthController extends Controller
                 $foundEmail = [];
                 if ($data['role'] == 'guest') {
                     $foundEmail = $this->guestModel->findEmail($data['email']);
-                    print_r('is guest');
+//                    print_r('is guest');
                 } elseif ($data['role'] === 'staff') {
                     $foundEmail = $this->staffModel->findEmail($data['email']);
-                    print_r('is staff');
+//                    print_r('is staff');
                 } else {
                     throw new Exception('Invalid role');
                 }
-                print_r($foundEmail);
+//                print_r($foundEmail);
 
                 if (count($foundEmail) > 0) {
                     throw new Exception("Email is already registered!");
@@ -164,13 +179,18 @@ class AuthController extends Controller
     // Logout function
     public function logout()
     {
+        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+            $this->redirect('/');
+        }
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //    print_r('test');
 //    session_start();
-        session_unset();
-        session_destroy();
+            session_unset();
+            session_destroy();
 //    header("Location: login.php");
 //    exit();
-        $this->view('home/index');
-
+            $this->view('home/index');
+        }
     }
 }

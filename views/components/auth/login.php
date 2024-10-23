@@ -34,10 +34,10 @@
                         <label class="form-check-label" for="guest">Guest</label>
                     </div>
 
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="role" id="staff" value="staff"/>
-                        <label class="form-check-label" for="staff">Staff</label>
-                    </div>
+<!--                    <div class="form-check">-->
+<!--                        <input class="form-check-input" type="radio" name="role" id="staff" value="staff"/>-->
+<!--                        <label class="form-check-label" for="staff">Staff</label>-->
+<!--                    </div>-->
 
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="role" id="admin" value="admin" />

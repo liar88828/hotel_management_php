@@ -71,6 +71,7 @@
                                 class="form-label" style="font-weight: 500">Check in
                         </label>
                         <input
+                                id="check_in"
                                 name="check_in"
                                 type="date" class="form-control shadow-none" aria-describedby="emailHelp">
                     </div>
@@ -79,23 +80,41 @@
                                 for="check_out"
                                 class="form-label" style="font-weight: 500">Check Out</label>
                         <input type="date"
+                               id="check_out"
                                name="check_out"
-                               class="form-control shadow-none" aria-describedby="emailHelp">
+                               class="form-control shadow-none" >
                     </div>
                     <div class="col-lg-3 mb-3">
-                        <label class="form-label" style="font-weight: 500">Adult</label>
-                        <select class="form-select shadow-none">
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                        <label for="adult" class="form-label" style="font-weight: 500">Adult</label>
+                        <select id="adult" class="form-select shadow-none" name="adult">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
                         </select>
                     </div>
                     <div class="col-lg-2 mb-3">
-                        <label class="form-label" style="font-weight: 500">Children</label>
-                        <select class="form-select shadow-none">
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                        <label for="children" class="form-label" style="font-weight: 500">Children</label>
+                        <select id="children" class="form-select shadow-none" name="children">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+
+
+
                         </select>
                     </div>
                     <div class="col-lg-1 mb-lg-3 mt-2">
@@ -184,7 +203,7 @@
 
             <div class="col-lg-4 col-md-6 my-3">
                 <div class="card border-0 shadow" style="max-width: 350px; margin: auto;">
-                    <img src="../../images/carousel/kamar.jpg" class="card-img-top">
+                    <img src="../../images/carousel/kamar.jpg" class="card-img-top" alt="image_room" />
                     <div class="card-body">
                         <h5>Kamar B</h5>
                         <h6 class="mb-5">Rp.200.000/night</h6>
@@ -222,7 +241,7 @@
 
             <div class="col-lg-4 col-md-6 my-3">
                 <div class="card border-0 shadow" style="max-width: 350px; margin: auto;">
-                    <img src="../../images/carousel/kelas.jpg" class="card-img-top">
+                    <img src="../../images/carousel/kelas.jpg" class="card-img-top" alt="image_room"/>
                     <div class="card-body">
                         <h5>Meeting Room Kecil</h5>
                         <h6 class="mb-5">Rp.1.250.000/day</h6>
@@ -283,7 +302,7 @@
             <h5 class="mt-3">AC</h5>
         </div>
         <div class="col-lg-2 col-md-2 text-center bg-white rounded shadow py-4 my-3">
-            <img src="../../images/facilities/IMG_41622.svg" width="80px">
+            <img src="../../images/facilities/IMG_41622.svg" width="80px" alt="facilities" />
             <h5 class="mt-3">TV</h5>
         </div>
         <div class="col-lg-12 text-center mt-5">
@@ -329,6 +348,7 @@
                     <div class="profile d-flex align-items-center p-4">
                         <img src="../../images/person/orang1.jpg" width="30px"
                              alt="orang1"
+
                         />
                         <h6 class="m-0 ms-2">Katarina</h6>
                     </div>

@@ -1,37 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generate PDF with jsPDF</title>
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <label for="checkInDate" class="form-label"><i class="fas fa-calendar-alt"></i> Check-In Date</label>
+        <input type="date" class="form-control" id="checkInDate" name="check_in_date" required onchange="calculateTotal()">
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="checkOutDate" class="form-label"><i class="fas fa-calendar-alt"></i> Check-Out Date</label>
+        <input type="date" class="form-control" id="checkOutDate" name="check_out_date" required onchange="calculateTotal()">
+    </div>
+</div>
 
-    <!-- Include jsPDF from CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-</head>
-<body>
+<!-- Total Price (calculated based on room selection and dates) -->
+<div class="mb-3">
+    <label for="totalPrice" class="form-label"><i class="fas fa-dollar-sign"></i> Total Price</label>
+    <input type="number" class="form-control" id="totalPrice" name="total_price" placeholder="Calculated Total" readonly>
+</div>
 
-    <h1>Hello World!</h1>
-    <p>This is a simple example to generate PDF from HTML using jsPDF.</p>
+<!-- JavaScript for price calculation -->
+<script>
+	const pricePerNight = 200;
 
-    <!-- Button to trigger PDF generation -->
-    <button onclick="generatePDF()">Download PDF</button>
+	function calculateTotal() {
+		const checkInDate = document.getElementById('checkInDate').value;
+		const checkOutDate = document.getElementById('checkOutDate').value;
 
-    <script>
-        function generatePDF() {
-            // Access jsPDF from the global object
-            const { jsPDF } = window.jspdf;
+		if (checkInDate && checkOutDate) {
+			const checkIn = new Date(checkInDate);
+			const checkOut = new Date(checkOutDate);
 
-            // Create a new instance of jsPDF
-            const doc = new jsPDF();
+			// Calculate the number of days between check-in and check-out
+			const timeDiff = checkOut.getTime() - checkIn.getTime();
+			const daysDiff = timeDiff / (1000 * 3600 * 24);
 
-            // Add content to the PDF
-            doc.text("Hello World!", 10, 10);
-            doc.text("This is a PDF generated using jsPDF from a CDN.", 10, 20);
-
-            // Save the generated PDF
-            doc.save("output.pdf");
-        }
-    </script>
-</body>
-</html>
+			if (daysDiff > 0) {
+				// Calculate the total price
+				const totalPrice = daysDiff * pricePerNight;
+				document.getElementById('totalPrice').value = totalPrice;
+			} else {
+				document.getElementById('totalPrice').value = 0;
+			}
+		}
+	}
+</script>

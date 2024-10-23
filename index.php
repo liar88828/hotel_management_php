@@ -8,7 +8,9 @@ $router = new Router();
 // auth route
 $router->addRoute('GET', '/auth/login', 'AuthController@login');
 $router->addRoute('POST', '/auth/login', 'AuthController@login');
+$router->addRoute('GET', '/auth/register', 'AuthController@register');
 $router->addRoute('POST', '/auth/register', 'AuthController@register');
+$router->addRoute('GET', '/auth/logout', 'AuthController@logout');
 $router->addRoute('POST', '/auth/logout', 'AuthController@logout');
 
 // home route
@@ -84,6 +86,28 @@ $router->addRoute('GET', '/users', 'GuestController@index');
 $router->addRoute('GET', '/users/create', 'GuestController@create');
 $router->addRoute('POST', '/users/store', 'GuestController@store');
 
+
+
+//Guest
+$router->addRoute('GET', '/guest/profile', 'GuestController@profile');
+$router->addRoute('GET', '/guest/history', 'GuestController@history');
+
+$router->addRoute('GET', '/guest/room', 'GuestController@room');
+$router->addRoute('GET', '/guest/room/available', 'GuestController@room_available');
+$router->addRoute('GET', '/guest/room/empty', 'GuestController@room_empty');
+
+$router->addRoute('GET', '/guest/booking', 'GuestController@booking');
+$router->addRoute('GET', '/guest/booking/booking', 'GuestController@booking_booking');
+$router->addRoute('GET', '/guest/booking/cancel', 'GuestController@booking_cancel');
+//$router->addRoute('GET', '/guest/booking/available', 'GuestController@booking_available');
+//$router->addRoute('GET', '/guest/booking/pending', 'GuestController@booking_pending');
+$router->addRoute('POST', '/guest/booking/update-booking', 'GuestController@booking_update_booking');
+$router->addRoute('POST', '/guest/booking/update-cancel', 'GuestController@booking_update_cancel');
+$router->addRoute('POST', '/guest/booking/create', 'GuestController@booking_create');
+$router->addRoute('GET', '/guest/booking/print/{id}', 'GuestController@booking_print');
+$router->addRoute('POST', '/guest/booking/update/{id}', 'GuestController@booking_update');
+$router->addRoute('GET', '/guest/booking/{id}', 'GuestController@booking_detail');
+$router->addRoute('GET', '/guest/room/{id}', 'GuestController@room_detail');
 // Dispatch the route
 $router->dispatch();
 

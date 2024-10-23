@@ -1,9 +1,14 @@
+<?php
+require('views/assets/php/guest_login.php');
+
+
+?>
 <!-- navbar -->
 <nav class="navbar navbar-expand-lg bg-body-tertiary bg-white px-lg-3 py-lg-2 shadow-sm sticky-top">
     <div class="container-fluid">
         <a class="navbar-brand me-5 fw-bold fs-3 h-font" href="/">
             <img src="../../images/logo/logo_bkpp.png" width="150" height="75"
-            alt="logo"
+                 alt="logo"
             />
         </a>
         <button class="navbar-toggler shadow-none" type="button" data-bs-toggle="collapse"
@@ -29,14 +34,23 @@
                     <a class="nav-link me-2" href="/about">About</a>
                 </li>
             </ul>
-            <div class="d-flex" role="search">
-                <button type="button" class="btn btn-outline-dark shadow-none me-lg-3 me-2" data-bs-toggle="modal"
-                        data-bs-target="#loginmodel">Login
-                </button>
-                <button type="button" class="btn btn-outline-dark shadow-none" data-bs-toggle="modal"
-                        data-bs-target="#registermodel">Register
-                </button>
-            </div>
+            <?php if (!empty(checkSessionGuest())): ?>
+                <div class="d-flex" role="search">
+                    <a href="/guest/profile" class="btn btn-outline-dark shadow-none me-lg-3 me-2"
+
+                    >Profile
+                    </a>
+                </div>
+            <?php else: ?>
+                <div class="d-flex" role="search">
+                    <button type="button" class="btn btn-outline-dark shadow-none me-lg-3 me-2" data-bs-toggle="modal"
+                            data-bs-target="#loginmodel">Login
+                    </button>
+                    <button type="button" class="btn btn-outline-dark shadow-none" data-bs-toggle="modal"
+                            data-bs-target="#registermodel">Register
+                    </button>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </nav>
