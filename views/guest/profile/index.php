@@ -1,6 +1,5 @@
 <?php
 require('views/assets/php/getMessage.php');
-
 ?>
 
 
@@ -26,7 +25,8 @@ require('views/assets/php/getMessage.php');
                 </div>
             <?php else: ?>
 
-            <div class="container mt-5">
+            <div class="container ">
+                <h3 class="mb-1">Profile</h3>
                 <div class="card profile-card">
                     <!-- Profile Header -->
                     <div class="profile-header">
@@ -66,8 +66,9 @@ require('views/assets/php/getMessage.php');
                 </div>
             </div>
 
-            <div class="mt-4">
-                <a href="/admin/guest" class="btn btn-secondary">Back to Rooms</a>
+            <div class="mt-4 ">
+                <a href="/guest/profile" class="btn btn-secondary mr-2">Back to Rooms</a>
+                <a href="/guest/profile-update" class="btn btn-primary">Update Guest</a>
             </div>
         </div>
     <?php endif; ?>

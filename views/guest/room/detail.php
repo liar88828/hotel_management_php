@@ -184,7 +184,7 @@ require('views/assets/php/getMessage.php');
                             <!-- Total Price (calculated based on room selection and dates) -->
                             <div class="mb-3">
                                 <label for="totalPrice" class="form-label"><i class="fas fa-dollar-sign"></i> Total Price</label>
-                                <input type="number" class="form-control" id="totalPrice" name="total_price" placeholder="Calculated Total" readonly>
+                                <input type="number" class="form-control" id="totalPrice" name="total_price" placeholder="Calculated Total" readonly min="1">
                             </div>
 
                             <!-- Booking Status -->

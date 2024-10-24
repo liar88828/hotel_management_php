@@ -1,3 +1,6 @@
+<?php
+require('views/assets/php/getMessage.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +16,8 @@
 
 <!-- Swiper -->
 <div class="container-fluid px-lg-4 mt-4">
-
+<?php //= print_r($message);?>
+    <?php showMessage() ?>
     <div class="swiper swiper-container mySwiper">
         <div class="swiper-wrapper">
             <?php if (isset($carousels)): ?>
@@ -63,16 +67,17 @@
     <div class="row">
         <div class="col-lg-12 bg-white p-4 rounded">
             <h4 class="mb-4">Check Booking Availability </h4>
-            <form>
+            <form action="/check-booking-availability" method="post">
                 <div class="row align-items-end">
+
                     <div class="col-lg-3 mb-3">
                         <label
                                 for="check_in"
-                                class="form-label" style="font-weight: 500">Check in
+                                class="form-label"  style="font-weight: 500">Check in
                         </label>
                         <input
                                 id="check_in"
-                                name="check_in"
+                                name="check_in_date"
                                 type="date" class="form-control shadow-none" aria-describedby="emailHelp">
                     </div>
                     <div class="col-lg-3 mb-3">
@@ -81,9 +86,10 @@
                                 class="form-label" style="font-weight: 500">Check Out</label>
                         <input type="date"
                                id="check_out"
-                               name="check_out"
+                               name="check_out_date"
                                class="form-control shadow-none" >
                     </div>
+
                     <div class="col-lg-3 mb-3">
                         <label for="adult" class="form-label" style="font-weight: 500">Adult</label>
                         <select id="adult" class="form-select shadow-none" name="adult">
@@ -112,13 +118,10 @@
                             <option value="8">8</option>
                             <option value="9">9</option>
                             <option value="10">10</option>
-
-
-
                         </select>
                     </div>
                     <div class="col-lg-1 mb-lg-3 mt-2">
-                        <button type="submit" class="btn text-white shadow-none custom-bg">Submit</button>
+                        <button type="submit" class="btn btn-info">Submit</button>
                     </div>
                 </div>
             </form>

@@ -8,7 +8,13 @@ function getSessionGuest()
     }
     return $session;
 }
+
 function checkSessionGuest()
 {
-    return  $_SESSION['guestLogin'];
+
+    if (empty($_SESSION['guestLogin'])) {
+        return false;
+    } else {
+        return $_SESSION['guestLogin'];
+}
 }

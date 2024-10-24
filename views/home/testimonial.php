@@ -32,7 +32,7 @@
                                 alt="<?php print_r($testimonial->image) ?>"
                                 class="rounded-circle"
                         />
-                        <h2 ><?php print_r($testimonial->name) ?></h2>
+                        <h2><?php print_r($testimonial->name) ?></h2>
                     </div>
                     <p class="my-5 ">
                         <?php print_r($testimonial->text) ?>

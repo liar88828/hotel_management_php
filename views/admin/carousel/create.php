@@ -39,8 +39,8 @@ adminLogin();
 
                     <div class="mb-3">
                         <label class="form-label" for="image">Profile Image</label>
-                        <input type="file" class="form-control shadow-none" id="image" name="image" accept="image/*"
-                               required onchange="previewImage(event)">
+                        <input type="file" class="form-control shadow-none" id="image" name="image"
+                               accept="image/*" required onchange="previewImage(event)">
                     </div>
 
 
@@ -51,7 +51,6 @@ adminLogin();
                     </div>
 
                     <button type="submit" class="btn btn-primary">Create</button>
-
 
                     <a href="/admin/carousel" class="btn btn-secondary">Back</a>
                 </form>

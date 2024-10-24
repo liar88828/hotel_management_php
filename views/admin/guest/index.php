@@ -80,13 +80,7 @@ adminLogin();
                                             href="/admin/guest/<?php print_r($guest->id) ?>"
                                             class="btn btn-success m-2">
                                         <i class="bi bi-person"></i>
-
-
-
-
-
                                     </a>
-
                                 </td>
                             </tr>
                         <?php endforeach; ?>

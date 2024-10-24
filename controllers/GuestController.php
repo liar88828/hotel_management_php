@@ -29,6 +29,63 @@ class GuestController extends Controller
         $this->view('guest/profile/index', $data);
     }
 
+    public function profile_update()
+    {
+        $session = getSessionGuest();
+        $guestId = $session->id;
+        $this->view(
+            'guest/profile/update',
+            ['guest' => $this->guestModel->findId($guestId)]
+        );
+    }
+//    public function profile_edit()
+//    {
+//        $session = getSessionGuest();
+//        $guestId = $session->id;
+//        $data = ['guest' => $this->guestModel->findId($guestId)];
+//        $this->view('guest/profile/index', $data);
+//    }
+
+
+    public function profile_edit()
+    {
+
+        try {
+            $session = getSessionGuest();
+            $guestId = $session->id;
+            $data = [
+                'name' => trim($_POST['name']),
+                'email' => filter_var($_POST['email'], FILTER_SANITIZE_EMAIL),
+                'phone' => trim($_POST['phone']),
+                'image' => $_FILES['image']['name'], // Handle file upload separately
+                'address' => trim($_POST['address']),
+                'pin_code' => trim($_POST['pin_code']),
+                'date_of_birth' => trim($_POST['date_of_birth']),
+                'password' => trim($_POST['password']),
+                'confirm_password' => trim($_POST['confirm_password']),
+            ];
+//            print_r($data);
+            if ($data['password'] !== $data['confirm_password']) {
+                throw new Exception("Passwords do not match!");
+            }
+            $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
+////
+            $responseDB = $this->guestModel->update($guestId, $data);
+            $this->imageService->saveImage($responseDB, $data['image'], $guestId);
+            $this->redirect('/guest/profile',
+                ['message' => 'success update guest']
+            );
+        } catch (Exception $e) {
+            print_r($e->getMessage());
+
+            $this->redirect(
+                '/admin/guest/update/' . $guestId,
+                ['message' => $e->getMessage()]
+            );
+        }
+    }
+
+
     public function history()
     {
         $session = getSessionGuest();
@@ -45,6 +102,7 @@ class GuestController extends Controller
         $data = ['rooms' => $this->roomModel->findAll()];
         $this->view('guest/room/index', $data);
     }
+
     public function room_available()
     {
         $session = getSessionGuest();
@@ -53,6 +111,7 @@ class GuestController extends Controller
         $data = ['rooms' => $this->roomModel->findAllStatus(1)];
         $this->view('guest/room/index', $data);
     }
+
     public function room_empty()
     {
         $session = getSessionGuest();
@@ -99,7 +158,7 @@ class GuestController extends Controller
         try {
             $session = getSessionGuest();
             $guestId = $session->id;
-            $data =  $this->bookingModel->findIdGuestStatus($guestId, 'cancel');
+            $data = $this->bookingModel->findIdGuestStatus($guestId, 'cancel');
             $this->view(
                 'guest/booking/index',
                 ['bookings' => $data]
@@ -118,35 +177,51 @@ class GuestController extends Controller
         $this->view('guest/booking/detail', $data);
     }
 
+    public function booking_detail_edit($id)
+    {
+        $session = getSessionGuest();
+        $guestId = $session->id;
+        $data = ['booking' => $this->bookingModel->findId($id)];
+        $this->view('guest/booking/edit', $data);
+    }
+
 
     public function booking_print($id)
     {
         $session = getSessionGuest();
-//        $id = $session->id;
-        $data = ['booking' => $this->bookingModel->findId($id)];
-        $this->view('guest/booking/print', $data);
+//        $idGuest = $session->id;
+
+        $this->view('guest/booking/print', ['booking' => $this->bookingModel->findId($id)]);
     }
 
 
     public function booking_create()
     {
-        $data = [
-            'check_in_date' => trim($_POST['check_in_date']),
-            'check_out_date' => trim($_POST['check_out_date']),
-            'total_price' => trim($_POST['total_price']),
-            'status' => trim($_POST['status']),
-            'roomId' => trim($_POST['roomId']),
+        try {
 
-        ];
-        $session = getSessionGuest();
-        $guestId = $session->id;
+            $data = [
+                'check_in_date' => trim($_POST['check_in_date']),
+                'check_out_date' => trim($_POST['check_out_date']),
+                'total_price' => trim($_POST['total_price']),
+                'status' => trim($_POST['status']),
+                'roomId' => trim($_POST['roomId']),
+
+            ];
+            if ($data['total_price'] == 0) {
+                $this->redirect('/guest/booking/create', ['message' => 'please correct the date because the total price is 0']);
+            }
+            $session = getSessionGuest();
+            $guestId = $session->id;
 //        print_r($data);
 //        print_r($guestId);
-        $this->bookingModel->create((int)$guestId, $data['roomId'], 'pending', $data);
-        $this->redirect(
-            '/guest/booking',
-            ['message' => 'success booked room']
-        );
+            $this->bookingModel->create((int)$guestId, $data['roomId'], 'pending', $data);
+            $this->redirect(
+                '/guest/booking',
+                ['message' => 'success booked room']
+            );
+        } catch (e) {
+
+        }
     }
 
 
@@ -196,6 +271,29 @@ class GuestController extends Controller
         $this->redirect('guest/room/index');
     }
 
+    public function booking_update_guest($id)
+    {
+        try {
+
+            $data = [
+                'check_in_date' => trim($_POST['check_in_date']),
+                'check_out_date' => trim($_POST['check_out_date']),
+                'total_price' => trim($_POST['total_price']),
+                'status' => trim($_POST['status']),
+
+            ];
+
+            $session = getSessionGuest();
+            $guestId = $session->id;
+            $this->bookingModel->update_guest($id, $guestId, $data);
+//        ['guest' => ]
+            $this->redirect('/guest/booking');
+        } catch (Exception $e) {
+            var_dump($e->getMessage());
+//            $this->redirect('/guest/booking-edit/' . $id, ['message', 'data error']);
+        }
+    }
+
 
     //  admin //
     public function index()
@@ -237,7 +335,7 @@ class GuestController extends Controller
             $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
 
             $responseDB = $this->guestModel->create($data);
-            $this->imageService->saveImage($responseDB, $data['image']);
+            $this->imageService->saveImage($responseDB, $data['image'], 'images/person/');
             $this->redirect('/admin/guest');
         } catch (Exception $e) {
             print_r($e->getMessage());
@@ -274,7 +372,7 @@ class GuestController extends Controller
             $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT);
 ////
             $responseDB = $this->guestModel->update($id, $data);
-            $this->imageService->saveImage($responseDB, $data['image']);
+            $this->imageService->saveImage($responseDB, $data['image'], $id);
             $this->redirect('/admin/guest',
                 ['message' => 'success update guest']
             );

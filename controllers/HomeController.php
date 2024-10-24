@@ -22,15 +22,38 @@ class HomeController extends Controller
 
     public function index()
     {
-        $data = [
+
+
+        $this->view('home/index', [
             'rooms' => $this->roomModel->findHome(),
             'testimonials' => $this->testimonialModel->findAll(),
             'carousels' => $this->carouselModel->findAll(),
-        ];
-
-        $this->view('home/index', $data);
+        ]);
     }
 
+    public function check_booking_availability()
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+            $this->redirect('/');
+        }
+        try {
+
+            $children = filter_var($_POST['children'], FILTER_SANITIZE_NUMBER_INT);
+            $adult = filter_var($_POST['adult'], FILTER_SANITIZE_NUMBER_INT);
+            $check_in_date = filter_var($_POST['check_in_date'], FILTER_SANITIZE_NUMBER_INT);
+            $check_out_date = filter_var($_POST['check_out_date'], FILTER_SANITIZE_NUMBER_INT);
+            $this->view('home/index', [
+                'rooms' => $this->roomModel->find_check_booking_availability($children, $adult,$check_in_date,$check_out_date),
+                'testimonials' => $this->testimonialModel->findAll(),
+                'carousels' => $this->carouselModel->findAll(),
+            ]);
+
+        } catch (exception $e) {
+            print_r($e->getMessage());
+            print_r('error bos');
+            $this->redirect('/', ['message' => 'data is not found']);
+        }
+    }
 
     public function test()
     {
@@ -97,7 +120,6 @@ class HomeController extends Controller
 
     public function detail($id)
     {
-
         print_r($id);
         $data = [
             'test' => $id

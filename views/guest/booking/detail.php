@@ -1,11 +1,17 @@
+
+<?php
+require('views/assets/php/getMessage.php');
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking Details</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Admin Dashboard</title>
+    <?php require('./views/assets/php/admin/links.php') ?>
     <style>
         body {
             background-color: #f7f7f7;
@@ -35,7 +41,30 @@
         }
     </style>
 </head>
-<body>
+<body class="bg-white ">
+<div class="container-fluid" id="main-content">
+    <div class="row">
+        <?php require('views/components/guest/header.php'); ?>
+
+        <div class="col-lg-10 ms-auto p-4 overflow-hidden">
+            <h3 class="mb-1">Detail Booking</h3>
+            <section class="mb-3">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Recipient's username"
+                           aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
+                </div>
+                <div class="d-flex gap-2">
+
+                    <!--                    <a href="/admin/room/create" class='btn btn-info'>Create</a>-->
+                    <a href="/guest/booking" class='btn btn-secondary'>All</a>
+                    <a href="/guest/booking/booking" class='btn btn-success'>Booking</a>
+                    <!--                    <a href="/guest/room/empty" class='btn btn-warning'>Pending</a>-->
+                    <a href="/guest/booking/cancel" class='btn btn-danger'>Cancel</a>
+                    <!--                    <a href="/guest/room/empty" class='btn btn-danger'>Pending</a>-->
+                    <!--                    <a href="/admin/room/renovated" class='btn btn-warning'>Renovated</a>-->
+                </div>
+            </section>
 <?php if (empty($booking)): ?>
     <div class="alert alert-info">
         <p> Room Is Not Found</p>
@@ -157,41 +186,48 @@
                 <!-- Booking Status -->
                     <div class="col-md-3 ">
                         <strong>Booking Status:</strong>
-                        <p id="bookingStatus" class="text-success">Confirmed</p>
+                        <?php if (isset($booking->status_booking) && $booking->status_booking === 'booking') : ?>
+                            <p id="bookingStatus" class="btn w-100 btn-success">Booking</p>
+                        <?php elseif (isset($booking->status_booking) && $booking->status_booking === 'cancel') : ?>
+                            <p id="bookingStatus" class="btn w-100 btn-danger">Canceled</p>
+                        <?php endif; ?>
                     </div>
             </div>
 
             <!-- Action Buttons -->
             <div class="d-flex justify-content-center mt-2">
                 <a href="/guest/booking" class=" btn btn-secondary me-2">Back</a>
-                <a href="#" class="btn btn-primary me-2">Edit Booking</a>
-                <?php if (isset($booking->status_booking) && $booking->status_booking === 'booking') : ?>
-                    <form action="/guest/booking/update-cancel"
-                          method="post">
-                        <input
-                                type="hidden"
-                                name="booking_id"
-                                value="<?= htmlspecialchars($booking->id_booking) ?>"
-                        />
-                        <button
-                                type="submit"
-                                class="btn w-100 btn-danger ">Cancel
-                        </button>
-                    </form>
-                <?php elseif (isset($booking->status_booking) && $booking->status_booking === 'cancel') : ?>
-                    <form action="/guest/booking/update-booking"
-                          method="post">
-                        <input
-                                type="hidden"
-                                name="booking_id"
-                                value="<?= htmlspecialchars($booking->id_booking) ?>"
-                        />
-                        <button
-                                type="submit"
-                                class="btn w-100 btn-success ">Booking
-                        </button>
-                    </form>
-                <?php endif; ?>
+
+                <a href="/guest/booking-edit/<?= $booking->id_booking ?>" class="btn btn-primary me-2">Edit Booking</a>
+                <a href="/guest/booking/print/<?= $booking->id_booking ?>" class="btn btn-info me-2">Print</a>
+<!--                access-->
+<!--                --><?php //if (isset($booking->status_booking) && $booking->status_booking === 'booking') : ?>
+<!--                    <form action="/guest/booking/update-cancel"-->
+<!--                          method="post">-->
+<!--                        <input-->
+<!--                                type="hidden"-->
+<!--                                name="booking_id"-->
+<!--                                value="--><?php //= htmlspecialchars($booking->id_booking) ?><!--"-->
+<!--                        />-->
+<!--                        <button-->
+<!--                                type="submit"-->
+<!--                                class="btn w-100 btn-danger ">Cancel-->
+<!--                        </button>-->
+<!--                    </form>-->
+<!--                --><?php //elseif (isset($booking->status_booking) && $booking->status_booking === 'cancel') : ?>
+<!--                    <form action="/guest/booking/update-booking"-->
+<!--                          method="post">-->
+<!--                        <input-->
+<!--                                type="hidden"-->
+<!--                                name="booking_id"-->
+<!--                                value="--><?php //= htmlspecialchars($booking->id_booking) ?><!--"-->
+<!--                        />-->
+<!--                        <button-->
+<!--                                type="submit"-->
+<!--                                class="btn w-100 btn-success ">Booking-->
+<!--                        </button>-->
+<!--                    </form>-->
+<!--                --><?php //endif; ?>
 
             </div>
         </div>

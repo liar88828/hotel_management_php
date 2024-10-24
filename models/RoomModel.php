@@ -59,17 +59,51 @@ class RoomModel
     }
 
 
-
     public function findHome()
     {
         $this->db->query("SELECT * FROM rooms LIMIT 3");
         return $this->db->resultSet();
     }
 
+    public function find_check_booking_availability(int $children,
+                                                    int $adult,
+                                                        $check_in_date,
+                                                        $check_out_date,
+    )
+    {
+//        SELECT * FROM rooms WHERE children <= 41 OR adult <= 4
+        $this->db->query("SELECT * 
+FROM rooms as r
+JOIN  booking as b
+ON   r.id = b.room_id
+         WHERE r.children <= :children 
+            OR r.adult <= :adult 
+            OR b.check_in_date >= :check_in_date 
+            OR b.check_out_date >= :check_out_date");
+        $this->db->bind(':children', $children);
+        $this->db->bind(':adult', $adult);
+        $this->db->bind(':check_in_date', $check_in_date);
+        $this->db->bind(':check_out_date', $check_out_date);
+        $response = $this->db->resultSet();
+//        print_r($response);
+        if ($response) {
+            return $response;
+        } else {
+            print_r($response);
+//            throw new Exception('data is not found');
+            throw new Exception('data is not found');
+        }
+    }
+
     public function findSearch()
     {
         $this->db->query("SELECT * FROM rooms ");
-        return $this->db->resultSet();
+        $response = $this->db->resultSet();
+        if ($response) {
+            return $response;
+        } else {
+            throw new Exception($response);
+        }
     }
 
 
@@ -90,7 +124,12 @@ class RoomModel
         $this->db->bind(':cctv', $data['cctv']);
         $this->db->bind(':dining_room', $data['dining_room']);
         $this->db->bind(':parking_area', $data['parking_area']);
-        return $this->db->resultSet();
+        $response = $this->db->resultSet();
+        if ($response) {
+            return $response;
+        } else {
+            throw new Exception($response);
+        }
     }
 
 
@@ -98,8 +137,14 @@ class RoomModel
     {
         $this->db->query("SELECT * FROM rooms where id = :id");
         $this->db->bind(':id', $id);
-        return $this->db->single();
+        $response = $this->db->single();
+        if ($response) {
+            return $response;
+        } else {
+            throw new Exception($response);
+        }
     }
+
     public function findIdGuest(int $guestId)
     {
         $this->db->query("
@@ -109,7 +154,12 @@ class RoomModel
             JOIN rooms r ON b.room_id = r.id
             WHERE b.guest_id = :guest_id");
         $this->db->bind(':guest_id', $guestId);
-        return $this->db->resultSet();
+        $response = $this->db->resultSet();
+        if ($response) {
+            return $response;
+        } else {
+            throw new Exception($response);
+        }
     }
 
 
@@ -117,7 +167,12 @@ class RoomModel
     {
         $this->db->query("DELETE FROM rooms where id = :id");
         $this->db->bind(':id', $id);
-        return $this->db->execute();
+        $response = $this->db->execute();
+        if ($response) {
+            return $response;
+        } else {
+            throw new Exception($response);
+        }
     }
 
 
@@ -168,7 +223,12 @@ class RoomModel
         $this->db->bind(':wardrobe', $data['wardrobe'] ?? 0, PDO::PARAM_INT);
         $this->db->bind(':security', isset($data['security']) ? 1 : 0);
         $this->db->bind(':image', $data['image']);
-        return $this->db->execute();
+        $response = $this->db->execute();
+        if ($response) {
+            return $response;
+        } else {
+            throw new Exception($response);
+        }
     }
 
     public function close()

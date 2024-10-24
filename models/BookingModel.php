@@ -129,6 +129,36 @@ class BookingModel
         return $this->db->execute();
     }
 
+
+    public function update_guest(int $id, int $guestId, $data)
+    {
+//        print_r($data);
+//        print_r('test');
+//                room_id = :room_id,
+        $this->db->query("UPDATE booking 
+            SET   
+                check_in_date = :check_in_date, 
+                check_out_date = :check_out_date, 
+                total_price = :total_price,
+                status = :status
+            WHERE id = :id AND guest_id = :guest_id");
+
+        $this->db->bind(':id', $id);
+        $this->db->bind(':guest_id', $guestId, PDO::PARAM_INT);
+        $this->db->bind(':status', $data['status']);
+        $this->db->bind(':check_in_date', $data['check_in_date']);
+        $this->db->bind(':check_out_date', $data['check_out_date']);
+        $this->db->bind(':total_price', $data['total_price'] ?: 0);
+        $response = $this->db->execute();
+        if ($response) {
+            return $response;
+        } else {
+            throw  new Exception($response);
+        }
+
+    }
+
+
     public function delete($id)
     {
         $this->db->query("DELETE FROM booking WHERE id = :id");

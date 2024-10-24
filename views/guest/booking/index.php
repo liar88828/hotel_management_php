@@ -18,7 +18,7 @@ require('views/assets/php/getMessage.php');
         <?php require('views/components/guest/header.php'); ?>
 
         <div class="col-lg-10 ms-auto p-4 overflow-hidden">
-            <h3 class="mb-1">Rooms</h3>
+            <h3 class="mb-1">Booking</h3>
             <section class="mb-3">
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" placeholder="Recipient's username"
@@ -30,7 +30,7 @@ require('views/assets/php/getMessage.php');
                     <!--                    <a href="/admin/room/create" class='btn btn-info'>Create</a>-->
                     <a href="/guest/booking" class='btn btn-secondary'>All</a>
                     <a href="/guest/booking/booking" class='btn btn-success'>Booking</a>
-<!--                    <a href="/guest/room/empty" class='btn btn-warning'>Pending</a>-->
+                    <!--                    <a href="/guest/room/empty" class='btn btn-warning'>Pending</a>-->
                     <a href="/guest/booking/cancel" class='btn btn-danger'>Cancel</a>
                     <!--                    <a href="/guest/room/empty" class='btn btn-danger'>Pending</a>-->
                     <!--                    <a href="/admin/room/renovated" class='btn btn-warning'>Renovated</a>-->
@@ -102,15 +102,25 @@ require('views/assets/php/getMessage.php');
                                         ?>/night
                                     </h6>
 
+
                                     <a href="/guest/booking/<?= $room->id_booking ?>"
                                        class="btn w-100 btn-outline-dark mb-2">
                                         More Details
                                     </a>
+
                                     <?php if (isset($room->status_booking) && $room->status_booking === 'cancel') : ?>
-                                            <div class="btn w-100 btn-danger ">Cancel</div>
+                                        <div class="btn w-100 btn-danger ">Cancel</div>
                                     <?php elseif (isset($room->status_booking) && $room->status_booking === 'booking') : ?>
                                         <div class="btn w-100 btn-success ">Booking</div>
                                     <?php endif; ?>
+
+                                    <div class="mt-2">
+                                        <a href="/guest/booking/print/<?= $room->id_booking ?>"
+                                           class="btn btn-success w-100">
+                                            print
+                                        </a>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
