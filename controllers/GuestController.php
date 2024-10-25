@@ -134,7 +134,8 @@ class GuestController extends Controller
         $guestId = $session->id;
 
         $this->view('guest/booking/index',
-            ['bookings' => $this->roomModel->findIdGuest($guestId)]
+            ['bookings' => $this->roomModel->findIdGuest($guestId),
+            ]
         );
     }
 

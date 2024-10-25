@@ -1,3 +1,6 @@
+<?php
+require('views/assets/php/getMessage.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,10 +14,10 @@
 <?php require('./views/components/header.php'); ?>
 
 <div class="my-5 px-4">
+    <?php showMessage() ?>
     <h2 class="fw-bold h-font text-center">Rooms</h2>
     <div class="h-line bg-dark"></div>
 </div>
-
 <div class="container">
     <div class="row">
         <div class="col-lg-3 col-md-12 mb-lg-0 mb-4 px-lg-0">
@@ -34,25 +37,43 @@
 
                         <div class="border bg-light p-3 rounded mb-3">
                             <h5 class="mb-3 mt-3" style="font-size: 18px;">CHECK AVAILABILITY</h5>
-                            <label class="form-label">Check-in</label>
-                            <input type="date" class="form-control shadow-none mb-3">
-                            <label class="form-label">Check-out</label>
-                            <input type="date" class="form-control shadow-none">
+                            <label class="form-label " for="check_in_date">Check-in</label>
+                            <input type="date" class="form-control shadow-none mb-3" name="check_in_date"
+                                   id="check_in_date">
+                            <label class="form-label" for="check_out_date">Check-out</label>
+                            <input type="date" class="form-control shadow-none" name="check_out_date"
+                                   id="check_out_date">
                         </div>
 
                         <div class="border bg-light p-3 rounded mb-3">
                             <h5 class="mb-3" style="font-size: 18px;">FACILITIES</h5>
                             <div class="mb-2">
-                                <input type="checkbox" id="f1" class="form-check-input shadow-none me-1">
-                                <label class="form-check-label" for="f1">Facilities one</label>
+                                <input type="checkbox" id="f1" class="form-check-input shadow-none me-1" name="television">
+                                <label class="form-check-label" for="f1" >Television</label>
                             </div>
                             <div class="mb-2">
-                                <input type="checkbox" id="f2" class="form-check-input shadow-none me-1">
-                                <label class="form-check-label" for="f2">Facilities two</label>
+                                <input type="checkbox" id="f2" class="form-check-input shadow-none me-1" name="wifi">
+                                <label class="form-check-label" for="f2" >Wifi</label>
                             </div>
                             <div class="mb-2">
-                                <input type="checkbox" id="f3" class="form-check-input shadow-none me-1">
-                                <label class="form-check-label" for="f3">Facilities three</label>
+                                <input type="checkbox" id="f3" class="form-check-input shadow-none me-1" name="ac">
+                                <label class="form-check-label" for="f3" >AC</label>
+                            </div>
+                            <div class="mb-2">
+                                <input type="checkbox" id="f3" class="form-check-input shadow-none me-1" name="cctv">
+                                <label class="form-check-label" for="f3"  >CCTV</label>
+                            </div>
+                            <div class="mb-2">
+                                <input type="checkbox" id="f3" class="form-check-input shadow-none me-1" name="dining_room">
+                                <label class="form-check-label" for="f3"   >Dining Room</label>
+                            </div>
+                            <div class="mb-2">
+                                <input type="checkbox" id="f3" class="form-check-input shadow-none me-1" name="parking_area">
+                                <label class="form-check-label" for="f3"   >Parking Area</label>
+                            </div>
+                            <div class="mb-2">
+                                <input type="checkbox" id="f3" class="form-check-input shadow-none me-1" name="security">
+                                <label class="form-check-label" for="f3"   >Security</label>
                             </div>
                         </div>
 
@@ -60,12 +81,12 @@
                             <h5 class="mb-3" style="font-size: 18px;">GUESTS</h5>
                             <div class="d-flex">
                                 <div class="me-3">
-                                    <label class="form-label">Adults</label>
-                                    <input type="number" class="form-control shadow-none">
+                                    <label class="form-label" for="adult">Adults</label>
+                                    <input type="number" class="form-control shadow-none" id="adult" name="adult">
                                 </div>
                                 <div>
-                                    <label class="form-label">Children</label>
-                                    <input type="number" class="form-control shadow-none">
+                                    <label class="form-label" for="children">Children</label>
+                                    <input type="number" class="form-control shadow-none" id="children" name="children">
                                 </div>
                             </div>
                         </div>

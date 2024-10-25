@@ -92,10 +92,10 @@ require('views/assets/php/getMessage.php');
         }
     </style>
 </head>
-<body class="bg-white ">
-<div class="container-fluid" id="main-content">
+<body>
+<?php require('views/components/guest/header.php'); ?>
+<div>
     <div class="row">
-        <?php require('views/components/guest/header.php'); ?>
 
         <div class="col-lg-10 ms-auto p-4 overflow-hidden">
             <?php showMessage() ?>
@@ -120,7 +120,7 @@ require('views/assets/php/getMessage.php');
                                 <p><strong>Area:</strong> <?= htmlspecialchars($room->area) ?> m²</p>
                                 <p><strong>Price:</strong> Rp. <?= number_format($room->price, 0, ',', '.') ?>/night</p>
 
-                                <input type="hidden" value="<?=$room->price?>" id="thisPrice">
+                                <input type="hidden" value="<?= $room->price ?>" id="thisPrice">
 
                                 <p><strong>Status:</strong> <span
                                             class="badge rounded-pill text-bg-<?= $room->status == 1 ? 'success' : 'danger' ?>"><?= htmlspecialchars($room->status == 1 ? 'Available' : 'Unavailable') ?></span>
@@ -166,25 +166,31 @@ require('views/assets/php/getMessage.php');
                         <!-- Booking Form -->
                         <form action="/guest/booking/create" method="POST">
                             <!-- Guest Name -->
-                                <input type="hidden"  name="roomId" value="<?= $room->id ?>">
+                            <input type="hidden" name="roomId" value="<?= $room->id ?>">
 
                             <!-- Check-in and Check-out Dates -->
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="checkInDate" class="form-label"><i class="fas fa-calendar-alt"></i> Check-In Date</label>
-                                    <input type="date" class="form-control" id="checkInDate" name="check_in_date" required onchange="calculateTotal()">
+                                    <label for="checkInDate" class="form-label"><i class="fas fa-calendar-alt"></i>
+                                        Check-In Date</label>
+                                    <input type="date" class="form-control" id="checkInDate" name="check_in_date"
+                                           required onchange="calculateTotal()">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="checkOutDate" class="form-label"><i class="fas fa-calendar-alt"></i> Check-Out Date</label>
-                                    <input type="date" class="form-control" id="checkOutDate" name="check_out_date" required onchange="calculateTotal()">
+                                    <label for="checkOutDate" class="form-label"><i class="fas fa-calendar-alt"></i>
+                                        Check-Out Date</label>
+                                    <input type="date" class="form-control" id="checkOutDate" name="check_out_date"
+                                           required onchange="calculateTotal()">
                                 </div>
                             </div>
 
 
                             <!-- Total Price (calculated based on room selection and dates) -->
                             <div class="mb-3">
-                                <label for="totalPrice" class="form-label"><i class="fas fa-dollar-sign"></i> Total Price</label>
-                                <input type="number" class="form-control" id="totalPrice" name="total_price" placeholder="Calculated Total" readonly min="1">
+                                <label for="totalPrice" class="form-label"><i class="fas fa-dollar-sign"></i> Total
+                                    Price</label>
+                                <input type="number" class="form-control" id="totalPrice" name="total_price"
+                                       placeholder="Calculated Total" readonly min="1">
                             </div>
 
                             <!-- Booking Status -->
@@ -193,8 +199,8 @@ require('views/assets/php/getMessage.php');
                                     Status</label>
                                 <select class="form-select" id="statusSelect" name="status">
                                     <option value="booked">Booked</option>
-<!--                                    <option value="pending">Pending</option>-->
-<!--                                    <option value="cancelled">Cancelled</option>-->
+                                    <!--                                    <option value="pending">Pending</option>-->
+                                    <!--                                    <option value="cancelled">Cancelled</option>-->
                                 </select>
                             </div>
 
@@ -222,7 +228,7 @@ require('views/assets/php/getMessage.php');
 <script>
 	// const pricePerNight = 200;
 	// const pricePerNight = 200;
-		const pricePerNight = document.getElementById('thisPrice').value;
+	const pricePerNight = document.getElementById('thisPrice').value;
 
 	function calculateTotal() {
 		const checkInDate = document.getElementById('checkInDate').value;

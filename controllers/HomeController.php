@@ -43,7 +43,7 @@ class HomeController extends Controller
             $check_in_date = filter_var($_POST['check_in_date'], FILTER_SANITIZE_NUMBER_INT);
             $check_out_date = filter_var($_POST['check_out_date'], FILTER_SANITIZE_NUMBER_INT);
             $this->view('home/index', [
-                'rooms' => $this->roomModel->find_check_booking_availability($children, $adult,$check_in_date,$check_out_date),
+                'rooms' => $this->roomModel->find_check_booking_availability($children, $adult, $check_in_date, $check_out_date),
                 'testimonials' => $this->testimonialModel->findAll(),
                 'carousels' => $this->carouselModel->findAll(),
             ]);
@@ -69,17 +69,33 @@ class HomeController extends Controller
         $this->view('home/room', $data);
     }
 
-    public function room_search($id)
+    public function room_search()
     {
         try {
             mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                $data = ['room' => $this->roomModel->findSearch($_POST)];
-                $this->view('home/room', $data);
-            }
 
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                $data = [
+                    'children' => filter_var($_POST['children'], FILTER_SANITIZE_NUMBER_INT),
+                    'adult' => filter_var($_POST['adult'], FILTER_SANITIZE_NUMBER_INT),
+//
+                    "wifi" =>  isset($_POST['wifi']) ? 1 : 0,
+                    "television" =>  isset($_POST['television']) ? 1 : 0,
+                    "ac" =>  isset($_POST['ac']) ? 1 : 0,
+                    "cctv" =>  isset($_POST['cctv']) ? 1 : 0,
+                    "dining_room" =>  isset($_POST['dining_room']) ? 1 : 0,
+                    "parking_area" =>  isset($_POST['parking_area']) ? 1 : 0,
+                    "security" =>  isset($_POST['security']) ? 1 : 0,
+//
+                    'check_in_date' => filter_var($_POST['check_in_date']),
+                    'check_out_date' => filter_var($_POST['check_out_date'], FILTER_SANITIZE_NUMBER_INT),
+                ];
+                $this->view('home/room',
+                    ['rooms' => $this->roomModel->findSearch($data)]
+                );
+            }
         } catch (Exception $e) {
-            echo "Error: " . $e->getMessage();
+            $this->redirect('/room', ['message' => 'data is not found']);
         }
     }
 

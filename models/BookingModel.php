@@ -13,6 +13,39 @@ class BookingModel
     }
 
 
+    public function countBooking()
+    {
+        $this->db->query("SELECT COUNT(*) as count_booking 
+                                    FROM booking as b ");
+        return $this->db->single();
+    }
+
+
+
+
+    public function countBookingRoom()
+    {
+        $this->db->query("SELECT COUNT(*) as count_booking_room 
+                                    FROM booking as b 
+                                    JOIN rooms r on r.id = b.room_id ");
+        return $this->db->single();
+    }
+    public function countBookingGuest()
+    {
+        $this->db->query("SELECT COUNT(*) as count_booking_guest 
+                                    FROM booking as b 
+                                    JOIN guest g on g.id = b.guest_id ");
+        return $this->db->single();
+    }
+
+   public function countGuestBooking()
+    {
+        $this->db->query("SELECT COUNT(*) as count_guest_booking 
+                                    FROM booking as b 
+                                    JOIN guest g on g.id = b.guest_id ");
+        return $this->db->single();
+    }
+
     public function findAll()
     {
         $this->db->query("SELECT * FROM booking");

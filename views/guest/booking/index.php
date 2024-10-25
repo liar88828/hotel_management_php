@@ -1,9 +1,6 @@
 <?php
 require('views/assets/php/getMessage.php');
-
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,10 +10,9 @@ require('views/assets/php/getMessage.php');
     <?php require('./views/assets/php/admin/links.php') ?>
 </head>
 <body class="bg-white ">
-<div class="container-fluid" id="main-content">
+<?php require('views/components/guest/header.php'); ?>
+<div class="container-fluid">
     <div class="row">
-        <?php require('views/components/guest/header.php'); ?>
-
         <div class="col-lg-10 ms-auto p-4 overflow-hidden">
             <h3 class="mb-1">Booking</h3>
             <section class="mb-3">
@@ -27,70 +23,71 @@ require('views/assets/php/getMessage.php');
                 </div>
                 <div class="d-flex gap-2">
 
-                    <!--                    <a href="/admin/room/create" class='btn btn-info'>Create</a>-->
                     <a href="/guest/booking" class='btn btn-secondary'>All</a>
                     <a href="/guest/booking/booking" class='btn btn-success'>Booking</a>
-                    <!--                    <a href="/guest/room/empty" class='btn btn-warning'>Pending</a>-->
                     <a href="/guest/booking/cancel" class='btn btn-danger'>Cancel</a>
-                    <!--                    <a href="/guest/room/empty" class='btn btn-danger'>Pending</a>-->
-                    <!--                    <a href="/admin/room/renovated" class='btn btn-warning'>Renovated</a>-->
                 </div>
             </section>
             <section>
                 <?php if (empty($bookings)): ?>
                     <p>No rooms available.</p>
                 <?php else: ?>
-                    <?php foreach ($bookings as $room): ?>
+                    <?php foreach ($bookings as $booking): ?>
                         <div class="card mb-4 border-0 shadow">
                             <div class="row g-0 p-3 align-items-center">
                                 <div class="col-md-5 mb-lg-0 mb-md-0 mb-3">
-                                    <img src="/images/rooms/<?= htmlspecialchars($room->image) ?>"
+                                    <img src="/images/rooms/<?= htmlspecialchars($booking->image) ?>"
                                          class="img-fluid rounded "
                                          height="200"
                                          width="200"
-                                         alt="<?= htmlspecialchars($room->name) ?>"
+                                         alt="<?= htmlspecialchars($booking->name) ?>"
                                     >
                                 </div>
                                 <div class="col-md-5 px-lg-3 px-md-3 px-0">
-                                    <h5 class="mb-1"><?= htmlspecialchars($room->name) ?>
-                                        <span class="badge rounded-pill text-bg-<?= $room->status == 1 ? 'success' : 'danger' ?> ">
-                                        <?= htmlspecialchars($room->status == 1 ? 'Available' : 'Unavailable') ?>
+                                    <h5 class=""><?= htmlspecialchars($booking->name) ?>
+                                        <span class="badge rounded-pill text-bg-<?= $booking->status_booking == 1 ? 'success' : 'danger' ?> ">
+                                        <?= htmlspecialchars($booking->status_booking == 1 ? 'Available' : 'Unavailable') ?>
                                       </span>
                                     </h5>
+                                    <div class="d-flex gap-3">
+                                        <p class="badge rounded-pill text-bg-info ">In : <?= htmlspecialchars($booking->check_in_date) ?></p>
+                                        <p class="badge rounded-pill text-bg-info">Out : <?= htmlspecialchars($booking->check_out_date) ?></p>
+                                    </div>
+
                                     <div class="features mb-3">
                                         <h6 class="mb-1">Features</h6>
-                                        <span class="badge rounded-pill text-bg-light text-wrap"><?= htmlspecialchars($room->bedrooms) ?> Bedrooms</span>
-                                        <span class="badge rounded-pill text-bg-light text-wrap"><?= htmlspecialchars($room->bathrooms) ?> Bathrooms</span>
-                                        <span class="badge rounded-pill text-bg-light text-wrap"><?= htmlspecialchars($room->wardrobe) ?> Wardrobe</span>
+                                        <span class="badge rounded-pill text-bg-light text-wrap"><?= htmlspecialchars($booking->bedrooms) ?> Bedrooms</span>
+                                        <span class="badge rounded-pill text-bg-light text-wrap"><?= htmlspecialchars($booking->bathrooms) ?> Bathrooms</span>
+                                        <span class="badge rounded-pill text-bg-light text-wrap"><?= htmlspecialchars($booking->wardrobe) ?> Wardrobe</span>
                                     </div>
                                     <div class="facilities mb-3">
                                         <h6 class="mb-1">Facilities</h6>
-                                        <?php if ($room->wifi): ?>
+                                        <?php if ($booking->wifi): ?>
                                             <span class="badge rounded-pill text-bg-light text-wrap">Wi-Fi</span>
                                         <?php endif; ?>
-                                        <?php if ($room->television): ?>
+                                        <?php if ($booking->television): ?>
                                             <span class="badge rounded-pill text-bg-light text-wrap">Television</span>
                                         <?php endif; ?>
-                                        <?php if ($room->ac): ?>
+                                        <?php if ($booking->ac): ?>
                                             <span class="badge rounded-pill text-bg-light text-wrap">AC</span>
                                         <?php endif; ?>
-                                        <?php if ($room->cctv): ?>
+                                        <?php if ($booking->cctv): ?>
                                             <span class="badge rounded-pill text-bg-light text-wrap">CCTV</span>
                                         <?php endif; ?>
-                                        <?php if ($room->dining_room): ?>
+                                        <?php if ($booking->dining_room): ?>
                                             <span class="badge rounded-pill text-bg-light text-wrap">Dining Room</span>
                                         <?php endif; ?>
-                                        <?php if ($room->parking_area): ?>
+                                        <?php if ($booking->parking_area): ?>
                                             <span class="badge rounded-pill text-bg-light text-wrap">Parking Area</span>
                                         <?php endif; ?>
                                     </div>
                                     <div class="guests">
                                         <h6 class="mb-1">Guests</h6>
-                                        <?php if ($room->adult > 0) {
-                                            echo "<span class='badge rounded-pill text-bg-light text-wrap'> $room->adult Adults </span>";
+                                        <?php if ($booking->adult > 0) {
+                                            echo "<span class='badge rounded-pill text-bg-light text-wrap'> $booking->adult Adults </span>";
                                         } ?>
-                                        <?php if ($room->children > 0) {
-                                            echo "<span class='badge rounded-pill text-bg-light text-wrap'> $room->adult Children </span>";
+                                        <?php if ($booking->children > 0) {
+                                            echo "<span class='badge rounded-pill text-bg-light text-wrap'> $booking->adult Children </span>";
                                         } ?>
                                     </div>
                                 </div>
@@ -98,24 +95,24 @@ require('views/assets/php/getMessage.php');
                                     <h6 class="mb-1">
                                         <?php
                                         setlocale(LC_MONETARY, "id_ID");
-                                        echo "Rp. " . number_format((int)$room->price, 0, ',', '.');
+                                        echo "Rp. " . number_format((int)$booking->price, 0, ',', '.');
                                         ?>/night
                                     </h6>
 
 
-                                    <a href="/guest/booking/<?= $room->id_booking ?>"
+                                    <a href="/guest/booking/<?= $booking->id_booking ?>"
                                        class="btn w-100 btn-outline-dark mb-2">
                                         More Details
                                     </a>
 
-                                    <?php if (isset($room->status_booking) && $room->status_booking === 'cancel') : ?>
+                                    <?php if (isset($booking->status_booking) && $booking->status_booking === 'cancel') : ?>
                                         <div class="btn w-100 btn-danger ">Cancel</div>
-                                    <?php elseif (isset($room->status_booking) && $room->status_booking === 'booking') : ?>
+                                    <?php elseif (isset($booking->status_booking) && $booking->status_booking === 'booking') : ?>
                                         <div class="btn w-100 btn-success ">Booking</div>
                                     <?php endif; ?>
 
                                     <div class="mt-2">
-                                        <a href="/guest/booking/print/<?= $room->id_booking ?>"
+                                        <a href="/guest/booking/print/<?= $booking->id_booking ?>"
                                            class="btn btn-success w-100">
                                             print
                                         </a>

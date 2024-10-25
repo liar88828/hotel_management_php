@@ -12,10 +12,10 @@ require('views/assets/php/getMessage.php');
     <title>Admin Dashboard</title>
     <?php require('./views/assets/php/admin/links.php') ?>
 </head>
-<body class="bg-white ">
+<body>
+<?php require('views/components/guest/header.php'); ?>
 <div class="container-fluid" id="main-content">
     <div class="row">
-        <?php require('views/components/guest/header.php'); ?>
 
         <div class="col-lg-10 ms-auto p-4 overflow-hidden">
             <h3 class="mb-1">Rooms</h3>

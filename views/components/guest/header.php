@@ -1,7 +1,7 @@
 <?php
 getSessionGuest()
 ?>
-<div class="container-fluid bg-dark text-light p-3 d-flex align-items-center justify-content-between sticky-top">
+<div class=" bg-dark text-light p-3 d-flex align-items-center justify-content-between ">
     <h3 class="mb-0 h-font">ASRAMA DIKLAT</h3>
     <form action="/auth/logout" method="POST">
         <button type="submit" class="btn btn-light btn-sm">
@@ -23,17 +23,22 @@ getSessionGuest()
             <div class="collapse navbar-collapse flex-column align-items-stretch mt-2" id="adminDropdown">
                 <ul class="nav nav-pills flex-column">
                     <li class="nav-item">
+                        <a class="nav-link text-white" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link text-white" href="/guest/profile">Profile</a>
                     </li>
 <!--                    <li class="nav-item">-->
 <!--                        <a class="nav-link text-white" href="/guest/history">History</a>-->
 <!--                    </li>-->
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="/guest/room">Rooms</a>
-                    </li>
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link text-white" href="/guest/room">Rooms</a>-->
+<!--                    </li>-->
                     <li class="nav-item">
                         <a class="nav-link text-white" href="/guest/booking">Booking</a>
                     </li>
+
+
 
                 </ul>
             </div>

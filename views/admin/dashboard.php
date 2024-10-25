@@ -21,21 +21,30 @@ adminLogin();
                 <h2>User Management</h2>
                 <div class="row gap-5 p-2">
                     <div class="card bg-light " style="max-width: 18rem; height: 10rem;">
-                        <div class="card-header fw-bold">User Active</div>
+                        <div class="card-header fw-bold">User All</div>
                         <div class="card-body text-center">
-                            <h5 class="card-title fs-2">10</h5>
+                            <h5 class="card-title fs-2">
+                                <?= htmlspecialchars($count_guest->count_guest ?? 0) ?>
+
+
+                            </h5>
                         </div>
                     </div>
                     <div class="card bg-light mb-3" style="max-width: 18rem; height: 10rem;">
-                        <div class="card-header fw-bold">Total User</div>
+                        <div class="card-header fw-bold">User Booking</div>
                         <div class="card-body text-center">
-                            <h5 class="card-title fs-2">10</h5>
+
+                            <h5 class="card-title fs-2">
+                                <?= htmlspecialchars($count_guest_booking->count_guest_booking ?? 0) ?>
+                            </h5>
                         </div>
                     </div>
                     <div class="card bg-light mb-3" style="max-width: 18rem; height: 10rem;">
                         <div class="card-header fw-bold">User Checkout</div>
                         <div class="card-body text-center">
-                            <h5 class="card-title fs-2">10</h5>
+                            <h5 class="card-title fs-2">
+                                ????
+                            </h5>
                         </div>
                     </div>
                 </div>
@@ -46,45 +55,61 @@ adminLogin();
                 <h2>Room Management</h2>
                 <div class="row gap-5 p-2">
                     <div class="card bg-light " style="max-width: 18rem; height: 10rem;">
+                        <div class="card-header fw-bold">All Room</div>
+                        <div class="card-body text-center">
+                            <h5 class="card-title fs-2">
+                                <?= htmlspecialchars($count_room->count_room ?? 0) ?>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="card bg-light " style="max-width: 18rem; height: 10rem;">
                         <div class="card-header fw-bold">Room Active</div>
                         <div class="card-body text-center">
-                            <h5 class="card-title fs-2">10</h5>
+                            <h5 class="card-title fs-2">
+                                <?= htmlspecialchars($count_room_active->count_room_active ?? 0) ?>
+                            </h5>
                         </div>
                     </div>
                     <div class="card bg-light mb-3" style="max-width: 18rem; height: 10rem;">
-                        <div class="card-header fw-bold">Total Room</div>
+                        <div class="card-header fw-bold">Room Empty</div>
                         <div class="card-body text-center">
-                            <h5 class="card-title fs-2">10</h5>
-                        </div>
-                    </div>
-                    <div class="card bg-light mb-3" style="max-width: 18rem; height: 10rem;">
-                        <div class="card-header fw-bold">Room Renovated</div>
-                        <div class="card-body text-center">
-                            <h5 class="card-title fs-2">10</h5>
+                            <h5 class="card-title fs-2">
+                                <?= htmlspecialchars($count_room_empty->count_room_empty ?? 0) ?>
+
+                            </h5>
                         </div>
                     </div>
                 </div>
             </section>
 
             <section class=" border p-3">
-                <h2>Room Management</h2>
+                <h2>Booking Management</h2>
                 <div class="row gap-5 p-2">
+                    <div class="card bg-light mb-3" style="max-width: 18rem; height: 10rem;">
+                        <div class="card-header fw-bold">All Booking</div>
+                        <div class="card-body text-center">
+                            <h5 class="card-title fs-2">
+                                <?= htmlspecialchars($count_booking->count_booking ?? 0) ?>
+                            </h5>
+                        </div>
+                    </div>
+
                     <div class="card bg-light " style="max-width: 18rem; height: 10rem;">
-                        <div class="card-header fw-bold">User Active</div>
+                        <div class="card-header fw-bold">Room Booking</div>
                         <div class="card-body text-center">
-                            <h5 class="card-title fs-2">10</h5>
+                            <h5 class="card-title fs-2">
+                                <?= htmlspecialchars($count_room_booking->count_room_booking ?? 0) ?>
+
+                            </h5>
                         </div>
                     </div>
+
                     <div class="card bg-light mb-3" style="max-width: 18rem; height: 10rem;">
-                        <div class="card-header fw-bold">Total User</div>
+                        <div class="card-header fw-bold">Guest Booking</div>
                         <div class="card-body text-center">
-                            <h5 class="card-title fs-2">10</h5>
-                        </div>
-                    </div>
-                    <div class="card bg-light mb-3" style="max-width: 18rem; height: 10rem;">
-                        <div class="card-header fw-bold">User Checkout</div>
-                        <div class="card-body text-center">
-                            <h5 class="card-title fs-2">10</h5>
+                            <h5 class="card-title fs-2">
+                                <?= htmlspecialchars($count_booking_guest->count_booking_guest ?? 0) ?>
+                            </h5>
                         </div>
                     </div>
                 </div>

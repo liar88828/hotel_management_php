@@ -52,4 +52,9 @@ class AdminModel
     {
         $this->db->close();
     }
+
+    public function total($data){
+
+    }
+
 }

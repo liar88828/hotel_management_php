@@ -13,6 +13,22 @@ class GuestModel
     }
 
 
+    public function countGuest()
+    {
+        $this->db->query("SELECT  COUNT(*) as count_guest FROM guest");
+        return $this->db->single();
+    }
+
+    public function countAllGuestsBooking()
+    {
+        $this->db->query("SELECT  COUNT(*) as count_guest_booking FROM guest as g 
+        JOIN  booking as b
+        ON g.id = b.guest_id
+");
+        return $this->db->resultSet();
+    }
+
+
     public function findAll()
     {
         $this->db->query("SELECT * FROM guest");

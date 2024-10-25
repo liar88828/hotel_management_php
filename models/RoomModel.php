@@ -12,6 +12,24 @@ class RoomModel
     {
         $this->db = new Database;
     }
+    public function countRoom(){
+        $this->db->query("SELECT COUNT(id) as count_room FROM rooms ");
+        return $this->db->single();
+    }
+public function countRoomActive(){
+    $this->db->query("SELECT COUNT(id) as count_room_active FROM rooms where status = 1");
+    return $this->db->single();
+}
+
+    public function countRoomEmpty(){
+        $this->db->query("SELECT COUNT(id) as count_room_empty FROM rooms where status = 0");
+        return $this->db->single();
+    }
+
+    public function countRoomBooking(){
+        $this->db->query("SELECT COUNT(r.id) as count_room_booking FROM rooms as r JOIN hotel.booking b on r.id = b.room_id");
+        return $this->db->single();
+    }
 
 
     public function create($data)
@@ -72,14 +90,31 @@ class RoomModel
     )
     {
 //        SELECT * FROM rooms WHERE children <= 41 OR adult <= 4
-        $this->db->query("SELECT * 
-FROM rooms as r
-JOIN  booking as b
-ON   r.id = b.room_id
-         WHERE r.children <= :children 
-            OR r.adult <= :adult 
-            OR b.check_in_date >= :check_in_date 
-            OR b.check_out_date >= :check_out_date");
+        $this->db->query(
+            "SELECT *
+                FROM rooms as r
+                JOIN  booking as b
+                ON   r.id = b.room_id
+                WHERE r.children <= :children
+                OR r.adult <= :adult
+                OR b.check_in_date >= :check_in_date
+                AND b.check_out_date >= :check_out_date
+                ");
+
+//        $this->db->query("
+//    SELECT *
+//    FROM rooms AS r
+//    LEFT JOIN booking AS b ON r.id = b.room_id
+//    WHERE r.children <= :children
+//      AND r.adult <= :adult
+//      AND (
+//          b.check_in_date IS NULL
+//          OR b.check_out_date IS NULL
+//          OR (b.check_in_date NOT BETWEEN :check_in_date AND :check_out_date
+//          AND b.check_out_date NOT BETWEEN :check_in_date AND :check_out_date)
+//      )
+//");
+
         $this->db->bind(':children', $children);
         $this->db->bind(':adult', $adult);
         $this->db->bind(':check_in_date', $check_in_date);
@@ -95,13 +130,93 @@ ON   r.id = b.room_id
         }
     }
 
-    public function findSearch()
+    public function findSearch($data)
     {
-        $this->db->query("SELECT * FROM rooms ");
+        //            JOIN hotel.booking b
+//                ON r.id = b.room_id
+
+        $this->db->query("SELECT * 
+    FROM rooms AS r
+    WHERE (r.wifi = :wifi OR r.television = :television OR r.ac = :ac OR r.cctv = :cctv OR r.dining_room = :dining_room OR r.parking_area = :parking_area OR r.security = :security)
+    AND r.status = 1
+    AND (r.children <= :children OR r.adult <= :adult)
+    
+        AND NOT EXISTS (    SELECT 1
+        FROM booking AS b
+        WHERE b.room_id = r.id
+        AND b.check_in_date < :check_out_date
+        AND b.check_out_date > :check_in_date
+    )
+");
+
+
+
+        $this->db->bind(':wifi', $data['wifi']);
+        $this->db->bind(':television', $data['television']);
+        $this->db->bind(':ac', $data['ac']);
+        $this->db->bind(':cctv', $data['cctv']);
+        $this->db->bind(':dining_room', $data['dining_room']);
+        $this->db->bind(':parking_area', $data['parking_area']);
+        $this->db->bind(':security', $data['security']);
+//
+        $this->db->bind(':children', $data['children']);
+        $this->db->bind(':adult', $data['adult']);
+//
+        $this->db->bind(':check_in_date', $data['check_in_date']);
+        $this->db->bind(':check_out_date', $data['check_out_date']);
+
         $response = $this->db->resultSet();
         if ($response) {
             return $response;
         } else {
+            if (count($response) == 0) {
+                throw new Exception('data is not found');
+            }
+            throw new Exception($response);
+        }
+    }
+
+    public function findSearchx($data)
+    {
+        $this->db->query("SELECT * 
+            FROM rooms AS r
+            WHERE r.children <= :children
+              OR r.adult <= :adult
+              OR r.wifi<= :wifi
+              OR r.television<= :television
+              OR r.ac<= :ac
+              OR r.cctv<= :cctv
+              OR r.dining_room<= :dining_room
+              OR r.parking_area<= :parking_area
+              OR r.security<= :security
+              OR r.status<= 0
+                AND NOT EXISTS (
+                    SELECT 1
+                    FROM booking AS b
+                    WHERE b.room_id = r.id
+                    AND (
+                        (b.check_in_date <= :check_out_date AND b.check_out_date >= :check_in_date)
+                    )
+                )
+            ");
+        $this->db->bind(':children', $data['children']);
+        $this->db->bind(':adult', $data['adult']);
+        $this->db->bind(':wifi', $data['wifi']);
+        $this->db->bind(':television', $data['television']);
+        $this->db->bind(':ac', $data['ac']);
+        $this->db->bind(':cctv', $data['cctv']);
+        $this->db->bind(':dining_room', $data['dining_room']);
+        $this->db->bind(':parking_area', $data['parking_area']);
+        $this->db->bind(':security', $data['security']);
+        $this->db->bind(':check_in_date', $data['check_in_date']);
+        $this->db->bind(':check_out_date', $data['check_out_date']);
+        $response = $this->db->resultSet();
+        if ($response) {
+            return $response;
+        } else {
+            if (count($response) == 0) {
+                throw new Exception('data is not found');
+            }
             throw new Exception($response);
         }
     }
