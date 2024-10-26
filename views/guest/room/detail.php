@@ -164,22 +164,25 @@ require('views/assets/php/getMessage.php');
 
                     <div class="card-body  border rounded p-2">
                         <!-- Booking Form -->
-                        <form action="/guest/booking/create" method="POST">
+                        <form action="/guest/booking-create" method="POST">
                             <!-- Guest Name -->
-                            <input type="hidden" name="roomId" value="<?= $room->id ?>">
+                            <input type="hidden" name="id_room" value="<?= $room->id ?>">
 
                             <!-- Check-in and Check-out Dates -->
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="checkInDate" class="form-label"><i class="fas fa-calendar-alt"></i>
                                         Check-In Date</label>
+                                    <!--                                    --><?php //print_r(getForm()) ?>
                                     <input type="date" class="form-control" id="checkInDate" name="check_in_date"
+                                           value="<?php print_r(getForm()['check_in_date']) ?>"
                                            required onchange="calculateTotal()">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="checkOutDate" class="form-label"><i class="fas fa-calendar-alt"></i>
                                         Check-Out Date</label>
                                     <input type="date" class="form-control" id="checkOutDate" name="check_out_date"
+                                           value="<?php print_r(getForm()['check_out_date']) ?>"
                                            required onchange="calculateTotal()">
                                 </div>
                             </div>
@@ -190,7 +193,11 @@ require('views/assets/php/getMessage.php');
                                 <label for="totalPrice" class="form-label"><i class="fas fa-dollar-sign"></i> Total
                                     Price</label>
                                 <input type="number" class="form-control" id="totalPrice" name="total_price"
-                                       placeholder="Calculated Total" readonly min="1">
+                                       placeholder="Calculated Total" readonly min="1"
+                                       value="<?php print_r(getForm()['total_price']) ?>"
+
+                                >
+                                <p class="text-danger fs-6"><?php print_r(getForm()['total_price'] == '0' ? 'please correct the date IN DATE must be less than OUT DATE' : '') ?></p>
                             </div>
 
                             <!-- Booking Status -->

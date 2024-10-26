@@ -1,12 +1,13 @@
 <?php
 require('views/assets/php/getMessage.php');
+//require('views/assets/php/admin_login.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>User Dashboard</title>
     <?php require('./views/assets/php/admin/links.php') ?>
 </head>
 <body class="bg-white ">
@@ -16,21 +17,27 @@ require('views/assets/php/getMessage.php');
         <div class="col-lg-10 ms-auto p-4 overflow-hidden">
             <h3 class="mb-1">Booking</h3>
             <section class="mb-3">
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Recipient's username"
-                           aria-label="Recipient's username" aria-describedby="button-addon2">
-                    <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
-                </div>
-                <div class="d-flex gap-2">
+                <form
+                        action="/guest/booking" method="post"
+                        class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Recipient's Room"
+                           aria-label="Recipient's username" aria-describedby="button-addon2" name="search">
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">
+                        <i class="bi bi-search"></i>
 
+                    </button>
+                </form>
+                <div class="d-flex gap-2">
                     <a href="/guest/booking" class='btn btn-secondary'>All</a>
-                    <a href="/guest/booking/booking" class='btn btn-success'>Booking</a>
-                    <a href="/guest/booking/cancel" class='btn btn-danger'>Cancel</a>
+                    <a href="/guest/booking-booking" class='btn btn-warning'>Booking</a>
+                    <a href="/guest/booking-cancel" class='btn btn-danger'>Cancel</a>
+                    <a href="/guest/booking-confirm" class='btn btn-success'>Confirm</a>
+                    <a href="/guest/booking-finish" class='btn btn-info'>Finish</a>
                 </div>
             </section>
             <section>
                 <?php if (empty($bookings)): ?>
-                    <p>No rooms available.</p>
+                    <p>No Booking is available.</p>
                 <?php else: ?>
                     <?php foreach ($bookings as $booking): ?>
                         <div class="card mb-4 border-0 shadow">
@@ -50,8 +57,10 @@ require('views/assets/php/getMessage.php');
                                       </span>
                                     </h5>
                                     <div class="d-flex gap-3">
-                                        <p class="badge rounded-pill text-bg-info ">In : <?= htmlspecialchars($booking->check_in_date) ?></p>
-                                        <p class="badge rounded-pill text-bg-info">Out : <?= htmlspecialchars($booking->check_out_date) ?></p>
+                                        <p class="badge rounded-pill text-bg-info ">In
+                                            : <?= htmlspecialchars($booking->check_in_date) ?></p>
+                                        <p class="badge rounded-pill text-bg-info">Out
+                                            : <?= htmlspecialchars($booking->check_out_date) ?></p>
                                     </div>
 
                                     <div class="features mb-3">
@@ -105,18 +114,25 @@ require('views/assets/php/getMessage.php');
                                         More Details
                                     </a>
 
-                                    <?php if (isset($booking->status_booking) && $booking->status_booking === 'cancel') : ?>
+                                    <?php if ($booking->finish == 1) : ?>
+                                        <div class="btn w-100 btn-info ">Finish</div>
+                                    <?php elseif ($booking->confirm == 1) : ?>
+                                        <div class="btn w-100 btn-success ">Confirm</div>
+                                    <?php elseif ($booking->status_booking == 1) : ?>
+                                        <div class="btn w-100 btn-warning ">Booking</div>
+                                    <?php else : ?>
                                         <div class="btn w-100 btn-danger ">Cancel</div>
-                                    <?php elseif (isset($booking->status_booking) && $booking->status_booking === 'booking') : ?>
-                                        <div class="btn w-100 btn-success ">Booking</div>
                                     <?php endif; ?>
 
-                                    <div class="mt-2">
-                                        <a href="/guest/booking/print/<?= $booking->id_booking ?>"
-                                           class="btn btn-success w-100">
-                                            print
-                                        </a>
-                                    </div>
+                                    <?php if ($booking->confirm): ?>
+                                        <div class="mt-2">
+                                            <a href="/guest/booking/print/<?= $booking->id_booking ?>"
+                                               class="btn btn-success w-100">
+                                                print
+                                            </a>
+                                        </div>
+                                    <?php endif; ?>
+
 
                                 </div>
                             </div>

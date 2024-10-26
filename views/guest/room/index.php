@@ -20,19 +20,14 @@ require('views/assets/php/getMessage.php');
         <div class="col-lg-10 ms-auto p-4 overflow-hidden">
             <h3 class="mb-1">Rooms</h3>
             <section class="mb-3">
-                <div class="input-group mb-3">
+                <form class="input-group mb-3" action="/guest/room" method="post">
                     <input type="text" class="form-control" placeholder="Recipient's username"
-                           aria-label="Recipient's username" aria-describedby="button-addon2">
-                    <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
-                </div>
-                <div class="d-flex gap-2">
+                           aria-label="Recipient's username" aria-describedby="button-addon2" name="search">
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </form>
 
-                    <!--                    <a href="/admin/room/create" class='btn btn-info'>Create</a>-->
-                    <a href="/guest/room" class='btn btn-secondary'>All</a>
-                    <a href="/guest/room/available" class='btn btn-success'>Available</a>
-                    <a href="/guest/room/empty" class='btn btn-danger'>Empty</a>
-                    <!--                    <a href="/admin/room/renovated" class='btn btn-warning'>Renovated</a>-->
-                </div>
             </section>
             <section>
                 <?php if (empty($rooms)): ?>

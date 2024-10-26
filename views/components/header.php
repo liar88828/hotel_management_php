@@ -1,5 +1,6 @@
 <?php
 require('views/assets/php/guest_login.php');
+require('views/assets/php/admin_login.php');
 
 
 ?>
@@ -36,9 +37,14 @@ require('views/assets/php/guest_login.php');
             </ul>
             <?php if (!empty(checkSessionGuest())): ?>
                 <div class="d-flex" role="search">
-                    <a href="/guest/profile" class="btn btn-outline-dark shadow-none me-lg-3 me-2"
-
-                    >Profile
+                    <a href="/guest/profile" class="btn btn-outline-dark shadow-none me-lg-3 me-2">
+                        Profile
+                    </a>
+                </div>
+            <?php elseif (!empty(checkSessionAdmin())): ?>
+                <div class="d-flex" role="search">
+                    <a href="/admin/dashboard" class="btn btn-outline-dark shadow-none me-lg-3 me-2">
+                        Profile
                     </a>
                 </div>
             <?php else: ?>
@@ -54,5 +60,5 @@ require('views/assets/php/guest_login.php');
         </div>
     </div>
 </nav>
-<?php require 'views\components\auth\login.php'; ?>
-<?php require 'views\components\auth\register.php'; ?>
+<?php require 'views\auth\login.php'; ?>
+<?php require 'views\auth\register.php'; ?>

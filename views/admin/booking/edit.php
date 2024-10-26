@@ -9,7 +9,7 @@ require('views/assets/php/getMessage.php');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard</title>
+    <title>Admin Dashboard</title>
     <?php require('./views/assets/php/admin/links.php') ?>
     <style>
         body {
@@ -156,8 +156,7 @@ require('views/assets/php/getMessage.php');
                                     <input type="date" class="form-control" id="checkInDate" name="check_in_date"
                                            required onchange="calculateTotal()"
                                            value="<?= htmlspecialchars($booking->check_in_date) ?>">
-                                    <!--                                    <p>-->
-                                    <?php //= htmlspecialchars($booking->check_in_date) ?><!--</p>-->
+                                    <p><?= htmlspecialchars($booking->check_in_date) ?></p>
 
                                 </div>
                                 <div class="col-md-6 mb-3">
@@ -166,8 +165,7 @@ require('views/assets/php/getMessage.php');
                                     <input type="date" class="form-control" id="checkOutDate" name="check_out_date"
                                            required onchange="calculateTotal()"
                                            value="<?= htmlspecialchars($booking->check_out_date) ?>">
-                                    <!--                                    <p>-->
-                                    <?php //= htmlspecialchars($booking->check_out_date) ?><!--</p>-->
+                                    <p><?= htmlspecialchars($booking->check_out_date) ?></p>
 
                                 </div>
                             </div>
@@ -183,13 +181,11 @@ require('views/assets/php/getMessage.php');
 
                             <!-- Booking Status -->
                             <div class="mb-3">
-                                <label for="statusSelect" class="form-label">
-                                    <i class="fas fa-info-circle"></i>
-                                    Booking Status
-                                </label>
+                                <label for="statusSelect" class="form-label"><i class="fas fa-info-circle"></i> Booking
+                                    Status</label>
                                 <select class="form-select" id="statusSelect" name="status">
-                                    <option value='1'>Booked</option>
-                                    <option value="0">Cancelled</option>
+                                    <option value="booked">Booked</option>
+                                    <option value="cancel">Cancelled</option>
                                 </select>
                             </div>
 

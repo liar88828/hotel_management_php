@@ -12,22 +12,28 @@ class RoomModel
     {
         $this->db = new Database;
     }
-    public function countRoom(){
+
+    public function countRoom()
+    {
         $this->db->query("SELECT COUNT(id) as count_room FROM rooms ");
         return $this->db->single();
     }
-public function countRoomActive(){
-    $this->db->query("SELECT COUNT(id) as count_room_active FROM rooms where status = 1");
-    return $this->db->single();
-}
 
-    public function countRoomEmpty(){
+    public function countRoomActive()
+    {
+        $this->db->query("SELECT COUNT(id) as count_room_active FROM rooms where status = 1");
+        return $this->db->single();
+    }
+
+    public function countRoomEmpty()
+    {
         $this->db->query("SELECT COUNT(id) as count_room_empty FROM rooms where status = 0");
         return $this->db->single();
     }
 
-    public function countRoomBooking(){
-        $this->db->query("SELECT COUNT(r.id) as count_room_booking FROM rooms as r JOIN hotel.booking b on r.id = b.room_id");
+    public function countRoomBooking()
+    {
+        $this->db->query("SELECT COUNT(r.id) as count_room_booking FROM rooms as r JOIN hotel.bookings b on r.id = b.room_id");
         return $this->db->single();
     }
 
@@ -66,6 +72,80 @@ public function countRoomActive(){
         return $this->db->resultSet();
     }
 
+    public function findAllGuest($id_guest)
+    {
+        $this->db->query("SELECT rooms.* FROM rooms
+                      LEFT JOIN bookings as b  ON b.room_id = rooms.id
+                      WHERE rooms.status = true AND (b.guest_id IS NULL OR b.guest_id != :id_guest)
+                      ORDER BY rooms.update_at DESC
+                      LIMIT 100");
+
+        $this->db->bind(':id_guest', $id_guest);
+
+        $response = $this->db->resultSet();
+
+        if (count($response) > 0) {
+            return $response;
+        } else {
+            throw new Exception("No results found");
+        }
+    }
+
+    public function findAllGuestSearch(string $search, $id_guest)
+    {
+        $this->db->query("SELECT rooms.* FROM rooms
+                      LEFT JOIN bookings  as b ON b.room_id = rooms.id
+                      WHERE (rooms.status = true AND rooms.name LIKE :search) AND (b.guest_id IS NULL OR b.guest_id != :id_guest)
+                      ORDER BY update_at DESC
+                      LIMIT 100");
+
+        // Concatenate '%' to the parameter to use wildcards
+        $this->db->bind(':search', '%' . $search . '%');
+        $this->db->bind(':id_guest', $id_guest);
+        $response = $this->db->resultSet();
+
+        if (count($response) > 0) {
+            return $response;
+        } else {
+            throw new Exception("No results found");
+        }
+    }
+
+
+    public function findName($data)
+    {
+        $this->db->query("SELECT * FROM rooms
+         WHERE name = :search
+         ORDER BY  update_at DESC
+         LIMIT 100 ");
+        $this->db->bind(':search', $data['search']);
+        $response = $this->db->resultSet();
+        if (count($response) > 0) {
+            return $response;
+        } else {
+            throw new Exception("No results found");
+        }
+        throw new Exception($response);
+    }
+
+
+    public function status($status)
+    {
+        $this->db->query("SELECT * FROM rooms
+         WHERE status = :status
+         ORDER BY  update_at DESC
+         LIMIT 100 ");
+        $this->db->bind(':status', $status);
+        $response = $this->db->resultSet();
+//        print_r($response);
+        if (count($response) > 0) {
+            return $response;
+        } else {
+            throw new Exception("No results found");
+        }
+        throw new Exception($response);
+    }
+
     public function findAllStatus($status)
     {
         $this->db->query("SELECT * FROM rooms
@@ -93,7 +173,7 @@ public function countRoomActive(){
         $this->db->query(
             "SELECT *
                 FROM rooms as r
-                JOIN  booking as b
+                JOIN  bookings as b
                 ON   r.id = b.room_id
                 WHERE r.children <= :children
                 OR r.adult <= :adult
@@ -142,13 +222,12 @@ public function countRoomActive(){
     AND (r.children <= :children OR r.adult <= :adult)
     
         AND NOT EXISTS (    SELECT 1
-        FROM booking AS b
+        FROM bookings AS b
         WHERE b.room_id = r.id
         AND b.check_in_date < :check_out_date
         AND b.check_out_date > :check_in_date
     )
 ");
-
 
 
         $this->db->bind(':wifi', $data['wifi']);
@@ -192,7 +271,7 @@ public function countRoomActive(){
               OR r.status<= 0
                 AND NOT EXISTS (
                     SELECT 1
-                    FROM booking AS b
+                    FROM bookings AS b
                     WHERE b.room_id = r.id
                     AND (
                         (b.check_in_date <= :check_out_date AND b.check_out_date >= :check_in_date)
@@ -264,18 +343,39 @@ public function countRoomActive(){
     {
         $this->db->query("
             SELECT 
-                guest_id,b.id as id_booking, guest_id, room_id, check_in_date, check_out_date, total_price, b.status as status_booking, created_at,  name, area, price, quantity, adult, children, description, r.status as status_room, wifi, television, ac, cctv, dining_room, parking_area, bedrooms, bathrooms, wardrobe, security, image  
-            FROM booking b
+                guest_id,b.id as id_booking, guest_id, room_id, check_in_date, check_out_date, total_price, b.booking as status_booking, created_at,  name, area, price, quantity, adult, children, description, r.status as status_room, wifi, television, ac, cctv, dining_room, parking_area, bedrooms, bathrooms, wardrobe, security, image, confirm ,finish 
+            FROM bookings b
             JOIN rooms r ON b.room_id = r.id
             WHERE b.guest_id = :guest_id");
         $this->db->bind(':guest_id', $guestId);
         $response = $this->db->resultSet();
-        if ($response) {
+        if (count($response) > 0) {
             return $response;
         } else {
-            throw new Exception($response);
+            throw new Exception('data is empty');
         }
+        throw new Exception($response);
     }
+
+    public function findIdGuestSearch(int $guestId, string $search)
+    {
+        $this->db->query("
+            SELECT 
+                guest_id,b.id as id_booking, guest_id, room_id, check_in_date, check_out_date, total_price, b.booking as status_booking, created_at,  name, area, price, quantity, adult, children, description, r.status as status_room, wifi, television, ac, cctv, dining_room, parking_area, bedrooms, bathrooms, wardrobe, security, image, confirm ,finish 
+            FROM bookings b
+            JOIN rooms r ON b.room_id = r.id
+            WHERE b.guest_id = :guest_id AND name = :search");
+        $this->db->bind(':guest_id', $guestId);
+        $this->db->bind(':search', $search);
+        $response = $this->db->resultSet();
+        if (count($response) > 0) {
+            return $response;
+        } else {
+            throw new Exception('data is empty');
+        }
+        throw new Exception($response);
+    }
+
 
 
     public function delete($id)
@@ -351,4 +451,5 @@ public function countRoomActive(){
         $this->db->close();
     }
 }
+
 

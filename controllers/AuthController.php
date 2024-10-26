@@ -21,8 +21,9 @@ class AuthController extends Controller
     }
 
     // Login function
-    public function login()
+    public function login(): void
     {
+
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $this->redirect('/');
 //            header('Location: /');
@@ -92,12 +93,17 @@ class AuthController extends Controller
 
         } catch (Exception $e) {
             // Handle error (log it or display guess-friendly message)
-            echo "Error: " . $e->getMessage();
+//            echo "Error: " . $e->getMessage();
+            $this->redirect('/', ['message' => $e->getMessage()]);
+
+        } finally {
+            $this->redirect('/');
+
         }
     }
 
     // Register function
-    public function register()
+    public function register(): void
     {
         try {
             if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -165,32 +171,37 @@ class AuthController extends Controller
                 // Registration successful
 //                echo "Registration successful! You can now log in.";
 //                $this->adminModel->close();
-                header("Location: /");
+//                header("Location: /");
 
+                $this->redirect('/');
             }
 
         } catch (Exception $e) {
             // Handle error (log it or display guess-friendly message)
-            echo "Error: " . $e->getMessage();
+//            echo "Error: " . $e->getMessage();
+            $this->redirect('/', ['message' => $e->getMessage()]);
+
         }
     }
 
 
     // Logout function
-    public function logout()
+    public function logout(): void
     {
-        if ($_SERVER["REQUEST_METHOD"] == "GET") {
-            $this->redirect('/');
-        }
+        try {
+            if ($_SERVER["REQUEST_METHOD"] == "GET") {
+                $this->redirect('/');
+            }
 
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//    print_r('test');
-//    session_start();
-            session_unset();
-            session_destroy();
-//    header("Location: login.php");
-//    exit();
-            $this->view('home/index');
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                session_unset();
+                session_destroy();
+                exit();
+            }
+        } catch (Exception $e) {
+            $this->redirect('/', ['message' => $e->getMessage()]);
+        } finally {
+            $this->redirect('/');
         }
     }
 }

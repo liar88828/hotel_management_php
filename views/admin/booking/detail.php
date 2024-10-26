@@ -9,7 +9,7 @@ require('views/assets/php/getMessage.php');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard</title>
+    <title>Admin Dashboard</title>
     <?php require('./views/assets/php/admin/links.php') ?>
     <style>
         body {
@@ -51,7 +51,7 @@ require('views/assets/php/getMessage.php');
 <div>
     <div class="row">
         <div class="col-lg-10 ms-auto p-4 overflow-hidden">
-            <h3>Detail Booking</h3>
+            <h3  >Detail Booking</h3>
 
             <?php if (empty($booking)): ?>
                 <div class="alert alert-info">
@@ -173,12 +173,13 @@ require('views/assets/php/getMessage.php');
                                         Rp. <?= number_format($booking->total_price, 0, ',', '.') ?>/night
                                     </h3>
                                 </div>
+
                                 <!-- Booking Status -->
                                 <div class="col-md-3 ">
                                     <strong>Booking Status:</strong>
-                                    <?php if ($booking->status_booking == 1) : ?>
+                                    <?php if (isset($booking->status_booking) && $booking->status_booking === 'booking') : ?>
                                         <p id="bookingStatus" class="btn w-100 btn-success">Booking</p>
-                                    <?php else : ?>
+                                    <?php elseif (isset($booking->status_booking) && $booking->status_booking === 'cancel') : ?>
                                         <p id="bookingStatus" class="btn w-100 btn-danger">Canceled</p>
                                     <?php endif; ?>
                                 </div>
@@ -187,27 +188,10 @@ require('views/assets/php/getMessage.php');
                             <!-- Action Buttons -->
                             <div class="d-flex justify-content-center mt-2">
                                 <a href="/guest/booking" class=" btn btn-secondary me-2">Back</a>
-                                <?php if ($booking->confirm == 1): ?>
-                                    <form action="/guest/booking-finish/<?= $booking->id_booking ?>" method="POST">
-                                        <button class="btn btn-info me-2" type="submit">
-                                            Check Out / Finish
-                                        </button>
-                                    </form>
-                                <?php else: ?>
-                                    <a href="/guest/booking-edit/<?= $booking->id_booking ?>"
-                                       class="btn btn-primary me-2">
-                                        Edit Booking
-                                    </a>
-                                <?php endif; ?>
 
-
-                                <?php if ($booking->confirm == 1) : ?>
-                                    <a href="/guest/booking/print/<?= $booking->id_booking ?>"
-                                       class="btn btn-info me-2">
-                                        Print
-                                    </a>
-                                <?php endif; ?>
-
+                                <a href="/guest/booking-edit/<?= $booking->id_booking ?>" class="btn btn-primary me-2">Edit
+                                    Booking</a>
+                                <a href="/guest/booking/print/<?= $booking->id_booking ?>" class="btn btn-info me-2">Print</a>
                                 <!--                access-->
                                 <!--                --><?php //if (isset($booking->status_booking) && $booking->status_booking === 'booking') : ?>
                                 <!--                    <form action="/guest/booking/update-cancel"-->
@@ -243,8 +227,6 @@ require('views/assets/php/getMessage.php');
                         </div>
                     </div>
                 </div>
-                <!--                --><?php //= print_r($booking) ?>
-
             <?php endif; ?>
 
             <!-- Bootstrap JS and Popper.js -->

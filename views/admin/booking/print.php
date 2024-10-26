@@ -49,13 +49,9 @@
                     <!-- Booking Status -->
                     <div class="col-md-3 ">
                         <strong>Booking Status:</strong>
-                        <?php if ($booking->confirm == 1) : ?>
-                            <p id="bookingStatus" class="btn w-100 btn-success">Confirm</p>
-                        <?php elseif ($booking->finish == 1) : ?>
-                            <p id="bookingStatus" class="btn w-100 btn-info">Finish</p>
-                        <?php elseif ($booking->status_booking == 1) : ?>
-                            <p id="bookingStatus" class="btn w-100 btn-warning">Booking</p>
-                        <?php elseif ($booking->status_booking == 0) : ?>
+                        <?php if (isset($booking->status_booking) && $booking->status_booking === 'booking') : ?>
+                            <p id="bookingStatus" class="btn w-100 btn-success">Booking</p>
+                        <?php elseif (isset($booking->status_booking) && $booking->status_booking === 'cancel') : ?>
                             <p id="bookingStatus" class="btn w-100 btn-danger">Canceled</p>
                         <?php endif; ?>
                     </div>
@@ -68,8 +64,7 @@
                             href="/guest/booking">Back</a>
                     <button
                             class="btn btn-info"
-                            onclick="printPDF()">Download PDF
-                    </button>
+                            onclick="printPDF()">Download PDF</button>
 
                 </div>
             </div>

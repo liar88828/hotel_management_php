@@ -22,7 +22,7 @@ class GuestModel
     public function countAllGuestsBooking()
     {
         $this->db->query("SELECT  COUNT(*) as count_guest_booking FROM guest as g 
-        JOIN  booking as b
+        JOIN  bookings as b
         ON g.id = b.guest_id
 ");
         return $this->db->resultSet();

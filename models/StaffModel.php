@@ -16,7 +16,29 @@ class StaffModel
     public function findAll()
     {
         $this->db->query("SELECT * FROM staff");
-        return $this->db->resultSet();
+        $response = $this->db->resultSet();
+        if (count($response) > 0) {
+            return $response;
+        } else {
+            throw new Exception('Data is Empty');
+        }
+        throw new Exception($response);
+
+    }
+
+    public function findAllSearch($search)
+    {
+        $this->db->query("SELECT * FROM staff WHERE name LIKE :search");
+        $this->db->bind(':search', '%' . $search . '%');
+        $response = $this->db->resultSet();
+
+        if (count($response) > 0) {
+            return $response;
+        } else {
+            throw new Exception('Data is Empty');
+        }
+        throw new Exception($response);
+
     }
 
     public function findId($id)

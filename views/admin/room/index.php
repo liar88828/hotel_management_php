@@ -20,25 +20,34 @@ adminLogin();
         <div class="col-lg-10 ms-auto p-4 overflow-hidden">
             <h3 class="mb-1">Rooms</h3>
             <section class="mb-3">
-                <div class="input-group mb-3">
+                <form
+                        action="/admin/room"
+                        method="post"
+                        class="input-group mb-3"
+                >
                     <input type="text" class="form-control" placeholder="Recipient's username"
-                           aria-label="Recipient's username" aria-describedby="button-addon2">
-                    <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
-                </div>
-                <div class="d-flex gap-2">
+                           aria-label="Recipient's username" aria-describedby="button-addon2" name="search">
+                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </form>
+                <div class="d-flex justify-content-between">
+                    <div class="d-flex gap-2">
+                        <a href="/admin/room" class='btn btn-secondary'>All</a>
+                        <a href="/admin/room-available" class='btn btn-success'>Available</a>
+                        <a href="/admin/room-full" class='btn btn-danger'>Full</a>
+                    </div>
 
-                <a href="/admin/room/create" class='btn btn-info'>Create</a>
-                <a href="/admin/room" class='btn btn-secondary'>All</a>
-                <a href="/admin/room/available" class='btn btn-success'>Available</a>
-                <a href="/admin/room/renovated" class='btn btn-warning'>Renovated</a>
-                <a href="/admin/room/empty" class='btn btn-danger'>Empty</a>
+                    <div class="">
+                        <a href="/admin/room/create" class='btn btn-info'>Create</a>
+                    </div>
                 </div>
             </section>
             <section>
-                <?php if (empty($data['rooms'])): ?>
+                <?php if (empty($rooms)): ?>
                     <p>No rooms available.</p>
                 <?php else: ?>
-                    <?php foreach ($data['rooms'] as $room): ?>
+                    <?php foreach ($rooms as $room): ?>
                         <div class="card mb-4 border-0 shadow">
                             <div class="row g-0 p-3 align-items-center">
                                 <div class="col-md-5 mb-lg-0 mb-md-0 mb-3">
@@ -52,7 +61,7 @@ adminLogin();
                                 <div class="col-md-5 px-lg-3 px-md-3 px-0">
                                     <h5 class="mb-1"><?= htmlspecialchars($room->name) ?>
                                         <span class="badge rounded-pill text-bg-<?= $room->status == 1 ? 'success' : 'danger' ?> ">
-                                        <?= htmlspecialchars($room->status == 1 ? 'Available' : 'Unavailable') ?>
+                                        <?= htmlspecialchars($room->status == 1 ? 'Available' : 'Full') ?>
                                       </span>
                                     </h5>
                                     <div class="features mb-3">
@@ -93,18 +102,33 @@ adminLogin();
                                     </div>
                                 </div>
                                 <div class="col-md-2 mt-lg-0 mt-md-0 mt-4 text-center">
+                                    <form action="/admin/room-available/<?= $room->id ?>" method="post">
+
+                                        <div class="mb-2">
+                                            <input type="checkbox" id="f3" class="form-check-input shadow-none me-1"
+                                                   name="status"
+                                                <?= $room->status ? 'checked' : '' ?>
+                                            >
+                                            <label class="form-check-label" for="f3">
+                                                <button class="btn w-100 btn-info ">Status</button>
+                                            </label>
+                                        </div>
+                                    </form>
                                     <h6 class="mb-1">
                                         <?php
                                         setlocale(LC_MONETARY, "id_ID");
                                         echo "Rp. " . number_format((int)$room->price, 0, ',', '.');
                                         ?>/night</h6>
+
+
                                     <a href="/admin/room/update/<?= $room->id ?>"
                                        class="btn btn-info w-100 shadow-none mb-2">
                                         <i class="bi bi-pencil-square"></i> Edit
                                     </a>
 
                                     <a href="/admin/room/<?= $room->id ?>"
-                                       class="btn w-100 btn-outline-dark ">More Details</a>
+                                       class="btn w-100 btn-outline-dark mb-2">More Details</a>
+
                                 </div>
                             </div>
                         </div>

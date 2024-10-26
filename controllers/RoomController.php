@@ -4,52 +4,104 @@ require_once 'models/AdminModel.php';
 require_once 'models/RoomModel.php';
 require_once 'models/GuestModel.php';
 require_once 'services/ImageService.php';
+require_once('views/assets/php/admin_login.php');
+require('views/assets/php/guest_login.php');
 
 class RoomController extends Controller
 {
 
-    private AdminModel $adminModel;
+//    private AdminModel $adminModel;
     private RoomModel $roomModel;
-    private GuestModel $userModel;
+//    private GuestModel $userModel;
     private ImageService $imageService;
 
 
     // Constructor to initialize database connection
     public function __construct()
     {
-        $this->adminModel = $this->model('AdminModel');
+//        $this->adminModel = $this->model('AdminModel');
         $this->roomModel = $this->model('RoomModel');
-        $this->userModel = $this->model('GuestModel');
+//        $this->userModel = $this->model('GuestModel');
         $this->imageService = $this->service('ImageService');
     }
 
 
-    public function index()
+    public function index(): void
     {
 //    print_r($data);
         $data = ['rooms' => $this->roomModel->findAll()];
         $this->view('admin/room/index', $data);
     }
 
-    public function detail_admin(int $id)
+    public function search(): void
     {
-        $data = ['room' => $this->roomModel->findId($id)];
-        $this->view('admin/room/detail', $data);
+        try {
+            getSessionAdmin();
+
+            $data = [
+                'search' => $_POST['search'],
+            ];
+            $this->view('admin/room/index', ['rooms' => $this->roomModel->findName($data)]);
+        } catch (Exception $e) {
+
+            $this->redirect('/admin/room', ['message' => $e->getMessage()]);
+        }
     }
 
-    public function detail(int $id)
+    public function available(): void
     {
-        $data = ['room' => $this->roomModel->findId($id)];
-        $this->view('home/room/detail', $data);
+        try {
+            getSessionAdmin();
+
+            $this->view('admin/room/index', ['rooms' => $this->roomModel->status(true)]);
+        } catch (Exception $e) {
+            $this->redirect('/admin/room', ['message' => $e->getMessage()]);
+        }
+    }
+
+    public function full(): void
+    {
+
+        try {
+            getSessionAdmin();
+
+            $this->view('admin/room/index', ['rooms' => $this->roomModel->status(false)]);
+        } catch (Exception $e) {
+
+            $this->redirect('/admin/room', ['message' => $e->getMessage()]);
+        }
     }
 
 
-    public function create()
+    public function detail_admin(int $id): void
+    {
+        try {
+            getSessionAdmin();
+            $data = ['room' => $this->roomModel->findId($id)];
+            $this->view('admin/room/detail', $data);
+        } catch (Exception $e) {
+            $this->redirect('/admin/room', ['message' => $e->getMessage()]);
+        }
+    }
+
+    public function detail(int $id): void
+    {
+        try {
+
+            $data = ['room' => $this->roomModel->findId($id)];
+            $this->view('home/room/detail', $data);
+        } catch (Exception $e) {
+            $this->redirect('/home/room', ['message' => $e->getMessage()]);
+        }
+    }
+
+
+    public function create(): void
     {
         $this->view('admin/room/create');
     }
 
-    public function store()
+    public function store(): void
     {
         try {
             mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
@@ -89,13 +141,18 @@ class RoomController extends Controller
     }
 
 
-    public function update($id)
+    public function update($id): void
     {
-        $data = ['room' => $this->roomModel->findId($id)];
-        $this->view('admin/room/update', $data);
+        try {
+
+            $data = ['room' => $this->roomModel->findId($id)];
+            $this->view('admin/room/update', $data);
+        } catch (Exception $e) {
+            $this->redirect("/admin/room/update/$id", ['message' => $e->getMessage()]);
+        }
     }
 
-    public function edit(int $id)
+    public function edit(int $id): void
     {
         try {
             mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
@@ -138,6 +195,52 @@ class RoomController extends Controller
                 ['message' => 'error ']);
         }
     }
+
+    public function index_guest(): void
+    {
+        try {
+            $session = getSessionGuest();
+            $guestId = $session->id;
+            $data = ['rooms' => $this->roomModel->findAllGuest($guestId)];
+            $this->view('guest/room/index', $data);
+        } catch (Exception $e) {
+            print_r($e->getMessage());
+//            $this->redirect('/guest/room', ['message' => 'data is not found']);
+
+        }
+    }
+
+    public function search_guest(): void
+    {
+        getSessionGuest();
+        try {
+            $session = getSessionGuest();
+            $guestId = $session->id;
+            $data = ['rooms' => $this->roomModel->findAllGuestSearch($_POST['search'], $guestId)];
+            $this->view('guest/room/index', $data);
+        } catch (Exception $e) {
+            print_r($e->getMessage());
+            $this->redirect('/guest/room', ['message' => 'data is not found']);
+
+        }
+    }
+
+
+    public function room_detail_guest($id): void
+    {
+        $session = getSessionGuest();
+        $guestId = $session->id;
+        try {
+
+            $this->view('guest/room/detail', ['room' => $this->roomModel->findId($id)]);
+        } catch (Exception $e) {
+            print_r($e->getMessage());
+        }
+    }
+
+
+
+
 
 
 }

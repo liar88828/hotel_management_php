@@ -15,7 +15,7 @@ create table booking
     check_in_date  date                                  null,
     check_out_date date                                  null,
     total_price    decimal(10, 2)                        null,
-    status         varchar(50) default 'booked'          null,
+    status boolean default 1 null,
     created_at     timestamp   default CURRENT_TIMESTAMP not null
 );
 

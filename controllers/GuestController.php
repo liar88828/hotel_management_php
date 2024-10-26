@@ -21,7 +21,7 @@ class GuestController extends Controller
     }
 
 //Guest
-    public function profile()
+    public function profile(): void
     {
         $session = getSessionGuest();
         $guestId = $session->id;
@@ -29,7 +29,7 @@ class GuestController extends Controller
         $this->view('guest/profile/index', $data);
     }
 
-    public function profile_update()
+    public function profile_update(): void
     {
         $session = getSessionGuest();
         $guestId = $session->id;
@@ -47,12 +47,12 @@ class GuestController extends Controller
 //    }
 
 
-    public function profile_edit()
+    public function profile_edit(): void
     {
 
+        $session = getSessionGuest();
+        $guestId = $session->id;
         try {
-            $session = getSessionGuest();
-            $guestId = $session->id;
             $data = [
                 'name' => trim($_POST['name']),
                 'email' => filter_var($_POST['email'], FILTER_SANITIZE_EMAIL),
@@ -86,225 +86,57 @@ class GuestController extends Controller
     }
 
 
-    public function history()
+    public function history(): void
     {
-        $session = getSessionGuest();
-        $guestId = $session->id;
-        $data = ['guest' => $this->bookingModel->findIdGuest($guestId)];
-        $this->view('guest/history', $data);
+        try {
+
+            $session = getSessionGuest();
+            $guestId = $session->id;
+            $data = ['guest' => $this->bookingModel->findIdGuest($guestId)];
+            $this->view('guest/history', $data);
+        } catch (Exception $e) {
+            print_r($e->getMessage());
+        }
     }
 
-    public function room()
+
+    public function room_available(): void
     {
-        $session = getSessionGuest();
-        $guestId = $session->id;
+        getSessionGuest();
+        try {
+
 //        $data = ['rooms' => $this->roomModel->findIdGuest($guestId)];
-        $data = ['rooms' => $this->roomModel->findAll()];
-        $this->view('guest/room/index', $data);
+            $data = ['rooms' => $this->roomModel->findAllStatus(1)];
+            $this->view('guest/room/index', $data);
+        } catch (Exception $e) {
+            print_r($e->getMessage());
+
+        }
     }
 
-    public function room_available()
+    public function room_empty(): void
     {
-        $session = getSessionGuest();
-        $guestId = $session->id;
+        getSessionGuest();
+        try {
+
 //        $data = ['rooms' => $this->roomModel->findIdGuest($guestId)];
-        $data = ['rooms' => $this->roomModel->findAllStatus(1)];
-        $this->view('guest/room/index', $data);
-    }
-
-    public function room_empty()
-    {
-        $session = getSessionGuest();
-        $guestId = $session->id;
-//        $data = ['rooms' => $this->roomModel->findIdGuest($guestId)];
-        $data = ['rooms' => $this->roomModel->findAllStatus(0)];
-        $this->view('guest/room/index', $data);
-    }
-
-    public function room_detail($id)
-    {
-        $session = getSessionGuest();
-        $guestId = $session->id;
-        $this->view('guest/room/detail', ['room' => $this->roomModel->findId($id)]);
-    }
-
-    public function booking()
-    {
-        $session = getSessionGuest();
-        $guestId = $session->id;
-
-        $this->view('guest/booking/index',
-            ['bookings' => $this->roomModel->findIdGuest($guestId),
-            ]
-        );
-    }
-
-    public function booking_booking()
-    {
-        try {
-            $session = getSessionGuest();
-            $guestId = $session->id;
-            $data = $this->bookingModel->findIdGuestStatus($guestId, 'booking');
-            $this->view(
-                'guest/booking/index',
-                ['bookings' => $data]
-            );
+            $data = ['rooms' => $this->roomModel->findAllStatus(0)];
+            $this->view('guest/room/index', $data);
         } catch (Exception $e) {
-            print $e->getMessage();
-        }
-    }
-
-    public function booking_cancel()
-    {
-        try {
-            $session = getSessionGuest();
-            $guestId = $session->id;
-            $data = $this->bookingModel->findIdGuestStatus($guestId, 'cancel');
-            $this->view(
-                'guest/booking/index',
-                ['bookings' => $data]
-            );
-        } catch (Exception $e) {
-            print $e->getMessage();
-        }
-    }
-
-
-    public function booking_detail($id)
-    {
-        $session = getSessionGuest();
-        $guestId = $session->id;
-        $data = ['booking' => $this->bookingModel->findId($id)];
-        $this->view('guest/booking/detail', $data);
-    }
-
-    public function booking_detail_edit($id)
-    {
-        $session = getSessionGuest();
-        $guestId = $session->id;
-        $data = ['booking' => $this->bookingModel->findId($id)];
-        $this->view('guest/booking/edit', $data);
-    }
-
-
-    public function booking_print($id)
-    {
-        $session = getSessionGuest();
-//        $idGuest = $session->id;
-
-        $this->view('guest/booking/print', ['booking' => $this->bookingModel->findId($id)]);
-    }
-
-
-    public function booking_create()
-    {
-        try {
-
-            $data = [
-                'check_in_date' => trim($_POST['check_in_date']),
-                'check_out_date' => trim($_POST['check_out_date']),
-                'total_price' => trim($_POST['total_price']),
-                'status' => trim($_POST['status']),
-                'roomId' => trim($_POST['roomId']),
-
-            ];
-            if ($data['total_price'] == 0) {
-                $this->redirect('/guest/booking/create', ['message' => 'please correct the date because the total price is 0']);
-            }
-            $session = getSessionGuest();
-            $guestId = $session->id;
-//        print_r($data);
-//        print_r($guestId);
-            $this->bookingModel->create((int)$guestId, $data['roomId'], 'pending', $data);
-            $this->redirect(
-                '/guest/booking',
-                ['message' => 'success booked room']
-            );
-        } catch (e) {
-
-        }
-    }
-
-
-    public function booking_update_booking()
-    {
-        try {
-            $id_booking = trim($_POST['booking_id']);
-            $session = getSessionGuest();
-            $guestId = $session->id;
-            $this->bookingModel->status_booking((int)$id_booking);
-            $this->redirect('/guest/booking');
-        } catch (Exception $e) {
-            print $e->getMessage();
-        }
-    }
-
-
-    public function booking_update_cancel()
-    {
-        try {
-            $id_booking = trim($_POST['booking_id']);
-            $session = getSessionGuest();
-            $guestId = $session->id;
-            $this->bookingModel->status_cancel((int)$id_booking);
-
-            $this->redirect('/guest/booking');
-        } catch (Exception $e) {
-            print $e->getMessage();
-        }
-    }
-
-
-    public function booking_update($id)
-    {
-        $data = [
-            'check_in_date' => trim($_POST['check_in_date']),
-            'check_out_date' => trim($_POST['check_out_date']),
-            'total_price' => trim($_POST['total_price']),
-            'status' => trim($_POST['status']),
-
-        ];
-
-        $session = getSessionGuest();
-        $guestId = $session->id;
-        $this->bookingModel->update($id, $guestId, 'booking', $data);
-//        ['guest' => ]
-        $this->redirect('guest/room/index');
-    }
-
-    public function booking_update_guest($id)
-    {
-        try {
-
-            $data = [
-                'check_in_date' => trim($_POST['check_in_date']),
-                'check_out_date' => trim($_POST['check_out_date']),
-                'total_price' => trim($_POST['total_price']),
-                'status' => trim($_POST['status']),
-
-            ];
-
-            $session = getSessionGuest();
-            $guestId = $session->id;
-            $this->bookingModel->update_guest($id, $guestId, $data);
-//        ['guest' => ]
-            $this->redirect('/guest/booking');
-        } catch (Exception $e) {
-            var_dump($e->getMessage());
-//            $this->redirect('/guest/booking-edit/' . $id, ['message', 'data error']);
+            print_r($e->getMessage());
         }
     }
 
 
     //  admin //
-    public function index()
+    public function index(): void
     {
         $data = ['guests' => $this->guestModel->findAll()];
         $this->view('admin/guest/index', $data);
 
     }
 
-    public function detail($id)
+    public function detail($id): void
     {
         $data = ['guest' => $this->guestModel->findId($id)];
         $this->view('admin/guest/detail', $data);
@@ -316,7 +148,7 @@ class GuestController extends Controller
         $this->view('admin/guest/create');
     }
 
-    public function store()
+    public function store(): void
     {
         try {
             $data = [
@@ -345,13 +177,13 @@ class GuestController extends Controller
 
     }
 
-    public function update($id)
+    public function update($id): void
     {
         $data = ['guest' => $this->guestModel->findId($id)];
         $this->view('admin/guest/update', $data);
     }
 
-    public function edit($id)
+    public function edit($id): void
     {
 
         try {
