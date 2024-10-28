@@ -2,7 +2,7 @@
 
 class ImageService
 {
-    function saveImage($responseDB, $image, string $dir = "images/person/")
+    function saveImage($responseDB, $image, string $dir = "images/person/", $id = 1)
     {
         try {
 
@@ -16,8 +16,24 @@ class ImageService
                 throw new Exception("DB Error");
             }
         } catch (Exception $e) {
-            throw new Exception($e);
+            throw new Exception($e->getMessage());
         }
+    }
 
+    function deleteImage(string $imagePath)
+    {
+        try {
+            if (file_exists($imagePath)) {
+                if (unlink($imagePath)) {
+                    return "Image deleted successfully.";
+                } else {
+                    throw new Exception("Failed to delete image.");
+                }
+            } else {
+                throw new Exception("Image not found.");
+            }
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
     }
 }

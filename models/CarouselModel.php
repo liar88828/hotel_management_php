@@ -27,6 +27,10 @@ class CarouselModel
     }
 
 
+    /**
+     * @param CarouselBase $data
+     * @return mixed
+     */
     public function create($data)
     {
         $this->db->query("INSERT INTO carousel (name,  image) VALUES (:name, :image)");
@@ -37,6 +41,11 @@ class CarouselModel
     }
 
 
+    /**
+     * @param $id
+     * @param CarouselBase $data
+     * @return mixed
+     */
     public function update($id, $data)
     {
         $this->db->query("UPDATE carousel

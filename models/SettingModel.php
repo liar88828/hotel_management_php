@@ -36,7 +36,12 @@ class SettingModel
 
   }
 
-  public function updateGeneral($id, $data)
+    /**
+     * @param $id
+     * @param SettingBase $data
+     * @return mixed
+     */
+    public function updateGeneral($id, $data)
   {
     $this->db->query("UPDATE settings 
             SET 
@@ -49,7 +54,11 @@ class SettingModel
     return $this->db->execute();
   }
 
-  public function createContact($data)
+    /**
+     * @param   $data
+     * @return mixed
+     */
+    public function createContact($data)
   {
     $this->db->query("INSERT INTO contact_details (address, gmap, pn1, pn2, email, fb, insta, tw, iframe) VALUES (:address, :gmap, :pn1, :pn2, :email, :fb, :insta, :tw, :iframe) ");
     $this->db->bind(':address', $data['address']);
@@ -64,7 +73,13 @@ class SettingModel
     return $this->db->execute();
 
   }
-  public function updateContact($id, $data)
+
+    /**
+     * @param $id
+     * @param  $data
+     * @return mixed
+     */
+    public function updateContact($id, $data)
   {
     $this->db->query("UPDATE contact_details SET 
                 address = :address, 

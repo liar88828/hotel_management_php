@@ -30,4 +30,3 @@
 
 <h6 class="bg-dark text-white p-3 m-0">Copyright &copy; All Rights Reserved |ASRAMA BALAI DIKLAT KOTA SEMARANG <i class="bi bi-suit-heart-fill"></i> by BKPP KOTA SEMARANG <a href="https://colorlib.com" target="_blank" ></a> | Repost by <a href='https://bkpp.semarangkota.go.id/layanan/balai-diklat' title='bkpp.semarangkota.go.id' target='_blank'>bkpp.semarangkota.go.id</h6>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

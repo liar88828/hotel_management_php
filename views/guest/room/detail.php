@@ -111,10 +111,53 @@ require('views/assets/php/getMessage.php');
                         <h1 class="mb-3">
                             <?= htmlspecialchars($room->name) ?></h1>
                         <div class="row">
-                            <div class="col-md-6">
-                                <img src="/images/rooms/<?= htmlspecialchars($room->image) ?>" class="img-fluid rounded"
-                                     alt="Room Image">
+                            <!--                            room_image-->
+                            <div class="col-md-6 ">
+                                <div class="swiper swiper-container mySwiper">
+                                    <div class="swiper-wrapper">
+                                        <div class="swiper-slide">
+                                            <img src="/images/rooms/<?= htmlspecialchars($room->image) ?>"
+                                                 class="w-100  d-block  "
+                                                 alt="image1"
+                                                 style="object-fit:cover;
+                                                        object-position:center;
+                                                        /*width: 200px;*/
+                                                        height: 400px;"
+                                            >
+                                        </div>
+
+                                        <?php if (!empty($room_images)): ?>
+                                            <?php /** @var RoomImageBase $room_image */
+                                            foreach ($room_images as $room_image) : ?>
+
+                                                <div class="swiper-slide">
+                                                    <img
+                                                            src="/images/rooms/<?= htmlspecialchars($room_image->image) ?>"
+                                                            class="w-100  d-block  "
+                                                            alt="image1"
+                                                            style="object-fit:cover;
+                                object-position:center;
+                                /*width: 200px;*/
+                                height: 400px;"
+                                                    >
+                                                </div>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+
+                                        <!-- Add Arrows -->
+                                        <div class="swiper-button-next"></div>
+                                        <div class="swiper-button-prev"></div>
+                                    </div>
+                                </div>
                             </div>
+
+                            <!--                            <div class="col-md-6">-->
+                            <!--                                <img src="/images/rooms/-->
+                            <?php //= htmlspecialchars($room->image) ?><!--" class="img-fluid rounded"-->
+                            <!--                                     alt="Room Image">-->
+                            <!--                            </div>-->
+
+
                             <div class="col-md-6">
                                 <h4>Room Details</h4>
                                 <p><strong>Area:</strong> <?= htmlspecialchars($room->area) ?> m²</p>
@@ -190,14 +233,14 @@ require('views/assets/php/getMessage.php');
 
                             <!-- Total Price (calculated based on room selection and dates) -->
                             <div class="mb-3">
-                                <label for="totalPrice" class="form-label"><i class="fas fa-dollar-sign"></i> Total
-                                    Price</label>
+                                <label for="totalPrice" class="form-label">
+                                    <i class="fas fa-dollar-sign"></i> Total Price</label>
                                 <input type="number" class="form-control" id="totalPrice" name="total_price"
                                        placeholder="Calculated Total" readonly min="1"
                                        value="<?php print_r(getForm()['total_price']) ?>"
-
                                 >
-                                <p class="text-danger fs-6"><?php print_r(getForm()['total_price'] == '0' ? 'please correct the date IN DATE must be less than OUT DATE' : '') ?></p>
+                                <?= getForm(); ?>
+                                <p class="text-danger fs-6"><?= empty(getForm()) ? '' : htmlspecialchars(getForm()['total_price'] == '0' ? 'please correct the date IN DATE must be less than OUT DATE' : '') ?></p>
                             </div>
 
                             <!-- Booking Status -->
@@ -229,36 +272,8 @@ require('views/assets/php/getMessage.php');
 </div>
 <?php require('views/assets/php/scripts.php') ?>
 <!-- Bootstrap JS and Popper.js -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<?php require('views/assets/php/swiper.php') ?>
 
-<!-- JavaScript for price calculation -->
-<script>
-	// const pricePerNight = 200;
-	// const pricePerNight = 200;
-	const pricePerNight = document.getElementById('thisPrice').value;
-
-	function calculateTotal() {
-		const checkInDate = document.getElementById('checkInDate').value;
-		const checkOutDate = document.getElementById('checkOutDate').value;
-
-		if (checkInDate && checkOutDate) {
-			const checkIn = new Date(checkInDate);
-			const checkOut = new Date(checkOutDate);
-
-			// Calculate the number of days between check-in and check-out
-			const timeDiff = checkOut.getTime() - checkIn.getTime();
-			const daysDiff = timeDiff / (1000 * 3600 * 24);
-
-			if (daysDiff > 0) {
-				// Calculate the total price
-				const totalPrice = daysDiff * pricePerNight;
-				document.getElementById('totalPrice').value = totalPrice;
-			} else {
-				document.getElementById('totalPrice').value = 0;
-			}
-		}
-	}
-</script>
 
 </body>
 </html>

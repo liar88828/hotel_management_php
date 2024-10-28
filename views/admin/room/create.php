@@ -102,11 +102,21 @@ adminLogin();
                     <label for="wardrobe">Wardrobe</label>
                     <input type="number" class="form-control" id="wardrobe" name="wardrobe" required>
                 </div>
-                <div class="form-group">
-                    <label class="form-label" id="image">Profile Image</label>
+
+
+                <div class="mb-3">
+                    <label class="form-label" for="image">Profile Image</label>
                     <input type="file" class="form-control shadow-none" id="image" name="image"
-                           required >
+                           accept="image/*" required onchange="previewImage(event)">
                 </div>
+
+
+                <!-- Image preview -->
+                <div class="mb-3">
+                    <img id="image-preview" src="" alt="Image Preview" class="img-fluid"
+                         style="max-height: 300px; display: none;">
+                </div>
+
                 <button type="submit" class="btn btn-primary mt-2">Create Room</button>
             </form>
         </div>
@@ -114,6 +124,7 @@ adminLogin();
   </div>
 </div>
 <?php require('views/assets/php/scripts.php') ?>
+
 </body>
 </html>
 

@@ -2,8 +2,8 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/diklat_website.sql" dialect="MySQL" />
-    <file url="file://$PROJECT_DIR$/hotel.sql" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/models/AdminModel.php" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/new_hotel.sql" dialect="MySQL" />
     <file url="PROJECT" dialect="MySQL" />
   </component>
 </project>

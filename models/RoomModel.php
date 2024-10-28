@@ -13,28 +13,49 @@ class RoomModel
         $this->db = new Database;
     }
 
-    public function countRoom()
+    public function countRoom(): int
     {
         $this->db->query("SELECT COUNT(id) as count_room FROM rooms ");
-        return $this->db->single();
+        $response = $this->db->single();
+        if ($response) {
+            return $response->count_room;
+        } else {
+            return 0;
+        }
     }
 
-    public function countRoomActive()
+    public function countRoomAvailable(): int
     {
         $this->db->query("SELECT COUNT(id) as count_room_active FROM rooms where status = 1");
-        return $this->db->single();
+        $response = $this->db->single();
+        if ($response) {
+            return $response->count_room_active;
+        } else {
+            return 0;
+        }
     }
 
-    public function countRoomEmpty()
+    public function countRoomFull(): int
     {
         $this->db->query("SELECT COUNT(id) as count_room_empty FROM rooms where status = 0");
-        return $this->db->single();
+        $response = $this->db->single();
+        if ($response) {
+            return $response->count_room_empty;
+        }
+        {
+            return 0;
+        }
     }
 
-    public function countRoomBooking()
+    public function countRoomBooking(): int
     {
         $this->db->query("SELECT COUNT(r.id) as count_room_booking FROM rooms as r JOIN hotel.bookings b on r.id = b.room_id");
-        return $this->db->single();
+        $response = $this->db->single();
+        if ($response) {
+            return $response->count_room_booking;
+        } else {
+            return 0;
+        }
     }
 
 
@@ -112,6 +133,11 @@ class RoomModel
     }
 
 
+    /**
+     * @param RoomBase $data
+     * @return mixed
+     * @throws Exception
+     */
     public function findName($data)
     {
         $this->db->query("SELECT * FROM rooms
@@ -129,6 +155,11 @@ class RoomModel
     }
 
 
+    /**
+     * @param bool $status
+     * @return mixed
+     * @throws Exception
+     */
     public function status($status)
     {
         $this->db->query("SELECT * FROM rooms
@@ -146,6 +177,27 @@ class RoomModel
         throw new Exception($response);
     }
 
+    public function statusAction(int $id, bool $status)
+    {
+        $this->db->query("UPDATE  rooms 
+        SET status = :status
+        WHERE id = :id
+ ");
+        $this->db->bind(':status', $status);
+        $this->db->bind(':id', $id);
+        $response = $this->db->execute();
+        if ($response) {
+            return $response;
+        } else {
+            throw new Exception("No results found");
+        }
+        throw new Exception($response);
+    }
+
+    /**
+     * @param bool $status
+     * @return mixed
+     */
     public function findAllStatus($status)
     {
         $this->db->query("SELECT * FROM rooms
@@ -159,28 +211,37 @@ class RoomModel
 
     public function findHome()
     {
-        $this->db->query("SELECT * FROM rooms LIMIT 3");
+        $this->db->query("SELECT * FROM rooms LIMIT 10");
         return $this->db->resultSet();
     }
 
-    public function find_check_booking_availability(int $children,
-                                                    int $adult,
-                                                        $check_in_date,
-                                                        $check_out_date,
-    )
+    /**
+     * @param BookingBase|RoomBase $data
+     * @return array
+     * @throws Exception
+     */
+    public function find_check_booking_availability(mixed $data): array
     {
+//        print_r($data);
 //        SELECT * FROM rooms WHERE children <= 41 OR adult <= 4
         $this->db->query(
             "SELECT *
                 FROM rooms as r
-                JOIN  bookings as b
-                ON   r.id = b.room_id
-                WHERE r.children <= :children
-                OR r.adult <= :adult
-                OR b.check_in_date >= :check_in_date
-                AND b.check_out_date >= :check_out_date
+                WHERE r.status = 1 
+                AND (r.children <= :children OR r.adult <= :adult)
+                    AND NOT EXISTS(
+                    SELECT 1 FROM bookings as b
+                    WHERE b.room_id = r.id
+                       AND (b.check_in_date <= :check_out_date
+                       AND b.check_out_date >= :check_in_date)
+                )
                 ");
-
+//        target 22
+//        host 21
+//                    AND (b.check_in_date >= :check_in_date AND b.check_out_date >= :check_out_date)
+//                       AND b.check_in_date <= :check_out_date
+//                        AND b.check_out_date >= :check_in_date
+//                    AND (b.check_in_date >= :check_in_date AND b.check_out_date >= :check_out_date)
 //        $this->db->query("
 //    SELECT *
 //    FROM rooms AS r
@@ -195,22 +256,27 @@ class RoomModel
 //      )
 //");
 
-        $this->db->bind(':children', $children);
-        $this->db->bind(':adult', $adult);
-        $this->db->bind(':check_in_date', $check_in_date);
-        $this->db->bind(':check_out_date', $check_out_date);
+        $this->db->bind(':children', $data['children']);
+        $this->db->bind(':adult', $data['adult']);
+        $this->db->bind(':check_in_date', $data['check_in_date']);
+        $this->db->bind(':check_out_date', $data['check_out_date']);
         $response = $this->db->resultSet();
 //        print_r($response);
         if ($response) {
             return $response;
         } else {
-            print_r($response);
+//            print_r($response);
 //            throw new Exception('data is not found');
             throw new Exception('data is not found');
         }
     }
 
-    public function findSearch($data)
+    /**
+     * @param RoomBase|BookingBase $data
+     * @return array|Exception
+     * @throws Exception
+     */
+    public function findSearch(mixed $data): array|Exception
     {
         //            JOIN hotel.booking b
 //                ON r.id = b.room_id
@@ -220,12 +286,11 @@ class RoomModel
     WHERE (r.wifi = :wifi OR r.television = :television OR r.ac = :ac OR r.cctv = :cctv OR r.dining_room = :dining_room OR r.parking_area = :parking_area OR r.security = :security)
     AND r.status = 1
     AND (r.children <= :children OR r.adult <= :adult)
-    
-        AND NOT EXISTS (    SELECT 1
-        FROM bookings AS b
+        AND NOT EXISTS (    
+        SELECT 1 FROM bookings AS b
         WHERE b.room_id = r.id
-        AND b.check_in_date < :check_out_date
-        AND b.check_out_date > :check_in_date
+            AND (b.check_in_date <= :check_out_date
+            AND b.check_out_date >= :check_in_date)
     )
 ");
 
@@ -245,13 +310,10 @@ class RoomModel
         $this->db->bind(':check_out_date', $data['check_out_date']);
 
         $response = $this->db->resultSet();
-        if ($response) {
+        if (count($response) > 0) {
             return $response;
         } else {
-            if (count($response) == 0) {
-                throw new Exception('data is not found');
-            }
-            throw new Exception($response);
+            throw new Exception('data is not found');
         }
     }
 
@@ -335,7 +397,7 @@ class RoomModel
         if ($response) {
             return $response;
         } else {
-            throw new Exception($response);
+            throw new Exception('not found');
         }
     }
 
@@ -343,7 +405,7 @@ class RoomModel
     {
         $this->db->query("
             SELECT 
-                guest_id,b.id as id_booking, guest_id, room_id, check_in_date, check_out_date, total_price, b.booking as status_booking, created_at,  name, area, price, quantity, adult, children, description, r.status as status_room, wifi, television, ac, cctv, dining_room, parking_area, bedrooms, bathrooms, wardrobe, security, image, confirm ,finish 
+                guest_id,b.id as id_booking, guest_id, room_id, check_in_date, check_out_date, total_price, b.booking as status_booking, name, area, price, quantity, adult, children, description, r.status as status_room, wifi, television, ac, cctv, dining_room, parking_area, bedrooms, bathrooms, wardrobe, security, image, confirm ,finish 
             FROM bookings b
             JOIN rooms r ON b.room_id = r.id
             WHERE b.guest_id = :guest_id");
@@ -361,7 +423,7 @@ class RoomModel
     {
         $this->db->query("
             SELECT 
-                guest_id,b.id as id_booking, guest_id, room_id, check_in_date, check_out_date, total_price, b.booking as status_booking, created_at,  name, area, price, quantity, adult, children, description, r.status as status_room, wifi, television, ac, cctv, dining_room, parking_area, bedrooms, bathrooms, wardrobe, security, image, confirm ,finish 
+                guest_id,b.id as id_booking, guest_id, room_id, check_in_date, check_out_date, total_price, b.booking as status_booking, b.create_at,  name, area, price, quantity, adult, children, description, r.status as status_room, wifi, television, ac, cctv, dining_room, parking_area, bedrooms, bathrooms, wardrobe, security, image, confirm ,finish 
             FROM bookings b
             JOIN rooms r ON b.room_id = r.id
             WHERE b.guest_id = :guest_id AND name = :search");
@@ -377,7 +439,6 @@ class RoomModel
     }
 
 
-
     public function delete($id)
     {
         $this->db->query("DELETE FROM rooms where id = :id");
@@ -391,7 +452,13 @@ class RoomModel
     }
 
 
-    public function update(int $id, array $data)
+    /**
+     * @param int $id
+     * @param RoomBase $data
+     * @return mixed
+     * @throws Exception
+     */
+    public function update(int $id, mixed $data)
     {
         $this->db->query("UPDATE rooms 
             SET 

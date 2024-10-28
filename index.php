@@ -14,13 +14,13 @@ $router->addRoute('POST', '/auth/logout', [AuthController::class, 'logout']);
 
 // home route
 $router->addRoute('GET', '/', [HomeController::class, 'index']);
-$router->addRoute('GET', '/check-booking-availability', [HomeController::class, 'check_booking_availability']);
-$router->addRoute('POST', '/check-booking-availability', [HomeController::class, 'check_booking_availability']);
+$router->addRoute('POST', '/', [HomeController::class, 'index']);
+//$router->addRoute('POST', '/check-booking-availability', [HomeController::class, 'check_booking_availability']);
 $router->addRoute('GET', '/test', [HomeController::class, 'test']);
 //
 $router->addRoute('GET', '/room', [HomeController::class, 'room']);
-$router->addRoute('POST', '/room/search', [HomeController::class, 'room_search']);
-$router->addRoute('GET', '/room/detail/{id}', [HomeController::class, 'room_detail']);
+$router->addRoute('POST', '/room', [HomeController::class, 'room']);
+$router->addRoute('GET', '/room/{id}', [HomeController::class, 'room_detail']);
 //
 $router->addRoute('GET', '/facility', [HomeController::class, 'facility']);
 $router->addRoute('GET', '/contact', [HomeController::class, 'contact']);
@@ -42,12 +42,15 @@ $router->addRoute('GET', '/admin/settings', [AdminController::class, 'settings']
 $router->addRoute('GET', '/admin/room', [RoomController::class, 'index']);
 $router->addRoute('POST', '/admin/room', [RoomController::class, 'search']);
 $router->addRoute('GET', '/admin/room-available', [RoomController::class, 'available']);
+$router->addRoute('POST', '/admin/room-available/{id}', [RoomController::class, 'available_action']);
 $router->addRoute('GET', '/admin/room-full', [RoomController::class, 'full']);
 $router->addRoute('GET', '/admin/room/create', [RoomController::class, 'create']);
 $router->addRoute('POST', '/admin/room/store', [RoomController::class, 'store']);
 $router->addRoute('GET', '/admin/room/update/{id}', [RoomController::class, 'update']);
-$router->addRoute('POST', '/admin/room/edit/{id}', [RoomController::class, 'edit']);
+$router->addRoute('POST', '/admin/room/update/{id}', [RoomController::class, 'update']);
 $router->addRoute('GET', '/admin/room/{id}', [RoomController::class, 'detail_admin']);
+$router->addRoute('POST', '/admin/room/{id}', [RoomController::class, 'detail_admin']);
+$router->addRoute('POST', '/admin/room-delete/{id}', [RoomController::class, 'detail_admin_delete']);
 
 // admin guest
 $router->addRoute('GET', '/admin/guest', [GuestController::class, 'index']);

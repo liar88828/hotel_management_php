@@ -196,7 +196,9 @@ class AuthController extends Controller
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 session_unset();
                 session_destroy();
+                $this->redirect('/');
                 exit();
+
             }
         } catch (Exception $e) {
             $this->redirect('/', ['message' => $e->getMessage()]);

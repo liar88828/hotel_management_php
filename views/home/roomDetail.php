@@ -25,11 +25,15 @@
 
                 <div class="container mt-5">
                     <h1 class="mb-3"><?= htmlspecialchars($room->name) ?></h1>
+
                     <div class="row">
+
                         <div class="col-md-6">
-                            <img src="../../images/carousel/kamar.jpg" class="img-fluid rounded"
+                            <img src="/images/rooms/<?= htmlspecialchars($room->image) ?>"
+                                 class="img-fluid rounded"
                                  alt="Room Image">
                         </div>
+
                         <div class="col-md-6">
                             <h4>Room Details</h4>
                             <p><strong>Area:</strong> <?= htmlspecialchars($room->area) ?> m²</p>
@@ -82,6 +86,8 @@
         </div>
 </div>
 <?php require('./views/components/footer.php'); ?>
+<?php require('views/assets/php/swiper.php') ?>
+
 
 </body>
 </html>

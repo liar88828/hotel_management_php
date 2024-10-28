@@ -58,7 +58,7 @@ require('views/assets/php/getMessage.php');
                     <p> Room Is Not Found</p>
                 </div>
             <?php else: ?>
-
+                <!--                --><?php // print_r($room_images) ?>
                 <div class="container">
                     <div class="bg-white">
                         <div class=" border rounded p-2 mb-3">
@@ -66,11 +66,53 @@ require('views/assets/php/getMessage.php');
                                 <?= htmlspecialchars($booking->name) ?>
                             </h1>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <img src="/images/rooms/<?= htmlspecialchars($booking->image) ?>"
-                                         class="img-fluid rounded"
-                                         alt="Room Image">
+                                <!--                                <div class="col-md-6">-->
+                                <!--                                    <img src="/images/rooms/-->
+                                <?php //= htmlspecialchars($booking->image) ?><!--"-->
+                                <!--                                         class="img-fluid rounded"-->
+                                <!--                                         alt="Room Image">-->
+                                <!--                                </div>-->
+                                <!--                                -->
+
+                                <div class="col-md-6 ">
+                                    <div class="swiper swiper-container mySwiper">
+                                        <div class="swiper-wrapper">
+                                            <div class="swiper-slide">
+                                                <img src="/images/rooms/<?= htmlspecialchars($booking->image) ?>"
+                                                     class="w-100  d-block  "
+                                                     alt="image1"
+                                                     style="object-fit:cover;
+                                                        object-position:center;
+                                                        /*width: 200px;*/
+                                                        height: 400px;"
+                                                >
+                                            </div>
+                                            <?php if (!empty($room_images)): ?>
+                                                <?php /** @var RoomImageBase $room_image */
+                                                foreach ($room_images as $room_image) : ?>
+
+                                                    <div class="swiper-slide">
+                                                        <img
+                                                                src="/images/rooms/<?= htmlspecialchars($room_image->image) ?>"
+                                                                class="w-100  d-block  "
+                                                                alt="image1"
+                                                                style="object-fit:cover;
+                                object-position:center;
+                                /*width: 200px;*/
+                                height: 400px;"
+                                                        >
+                                                    </div>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+
+                                            <!-- Add Arrows -->
+                                            <div class="swiper-button-next"></div>
+                                            <div class="swiper-button-prev"></div>
+                                        </div>
+                                    </div>
                                 </div>
+
+
                                 <div class="col-md-6">
                                     <h4>Room Details</h4>
                                     <p><strong>Area:</strong> <?= htmlspecialchars($booking->area) ?> m²</p>
@@ -248,7 +290,8 @@ require('views/assets/php/getMessage.php');
             <?php endif; ?>
 
             <!-- Bootstrap JS and Popper.js -->
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+            <?php require('views/assets/php/swiper.php') ?>
+
 
 </body>
 </html>

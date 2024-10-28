@@ -61,7 +61,7 @@ adminLogin();
                                 <div class="col-md-5 px-lg-3 px-md-3 px-0">
                                     <h5 class="mb-1"><?= htmlspecialchars($room->name) ?>
                                         <span class="badge rounded-pill text-bg-<?= $room->status == 1 ? 'success' : 'danger' ?> ">
-                                        <?= htmlspecialchars($room->status == 1 ? 'Available' : 'Full') ?>
+                                        <?= htmlspecialchars($room->status ? 'Available' : 'Full') ?>
                                       </span>
                                     </h5>
                                     <div class="features mb-3">
@@ -106,9 +106,7 @@ adminLogin();
 
                                         <div class="mb-2">
                                             <input type="checkbox" id="f3" class="form-check-input shadow-none me-1"
-                                                   name="status"
-                                                <?= $room->status ? 'checked' : '' ?>
-                                            >
+                                                   name="status"<?= $room->status ? 'checked' : '' ?>>
                                             <label class="form-check-label" for="f3">
                                                 <button class="btn w-100 btn-info ">Status</button>
                                             </label>
@@ -121,10 +119,11 @@ adminLogin();
                                         ?>/night</h6>
 
 
-                                    <a href="/admin/room/update/<?= $room->id ?>"
-                                       class="btn btn-info w-100 shadow-none mb-2">
-                                        <i class="bi bi-pencil-square"></i> Edit
-                                    </a>
+                                    <!--                                    <a href="/admin/room/update/-->
+                                    <?php //= $room->id ?><!--"-->
+                                    <!--                                       class="btn btn-info w-100 shadow-none mb-2">-->
+                                    <!--                                        <i class="bi bi-pencil-square"></i> Edit-->
+                                    <!--                                    </a>-->
 
                                     <a href="/admin/room/<?= $room->id ?>"
                                        class="btn w-100 btn-outline-dark mb-2">More Details</a>

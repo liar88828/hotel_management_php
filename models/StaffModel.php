@@ -56,6 +56,10 @@ class StaffModel
     }
 
 
+    /**
+     * @param StaffBase $data
+     * @return mixed
+     */
     public function create($data)
     {
         print_r($data);
@@ -74,6 +78,11 @@ class StaffModel
     }
 
 
+    /**
+     * @param $id
+     * @param StaffBase $data
+     * @return mixed
+     */
     public function update($id, $data)
     {
         $this->db->query("UPDATE staff

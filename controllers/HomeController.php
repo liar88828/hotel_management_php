@@ -15,77 +15,87 @@ class HomeController extends Controller
         $this->roomModel = $this->model('RoomModel');
         $this->testimonialModel = $this->model('TestimonialModel');
         $this->carouselModel = $this->model('CarouselModel');
-
-
     }
 
 
-    public function index()
+    public function index(): void
     {
-
-
-        $this->view('home/index', [
-            'rooms' => $this->roomModel->findHome(),
-            'testimonials' => $this->testimonialModel->findAll(),
-            'carousels' => $this->carouselModel->findAll(),
-        ]);
-    }
-
-    public function check_booking_availability()
-    {
-        if ($_SERVER["REQUEST_METHOD"] == "GET") {
-            $this->redirect('/');
-        }
-        try {
-
-            $children = filter_var($_POST['children'], FILTER_SANITIZE_NUMBER_INT);
-            $adult = filter_var($_POST['adult'], FILTER_SANITIZE_NUMBER_INT);
-            $check_in_date = filter_var($_POST['check_in_date'], FILTER_SANITIZE_NUMBER_INT);
-            $check_out_date = filter_var($_POST['check_out_date'], FILTER_SANITIZE_NUMBER_INT);
+        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             $this->view('home/index', [
-                'rooms' => $this->roomModel->find_check_booking_availability($children, $adult, $check_in_date, $check_out_date),
+                'rooms' => $this->roomModel->findHome(),
                 'testimonials' => $this->testimonialModel->findAll(),
                 'carousels' => $this->carouselModel->findAll(),
             ]);
+        }
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $this->check_booking_availability();
+        }
+    }
 
+    public function check_booking_availability(): void
+    {
+        try {
+            /** @var RoomBase|BookingBase $data */
+            $data = [
+                'children' => filter_var($_POST['children'], FILTER_SANITIZE_NUMBER_INT),
+                'adult' => filter_var($_POST['adult'], FILTER_SANITIZE_NUMBER_INT),
+                'check_in_date' => trim($_POST['check_in_date']),
+                'check_out_date' => trim($_POST['check_out_date']),
+            ];
+//            print_r($data);
+            $this->view('home/index', [
+                'rooms' => $this->roomModel->find_check_booking_availability($data),
+                'testimonials' => $this->testimonialModel->findAll(),
+                'carousels' => $this->carouselModel->findAll(),
+            ]);
         } catch (exception $e) {
-            print_r($e->getMessage());
-            print_r('error bos');
+//            print_r('error bos');
+//            print_r($e->getMessage());
+            if ($e instanceof PDOException) {
+
+                $this->redirect('/', ['message' => 'Server Sibuk']);
+            }
             $this->redirect('/', ['message' => 'data is not found']);
         }
     }
 
-    public function test()
+    public function test(): void
     {
 
         $this->view('home/test');
     }
 
 
-    public function room()
+    public function room(): void
     {
+        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+            $data = ['rooms' => $this->roomModel->findHome()];
+            $this->view('home/room', $data);
+        }
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $this->room_search();
+        }
 
-        $data = ['rooms' => $this->roomModel->findHome()];
-        $this->view('home/room', $data);
     }
 
-    public function room_search()
+    public function room_search(): void
     {
         try {
             mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                /** @var RoomBase|BookingBase $data */
                 $data = [
                     'children' => filter_var($_POST['children'], FILTER_SANITIZE_NUMBER_INT),
                     'adult' => filter_var($_POST['adult'], FILTER_SANITIZE_NUMBER_INT),
 //
-                    "wifi" =>  isset($_POST['wifi']) ? 1 : 0,
-                    "television" =>  isset($_POST['television']) ? 1 : 0,
-                    "ac" =>  isset($_POST['ac']) ? 1 : 0,
-                    "cctv" =>  isset($_POST['cctv']) ? 1 : 0,
-                    "dining_room" =>  isset($_POST['dining_room']) ? 1 : 0,
-                    "parking_area" =>  isset($_POST['parking_area']) ? 1 : 0,
-                    "security" =>  isset($_POST['security']) ? 1 : 0,
+                    "wifi" => isset($_POST['wifi']) ? 1 : 0,
+                    "television" => isset($_POST['television']) ? 1 : 0,
+                    "ac" => isset($_POST['ac']) ? 1 : 0,
+                    "cctv" => isset($_POST['cctv']) ? 1 : 0,
+                    "dining_room" => isset($_POST['dining_room']) ? 1 : 0,
+                    "parking_area" => isset($_POST['parking_area']) ? 1 : 0,
+                    "security" => isset($_POST['security']) ? 1 : 0,
 //
                     'check_in_date' => filter_var($_POST['check_in_date']),
                     'check_out_date' => filter_var($_POST['check_out_date'], FILTER_SANITIZE_NUMBER_INT),
@@ -94,47 +104,57 @@ class HomeController extends Controller
                     ['rooms' => $this->roomModel->findSearch($data)]
                 );
             }
-        } catch (Exception $e) {
+        } catch (PDOException|Exception $e) {
+            if ($e instanceof PDOException) {
+                $this->redirect('/room', ['message' => 'Server Sibuk']);
+            }
             $this->redirect('/room', ['message' => 'data is not found']);
         }
     }
 
 
-    public function room_detail($id)
+    public function room_detail($id): void
     {
+        try {
 
-        $data = ['room' => $this->roomModel->findId($id)];
-        $this->view('home/roomDetail', $data);
+            $data = ['room' => $this->roomModel->findId($id)];
+            $this->view('home/roomDetail', $data);
+        } catch (Exception $e) {
+            if ($e instanceof PDOException) {
+                $this->redirect('/room', ['message' => 'Server Sibuk']);
+            }
+            $this->redirect('/room', ['message' => 'data is not found']);
+        }
 
     }
 
 
-    public function facility()
+    public function facility(): void
     {
 
         $this->view('home/facility');
     }
 
-    public function contact()
+    public function contact(): void
     {
 
         $this->view('home/contact');
     }
 
-    public function about()
+    public function about(): void
     {
 
         $this->view('home/about');
     }
 
-    public function testimonial()
+    public function testimonial(): void
     {
 
         $data = ['testimonials' => $this->testimonialModel->findAll()];
         $this->view('home/testimonial', $data);
     }
 
-    public function detail($id)
+    public function detail($id): void
     {
         print_r($id);
         $data = [

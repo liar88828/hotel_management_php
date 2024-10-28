@@ -39,7 +39,8 @@ require('views/assets/php/getMessage.php');
                 <?php if (empty($bookings)): ?>
                     <p>No Booking is available.</p>
                 <?php else: ?>
-                    <?php foreach ($bookings as $booking): ?>
+                    <?php /** @var BookingBase $booking */
+                    foreach ($bookings as $booking): ?>
                         <div class="card mb-4 border-0 shadow">
                             <div class="row g-0 p-3 align-items-center">
                                 <div class="col-md-5 mb-lg-0 mb-md-0 mb-3">

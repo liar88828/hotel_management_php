@@ -9,13 +9,15 @@ class BookingController extends Controller
     private BookingModel $bookingModel;
     private RoomModel $roomModel;
     private ImageService $imageService;
+    private RoomImagesModel $roomImagesModel;
 
     public function __construct()
 
     {
-        $this->guestModel = $this->model('GuestModel');
+//        $this->guestModel = $this->model('GuestModel');
         $this->bookingModel = $this->model('BookingModel');
         $this->roomModel = $this->model('RoomModel');
+        $this->roomImagesModel = $this->model('RoomImagesModel');
         $this->imageService = $this->service('ImageService');
 
     }
@@ -59,6 +61,7 @@ class BookingController extends Controller
     {
         try {
 
+            /** @var BookingBase $data */
             $data = [
                 'check_in_date' => trim($_POST['check_in_date']),
                 'check_out_date' => trim($_POST['check_out_date']),
@@ -67,15 +70,14 @@ class BookingController extends Controller
                 'id_room' => trim($_POST['id_room']),
             ];
             if ($data['total_price'] == 0) {
-                print_r($data);
+                $form = [
+                    'check_in_date' => trim($_POST['check_in_date']),
+                    'check_out_date' => trim($_POST['check_out_date']),
+                    'total_price' => filter_var($_POST['total_price'] ?: 0, FILTER_SANITIZE_NUMBER_INT),
+                ];
                 $this->redirect("/guest/room/{$data['id_room']}", [
                     'message' => 'please correct the date because the total price is 0',
-                    'form' => [
-                        'check_in_date' => trim($_POST['check_in_date']),
-                        'check_out_date' => trim($_POST['check_out_date']),
-                        'total_price' => filter_var($_POST['total_price'] ?: 0, FILTER_SANITIZE_NUMBER_INT),
-
-                    ]
+                    $form
                 ]);
             } else {
 
@@ -83,10 +85,9 @@ class BookingController extends Controller
                 $session = getSessionGuest();
                 $guestId = $session->id;
 
-                $this->bookingModel->create((int)$guestId, $data['id_room'], 'pending', $data);
+                $this->bookingModel->create((int)$guestId, $data['id_room'], $data);
                 $this->redirect(
                     '/guest/booking',
-
                     ['message' => 'success booked room']
                 );
             }
@@ -174,7 +175,7 @@ class BookingController extends Controller
         try {
             $session = getSessionGuest();
             $guestId = $session->id;
-            $data = $this->bookingModel->findIdGuestFinishAction($id, $guestId);
+            $this->bookingModel->findIdGuestFinishAction($id, $guestId);
             $this->redirect(
                 '/guest/booking-confirm',
                 ['message' => 'success']
@@ -190,9 +191,13 @@ class BookingController extends Controller
     {
         try {
             getSessionGuest();
+            $data = $this->bookingModel->findId($id);
+//print_r($data);
             $this->view(
                 'guest/booking/detail',
-                ['booking' => $this->bookingModel->findId($id)
+                [
+                    'booking' => $data,
+                    'room_images' => $this->roomImagesModel->findAll($data->id_room)
                 ]);
         } catch (Exception $e) {
             $this->redirect('/guest/booking/index',
@@ -233,6 +238,7 @@ class BookingController extends Controller
     {
         try {
 
+            /** @var BookingBase $data */
             $data = [
                 'check_in_date' => trim($_POST['check_in_date']),
                 'check_out_date' => trim($_POST['check_out_date']),
@@ -277,12 +283,12 @@ class BookingController extends Controller
     }
 
 
-    public function booking_update_cancel()
+    public function booking_update_cancel(): void
     {
         try {
+            getSessionGuest();
             $id_booking = trim($_POST['booking_id']);
-            $session = getSessionGuest();
-            $guestId = $session->id;
+//            $guestId = $session->id;
             $this->bookingModel->status((int)$id_booking, 0);
             $this->redirect('/guest/booking');
         } catch (Exception $e) {
@@ -297,6 +303,7 @@ class BookingController extends Controller
     {
         try {
 
+            /** @var BookingBase $data */
             $data = [
                 'check_in_date' => trim($_POST['check_in_date']),
                 'check_out_date' => trim($_POST['check_out_date']),
@@ -322,6 +329,7 @@ class BookingController extends Controller
     {
         try {
 
+            /** @var BookingBase $data */
             $data = [
                 'check_in_date' => trim($_POST['check_in_date']),
                 'check_out_date' => trim($_POST['check_out_date']),
@@ -333,7 +341,6 @@ class BookingController extends Controller
             $session = getSessionGuest();
             $guestId = $session->id;
             $this->bookingModel->update_guest($id, $guestId, $data);
-//        ['guest' => ]
             $this->redirect('/guest/booking');
         } catch (Exception $e) {
             var_dump($e->getMessage());
@@ -464,10 +471,10 @@ class BookingController extends Controller
                 ];
                 $this->bookingModel->confirmAdmin($id, $data);
             }
-            $this->redirect("/admin/booking/detail/{$id}");
+            $this->redirect("/admin/booking/detail/$id");
         } catch (Exception $e) {
             var_dump($e->getMessage());
-            $this->redirect("/admin/booking/detail/{$id}", ['message', 'data error']);
+            $this->redirect("/admin/booking/detail/$id", ['message', 'data error']);
         }
     }
 

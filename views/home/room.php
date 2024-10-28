@@ -31,7 +31,7 @@ require('views/assets/php/getMessage.php');
                     </button>
 
                     <form
-                            action="/room/search"
+                            action="/room"
                             method="post"
                             class="collapse navbar-collapse flex-column align-items-stretch mt-2" id="filterDropdown">
 
@@ -103,13 +103,14 @@ require('views/assets/php/getMessage.php');
         <?php else: ?>
 
         <div class="col-lg-9 col-md-12 px-4">
-            <?php foreach ($rooms as $room): ?>
+            <?php /** @var RoomBase $room */
+            foreach ($rooms as $room): ?>
 
                 <div class="card mb-4 border-0 shadow">
                     <div class="row g-0 p-3 align-items-center">
                         <div class="col-md-5 mb-lg-0 mb-md-0 mb-3">
                             <img
-                                    src="../../images/carousel/kamar.jpg"
+                                    src="/images/rooms/<?= htmlspecialchars($room->image) ?>"
                                     class="img-fluid rounded">
                         </div>
                         <div class="col-md-5 px-lg-3 px-md-3 px-0">
@@ -170,7 +171,7 @@ require('views/assets/php/getMessage.php');
                                 Book Now
                             </a>
 
-                            <a href="/room/detail/<?= $room->id ?>"
+                            <a href="/room/<?= $room->id ?>"
                                class="btn w-100 btn-outline-dark ">More Details</a>
                         </div>
                     </div>

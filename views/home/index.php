@@ -16,12 +16,13 @@ require('views/assets/php/getMessage.php');
 
 <!-- Swiper -->
 <div class="container-fluid px-lg-4 mt-4">
-<?php //= print_r($message);?>
+    <?php //= print_r($message);?>
     <?php showMessage() ?>
     <div class="swiper swiper-container mySwiper">
         <div class="swiper-wrapper">
             <?php if (isset($carousels)): ?>
-                <?php foreach ($carousels as $carousel): ?>
+                <?php /** @var CarouselBase $carousel */
+                foreach ($carousels as $carousel): ?>
                     <div class="swiper-slide">
                         <img
                                 src="/images/carousel/<?php print_r($carousel->image); ?>"
@@ -67,13 +68,13 @@ require('views/assets/php/getMessage.php');
     <div class="row">
         <div class="col-lg-12 bg-white p-4 rounded">
             <h4 class="mb-4">Check Booking Availability </h4>
-            <form action="/check-booking-availability" method="post">
+            <form action="/" method="post">
                 <div class="row align-items-end">
 
                     <div class="col-lg-3 mb-3">
                         <label
                                 for="check_in"
-                                class="form-label"  style="font-weight: 500">Check in
+                                class="form-label" style="font-weight: 500">Check in
                         </label>
                         <input
                                 id="check_in"
@@ -87,7 +88,7 @@ require('views/assets/php/getMessage.php');
                         <input type="date"
                                id="check_out"
                                name="check_out_date"
-                               class="form-control shadow-none" >
+                               class="form-control shadow-none">
                     </div>
 
                     <div class="col-lg-3 mb-3">
@@ -131,13 +132,17 @@ require('views/assets/php/getMessage.php');
 
 <!-- Our Rooms -->
 <h2 class="mt-4 pt-4 mb-4 text-center fw-bold h-font">OUR ROOMS</h2>
-<div class="container">
-    <div class="row">
+<div class="container px-lg-4">
+    <div class="" style="height: 50rem; overflow-x: auto;  display: flex; flex-direction:row;  ">
         <?php if (isset($rooms)): ?>
-            <?php foreach ($rooms as $room): ?>
-                <div class="col-lg-4 col-md-6 my-3">
-                    <div class="card border-0 shadow" style="max-width: 350px; margin: auto;"><img
-                                src="../../images/carousel/kamar.jpg" class="card-img-top" alt="image1"/>
+            <?php /** @var RoomBase $room */
+            foreach ($rooms as $room): ?>
+                <div style="width: 24rem ;flex-shrink: 0">
+                    <div class="card border-0 shadow" style="max-width: 350px; margin: auto;">
+                        <img
+                                src="/images/rooms/<?= htmlspecialchars($room->image) ?>"
+                                style="width: auto; height: 20rem"
+                                class="card-img-top" alt="image1"/>
                         <div class="card-body"><h5>
                                 <?= htmlspecialchars($room->name) ?>
                             </h5>
@@ -196,7 +201,8 @@ require('views/assets/php/getMessage.php');
                             <div class="d-flex justify-content-evenly mb-2">
                                 <a href="#" class="btn btn-sm text-white custom-bg shadow-none">Book Now</a>
 
-                                <a href="/room/detail/<?= $room->id ?>" class="btn btn-sm btn-outline-dark shadow-none">More Details</a>
+                                <a href="/room/detail/<?= $room->id ?>" class="btn btn-sm btn-outline-dark shadow-none">More
+                                    Details</a>
                             </div>
                         </div>
                     </div>
@@ -206,7 +212,7 @@ require('views/assets/php/getMessage.php');
 
             <div class="col-lg-4 col-md-6 my-3">
                 <div class="card border-0 shadow" style="max-width: 350px; margin: auto;">
-                    <img src="../../images/carousel/kamar.jpg" class="card-img-top" alt="image_room" />
+                    <img src="../../images/carousel/kamar.jpg" class="card-img-top" alt="image_room"/>
                     <div class="card-body">
                         <h5>Kamar B</h5>
                         <h6 class="mb-5">Rp.200.000/night</h6>
@@ -276,11 +282,12 @@ require('views/assets/php/getMessage.php');
 
         <?php endif; ?>
 
-        <div class="col-lg-12 text-center mt-5">
-            <a href="/room" class="btn btn-sm btn-outline-dark rounded-0 fw-bold shadow-none">MORE ROOMS >></a>
-        </div>
 
     </div>
+    <div class="col-lg-12 text-center mt-5">
+        <a href="/room" class="btn btn-sm btn-outline-dark rounded-0 fw-bold shadow-none">MORE ROOMS >></a>
+    </div>
+
 </div>
 <!-- OUR FACILITIES -->
 <h2 class="mt-4 pt-4 mb-4 text-center fw-bold h-font">OUR FACILITIES</h2>
@@ -305,7 +312,7 @@ require('views/assets/php/getMessage.php');
             <h5 class="mt-3">AC</h5>
         </div>
         <div class="col-lg-2 col-md-2 text-center bg-white rounded shadow py-4 my-3">
-            <img src="../../images/facilities/IMG_41622.svg" width="80px" alt="facilities" />
+            <img src="../../images/facilities/IMG_41622.svg" width="80px" alt="facilities"/>
             <h5 class="mt-3">TV</h5>
         </div>
         <div class="col-lg-12 text-center mt-5">
@@ -322,7 +329,8 @@ require('views/assets/php/getMessage.php');
         <div class="swiper-wrapper mb-5">
 
             <?php if (isset($testimonials)): ?>
-                <?php foreach ($testimonials as $testimonial): ?>
+                <?php /** @var TestimonialBase $testimonial */
+                foreach ($testimonials as $testimonial): ?>
                     <div class="swiper-slide bg-white p-4">
                         <div class="profile d-flex align-items-center p-4">
                             <img
@@ -330,7 +338,7 @@ require('views/assets/php/getMessage.php');
                                     width="100px"
                                     height="100px"
                                     class="rounded-circle"
-                                    alt="<?= print_r($testimonial->image); ?>"
+                                    alt="<?= htmlspecialchars($testimonial->image); ?>"
                             />
                             <h2><?php print_r($testimonial->name) ?></h2>
                         </div>
