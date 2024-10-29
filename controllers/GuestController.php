@@ -1,8 +1,5 @@
 <?php
 
-require_once 'core/controller.php';
-require('views/assets/php/guest_login.php');
-
 class GuestController extends Controller
 {
     private GuestModel $guestModel;
@@ -26,6 +23,7 @@ class GuestController extends Controller
         $session = getSessionGuest();
         $guestId = $session->id;
         $data = ['guest' => $this->guestModel->findId($guestId)];
+        $this->layout('guest');
         $this->view('guest/profile/index', $data);
     }
 
@@ -33,6 +31,7 @@ class GuestController extends Controller
     {
         $session = getSessionGuest();
         $guestId = $session->id;
+        $this->layout('guest');
         $this->view(
             'guest/profile/update',
             ['guest' => $this->guestModel->findId($guestId)]
@@ -93,6 +92,7 @@ class GuestController extends Controller
             $session = getSessionGuest();
             $guestId = $session->id;
             $data = ['guest' => $this->bookingModel->findIdGuest($guestId)];
+            $this->layout('guest');
             $this->view('guest/history', $data);
         } catch (Exception $e) {
             print_r($e->getMessage());
@@ -131,20 +131,44 @@ class GuestController extends Controller
     //  admin //
     public function index(): void
     {
-        $data = ['guests' => $this->guestModel->findAll()];
-        $this->view('admin/guest/index', $data);
+        try {
+            $this->layout('guest');
+            if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+                $data = ['guests' => $this->guestModel->findAll()];
+                $this->view('admin/guest/index', $data);
+            }
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $data = ['guests' => $this->guestModel->search(trim($_POST['search']))];
+                $this->view('admin/guest/index', $data);
+            }
+        } catch (Exception $e) {
+            if ($e instanceof PDOException) {
+                $this->redirect('/admin/guest', ['message' => 'Database error']);
+            }
+            $this->redirect('/admin/guest', ['message' => $e->getMessage()]);
+        }
 
     }
 
     public function detail($id): void
     {
-        $data = ['guest' => $this->guestModel->findId($id)];
-        $this->view('admin/guest/detail', $data);
+        try {
+
+            $data = ['guest' => $this->guestModel->findId($id)];
+            $this->layout('admin');
+            $this->view('admin/guest/detail', $data);
+        } catch (Exception $e) {
+            if ($e instanceof PDOException) {
+                $this->redirect('/admin/guest', ['message' => 'Database sibuk']);
+            }
+            $this->redirect('/admin/guest', ['message' => $e->getMessage()]);
+        }
     }
 
 
     public function create()
     {
+        $this->layout('guest');
         $this->view('admin/guest/create');
     }
 
@@ -180,6 +204,7 @@ class GuestController extends Controller
     public function update($id): void
     {
         $data = ['guest' => $this->guestModel->findId($id)];
+        $this->layout('admin');
         $this->view('admin/guest/update', $data);
     }
 
@@ -218,4 +243,22 @@ class GuestController extends Controller
             );
         }
     }
+
+    public function delete($id): void
+    {
+        try {
+            $dataDB = $this->guestModel->findId($id);
+            $this->guestModel->delete($id);
+            $this->imageService->deleteImage("images/person/$dataDB->image");
+            $this->redirect('/admin/guest', ['message' => 'Delete Success ']);
+        } catch (Exception $e) {
+//            print_r($e->getMessage());
+            if ($e instanceof PDOException) {
+                $this->redirect('/admin/guest', ['message' => 'Database sibuk']);
+            }
+            $this->redirect('/admin/guest', ['message' => $e->getMessage()]);
+        }
+    }
+
+
 }

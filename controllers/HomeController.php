@@ -1,6 +1,5 @@
 <?php
 
-require_once 'core/controller.php';
 
 class HomeController extends Controller
 {
@@ -20,8 +19,10 @@ class HomeController extends Controller
 
     public function index(): void
     {
+        $this->layout('home');
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             $this->view('home/index', [
+                'title' => 'ASRAMA DIKLAT - HOME',
                 'rooms' => $this->roomModel->findHome(),
                 'testimonials' => $this->testimonialModel->findAll(),
                 'carousels' => $this->carouselModel->findAll(),

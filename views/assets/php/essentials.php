@@ -24,9 +24,7 @@ function redirect($url)
 
 function alert($type, $msg)
 {
-
     $bs_class = ($type == "success") ? "alert-success" : "alert-danger";
-
     echo <<<alert
     <div class="alert $bs_class alert-warning alert-dismissible fade show custom-alert" role="alert">
       <strong class="mg-3">$msg</strong>
@@ -35,24 +33,3 @@ function alert($type, $msg)
    alert;
 }
 
-function getMessage()
-{
-    return $_SESSION['redirect_data']['message'];
-}
-
-function removeMessage()
-{
-    unset($_SESSION['redirect_data']['message']);
-}
-
-function showMessage()
-{
-    if (isset($_SESSION['redirect_data']['message'])) {
-        if (getMessage()): ?>
-            <div class="alert alert-info">
-                <?= htmlspecialchars(getMessage()) ?>
-            </div>
-            <?php removeMessage(); ?>
-        <?php endif;
-    }
-}

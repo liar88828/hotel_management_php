@@ -1,9 +1,3 @@
-<?php
-require('views/assets/php/guest_login.php');
-require('views/assets/php/admin_login.php');
-
-
-?>
 <!-- navbar -->
 <nav class="navbar navbar-expand-lg bg-body-tertiary bg-white px-lg-3 py-lg-2 shadow-sm sticky-top">
     <div class="container-fluid">
@@ -60,5 +54,5 @@ require('views/assets/php/admin_login.php');
         </div>
     </div>
 </nav>
-<?php require 'views\auth\login.php'; ?>
-<?php require 'views\auth\register.php'; ?>
+<?php require 'views\components\auth\login.php'; ?>
+<?php require 'views\components\auth\register.php'; ?>

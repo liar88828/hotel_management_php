@@ -1,8 +1,5 @@
 <?php
-require_once 'core/controller.php';
-require_once 'models/AdminModel.php';
-require_once 'models/StaffModel.php';
-require_once 'models/GuestModel.php';
+
 
 class AuthController extends Controller
 {

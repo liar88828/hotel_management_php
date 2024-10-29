@@ -1,6 +1,5 @@
 <?php
 
-require_once 'core/database.php';
 
 
 class GuestModel
@@ -35,20 +34,41 @@ class GuestModel
 
     public function findAll()
     {
-        try {
-
             $this->db->query("SELECT * FROM guest");
-            return $this->db->resultSet();
-        } catch (PDOException $e) {
-            throw new PDOException($e->getMessage());
+        $response = $this->db->resultSet();
+        if (count($response) > 0) {
+            return $response;
+        } else {
+            return [];
+//                throw new Exception("Data is Empty");
         }
     }
+
+    public function search(string $search)
+    {
+
+        $this->db->query("SELECT * FROM guest WHERE name LIKE :search");
+        $this->db->bind(":search", "%$search%");
+        $response = $this->db->resultSet();
+        if (count($response) > 0) {
+            return $response;
+        } else {
+            throw new Exception("No results found");
+        }
+    }
+
 
     public function findId($id)
     {
         $this->db->query("SELECT * FROM guest WHERE id = :id");
         $this->db->bind(':id', $id);
-        return $this->db->single();
+        $response = $this->db->single();
+        if ($response) {
+            return $response;
+        } else {
+            throw new Exception('Data is not found');
+        }
+
     }
 
     public function findEmail($email): array|PDOException
@@ -123,14 +143,15 @@ class GuestModel
         }
     }
 
-    public function delete($id)
+    public function delete(int $id)
     {
-        try {
-            $this->db->query("DELETE FROM guest WHERE id = :id");
-            $this->db->bind(':id', $id);
-            return $this->db->single();
-        } catch (PDOException $e) {
-            throw new PDOException($e->getMessage());
+        $this->db->query("DELETE FROM guest WHERE id = :id");
+        $this->db->bind(':id', $id);
+        $response = $this->db->execute();
+        if ($response) {
+            return $response;
+        } else {
+            throw new Exception('Database Sibuk');
         }
     }
 

@@ -1,6 +1,5 @@
 <?php
 
-require_once 'core/controller.php';
 
 class StaffController extends Controller
 {
@@ -14,8 +13,8 @@ class StaffController extends Controller
     //  admin //
     public function index(): void
     {
+        $this->layout('admin');
         try {
-
             $this->view('admin/staff/index', ['staffs' => $this->staffModel->findAll()]);
         } catch (Exception $e) {
             $this->view(
@@ -26,6 +25,7 @@ class StaffController extends Controller
 
     public function search(): void
     {
+        $this->layout('admin');
         try {
 
             $this->view('admin/staff/index', ['staffs' => $this->staffModel->findAllSearch($_POST['search'])]);
@@ -42,12 +42,14 @@ class StaffController extends Controller
     public function detail($id)
     {
         $data = ['staff' => $this->staffModel->findId($id)];
+        $this->layout('admin');
         $this->view('admin/staff/detail', $data);
     }
 
 
     public function create()
     {
+        $this->layout('admin');
         $this->view('admin/staff/create');
     }
 
@@ -61,12 +63,14 @@ class StaffController extends Controller
     public function update($id)
     {
         $data = ['staff' => $this->staffModel->findId($id)];
+        $this->layout('admin');
         $this->view('admin/staff/update', $data);
     }
 
     public function edit($id)
     {
         $data = ['staffs' => $this->staffModel->update($id, $_POST)];
+        $this->layout('admin');
         $this->view('admin/staff/update', $data);
     }
 

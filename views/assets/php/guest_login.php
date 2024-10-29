@@ -4,7 +4,7 @@ function getSessionGuest()
 {
     $session = $_SESSION['guestLogin'];
     if (empty($session)) {
-        header("Location: /auth/login");
+        header("Location: /");
     }
     return $session;
 }

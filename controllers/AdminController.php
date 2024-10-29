@@ -1,8 +1,5 @@
 <?php
-require_once 'core/controller.php';
-require_once 'models/AdminModel.php';
-require_once 'models/RoomModel.php';
-require_once 'models/GuestModel.php';
+
 
 class AdminController extends Controller
 {
@@ -27,6 +24,7 @@ class AdminController extends Controller
 
     public function index(): void
     {
+        $this->layout('admin');
         $this->view('admin/index');
     }
 
@@ -53,6 +51,7 @@ class AdminController extends Controller
                 'count_booking_finish' => $this->bookingModel->countBookingFinish(),
             ];
 //print_r($data);
+            $this->layout('admin');
             $this->view('admin/dashboard', $data);
         } catch (Exception $e) {
             if ($e instanceof PDOException) {
@@ -70,9 +69,9 @@ class AdminController extends Controller
         $data = [
             'setting_general' => $this->settingModel->findGeneral(),
             'setting_contact' => $this->settingModel->findContact(),
-//      'setting_management' => $this->settingModel->findAll(),
+//            'setting_management' => $this->settingModel->findAll(),
         ];
-//    print_r($data);
+        $this->layout('admin');
         $this->view('/admin/settings/index', $data);
     }
 

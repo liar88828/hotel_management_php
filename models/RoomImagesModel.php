@@ -1,8 +1,6 @@
 <?php
 
 
-//use Core\Database;
-require_once 'core/database.php';
 
 class RoomImagesModel
 {

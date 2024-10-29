@@ -1,8 +1,5 @@
 <?php
 
-require_once 'core/controller.php';
-require('views/assets/php/guest_login.php');
-require('views/assets/php/admin_login.php');
 
 class BookingController extends Controller
 {
@@ -10,11 +7,12 @@ class BookingController extends Controller
     private RoomModel $roomModel;
     private ImageService $imageService;
     private RoomImagesModel $roomImagesModel;
+    private GuestModel $guestModel;
 
     public function __construct()
 
     {
-//        $this->guestModel = $this->model('GuestModel');
+        $this->guestModel = $this->model('GuestModel');
         $this->bookingModel = $this->model('BookingModel');
         $this->roomModel = $this->model('RoomModel');
         $this->roomImagesModel = $this->model('RoomImagesModel');
@@ -25,9 +23,10 @@ class BookingController extends Controller
 
     public function guest_booking(): void
     {
-        $session = getSessionGuest();
-        $guestId = $session->id;
+        $this->layout('guest');
         try {
+            $session = getSessionGuest();
+            $guestId = $session->id;
             $this->view('guest/booking/index',
                 ['bookings' => $this->roomModel->findIdGuest($guestId),]
             );
@@ -42,9 +41,10 @@ class BookingController extends Controller
 
     public function guest_booking_search(): void
     {
-        $session = getSessionGuest();
-        $guestId = $session->id;
+        $this->layout('guest');
         try {
+            $session = getSessionGuest();
+            $guestId = $session->id;
             $this->view('guest/booking/index',
                 ['bookings' => $this->roomModel->findIdGuestSearch($guestId, $_POST['search']),]
             );
@@ -100,13 +100,12 @@ class BookingController extends Controller
 
     public function guest_booking_booking(): void
     {
+        $this->layout('guest');
         try {
             $session = getSessionGuest();
             $guestId = $session->id;
             $data = $this->bookingModel->findIdGuestStatus($guestId, true);
-            $this->view(
-                'guest/booking/index',
-                ['bookings' => $data]
+            $this->view('guest/booking/index', ['bookings' => $data]
             );
         } catch (Exception $e) {
             $this->view('/guest/booking/index',
@@ -118,13 +117,12 @@ class BookingController extends Controller
 
     public function guest_booking_cancel(): void
     {
+        $this->layout('guest');
         try {
             $session = getSessionGuest();
             $guestId = $session->id;
             $data = $this->bookingModel->findIdGuestStatus($guestId, false);
-            $this->view(
-                'guest/booking/index',
-                ['bookings' => $data]
+            $this->view('guest/booking/index', ['bookings' => $data]
             );
         } catch (Exception $e) {
             $this->view('/guest/booking/index',
@@ -136,6 +134,7 @@ class BookingController extends Controller
 
     public function guest_booking_confirm(): void
     {
+        $this->layout('guest');
         try {
             $session = getSessionGuest();
             $guestId = $session->id;
@@ -145,6 +144,12 @@ class BookingController extends Controller
                 ['bookings' => $data]
             );
         } catch (Exception $e) {
+            if ($e instanceof PDOException) {
+                $this->view('/guest/booking/index',
+                    [
+                        'bookings' => [],
+                        'message' => 'Database sibuk']);
+            }
             $this->view('/guest/booking/index',
                 [
                     'bookings' => [],
@@ -154,6 +159,7 @@ class BookingController extends Controller
 
     public function guest_booking_finish(): void
     {
+        $this->layout('guest');
         try {
             $session = getSessionGuest();
             $guestId = $session->id;
@@ -163,6 +169,9 @@ class BookingController extends Controller
                 ['bookings' => $data]
             );
         } catch (Exception $e) {
+            if ($e instanceof PDOException) {
+                $this->view('/guest/booking/index', ['message' => 'Database sibuk']);
+            }
             $this->view('/guest/booking/index',
                 [
                     'bookings' => [],
@@ -192,10 +201,11 @@ class BookingController extends Controller
         try {
             getSessionGuest();
             $data = $this->bookingModel->findId($id);
-//print_r($data);
+            $this->layout('guest');
             $this->view(
                 'guest/booking/detail',
                 [
+                    'room' => $this->roomModel->findId($data->id_room),
                     'booking' => $data,
                     'room_images' => $this->roomImagesModel->findAll($data->id_room)
                 ]);
@@ -210,6 +220,7 @@ class BookingController extends Controller
         try {
             getSessionGuest();
             $data = ['booking' => $this->bookingModel->findId($id)];
+            $this->layout('guest');
             $this->view('guest/booking/edit', $data);
         } catch (Exception $e) {
             $this->redirect('/guest/booking/index', ['message' => $e->getMessage()]);
@@ -219,12 +230,19 @@ class BookingController extends Controller
 
     public function booking_print($id): void
     {
+        $this->layout('guest');
         try {
 
             $session = getSessionGuest();
             $idGuest = $session->id;
+            /** @var BookingBase $data */
+            $data = $this->bookingModel->findIdPrintGuest($id, $idGuest);
+            $this->view('guest/booking/print', [
+                'booking' => $data,
+                'guest' => $this->guestModel->findId($idGuest),
+                'room' => $this->roomModel->findId($data->room_id)
 
-            $this->view('guest/booking/print', ['booking' => $this->bookingModel->findIdPrintGuest($id, $idGuest)]);
+            ]);
         } catch (Exception $e) {
 
             $this->view('guest/booking/print',
@@ -353,15 +371,14 @@ class BookingController extends Controller
     {
         try {
             getSessionAdmin();
-            $this->view(
-                '/admin/booking/index',
-                ['bookings', $this->bookingModel->findAllAdmin()]);
+            $this->layout('admin');
+            $this->view('/admin/booking/index',
+                ['bookings' => $this->bookingModel->findAllAdmin()]);
 
         } catch (Exception $e) {
             $this->view(
                 '/admin/booking/index',
-                ['bookings' => [],
-                    'message' => $e->getMessage()]);
+                ['bookings' => [], 'message' => $e->getMessage()]);
         }
     }
 
@@ -369,6 +386,7 @@ class BookingController extends Controller
     {
         try {
             getSessionAdmin();
+            $this->layout('admin');
             $this->view(
                 '/admin/booking/index',
                 ['bookings' => $this->bookingModel->findAllAdminBooking()]);
@@ -376,8 +394,33 @@ class BookingController extends Controller
         } catch (Exception $e) {
             $this->view(
                 '/admin/booking/index',
-                ['bookings' => [],
-                    'message' => $e->getMessage()]);
+                ['bookings' => [], 'message' => $e->getMessage()]);
+        }
+    }
+
+
+    public function admin_booking_print(int $id): void
+    {
+        try {
+            getSessionAdmin();
+            $this->layout('admin');
+            $this->view(
+                '/admin/booking/print',
+                ['booking' => $this->bookingModel->findId($id)]);
+
+        } catch (Exception $e) {
+            $this->view("/admin/booking/detail/$id", ['message' => $e->getMessage()]);
+        }
+    }
+
+    public function admin_booking_update(int $id): void
+    {
+        try {
+            getSessionAdmin();
+            $this->layout('admin');
+            $this->view('/admin/booking/update', ['booking' => $this->bookingModel->findId($id)]);
+        } catch (Exception $e) {
+            $this->redirect("/admin/booking/$id", ['message' => $e->getMessage()]);
         }
     }
 
@@ -385,15 +428,15 @@ class BookingController extends Controller
     {
         try {
             getSessionAdmin();
+            $this->layout('admin');
             $this->view(
                 '/admin/booking/index',
                 ['bookings' => $this->bookingModel->findAllAdminCancel()]);
 
         } catch (Exception $e) {
-//            $this->view(
-//                '/admin/booking/index',
-//                ['bookings' => [],
-//                    'message' => $e->getMessage()]);
+            $this->view(
+                '/admin/booking/index',
+                ['bookings' => [], 'message' => $e->getMessage()]);
         }
     }
 
@@ -401,6 +444,7 @@ class BookingController extends Controller
     {
         try {
             getSessionAdmin();
+            $this->layout('admin');
             $this->view(
                 '/admin/booking/index',
                 ['bookings' => $this->bookingModel->findAllAdminConfirm()]);
@@ -417,6 +461,7 @@ class BookingController extends Controller
     {
         try {
             getSessionAdmin();
+            $this->layout('admin');
             $this->bookingModel->findAllAdminConfirmAction((int)$id);
             $this->redirect(
                 '/admin/booking-confirm',
@@ -433,6 +478,7 @@ class BookingController extends Controller
     {
         try {
             getSessionAdmin();
+            $this->layout('admin');
             $this->view(
                 '/admin/booking/index',
                 ['bookings' => $this->bookingModel->findAllAdminFinish()]);
@@ -450,13 +496,13 @@ class BookingController extends Controller
     {
         try {
             getSessionAdmin();
-
+            $this->layout('admin');
             $this->view('/admin/booking/detail',
-                ['booking' => $this->bookingModel->detailAdmin($id)]
+                ['booking' => $this->bookingModel->findId($id)]
             );
         } catch (Exception $e) {
-            var_dump($e->getMessage());
-            $this->redirect('/admin/booking/' . $id, ['message', 'data error']);
+//            var_dump($e->getMessage());
+            $this->redirect("/admin/booking/$id", ['message', 'data error']);
         }
     }
 
@@ -465,15 +511,12 @@ class BookingController extends Controller
         try {
             getSessionAdmin();
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-                $data = [
-                    'confirm' => trim($_POST['confirm']),
-                ];
+                $data = ['confirm' => trim($_POST['confirm']),];
                 $this->bookingModel->confirmAdmin($id, $data);
             }
             $this->redirect("/admin/booking/detail/$id");
         } catch (Exception $e) {
-            var_dump($e->getMessage());
+//            var_dump($e->getMessage());
             $this->redirect("/admin/booking/detail/$id", ['message', 'data error']);
         }
     }

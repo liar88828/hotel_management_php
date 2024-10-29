@@ -1,7 +1,5 @@
 <?php
 
-require_once 'core/database.php';
-
 
 class BookingModel
 {
@@ -179,14 +177,19 @@ WHERE finish=TRUE
     /**
      * @throws Exception
      */
-    public function findAllAdmin(): array|Exception
+    public function findAllAdmin()
     {
-        $this->db->query("SELECT * FROM bookings ORDER BY update_at DESC");
+        $this->db->query("
+        SELECT 
+                guest_id,b.id as id_booking, guest_id, room_id, check_in_date, check_out_date, total_price, b.booking as status_booking,   name, area, price, quantity, adult, children, description, r.status as status_room, wifi, television, ac, cctv, dining_room, parking_area, bedrooms, bathrooms, wardrobe, security, image, confirm ,finish 
+            FROM bookings b
+            JOIN rooms r ON b.room_id = r.id");
         $response = $this->db->resultSet();
         if (count($response) > 0) {
+//        print_r($response);
             return $response;
         } else {
-            throw new Exception($response);
+            throw new Exception('Error ');
 //            throw new Exception('data is empty');
         }
     }
@@ -201,15 +204,15 @@ WHERE finish=TRUE
                 guest_id,b.id as id_booking, guest_id, room_id, check_in_date, check_out_date, total_price, b.booking as status_booking,   name, area, price, quantity, adult, children, description, r.status as status_room, wifi, television, ac, cctv, dining_room, parking_area, bedrooms, bathrooms, wardrobe, security, image, confirm ,finish 
             FROM bookings b
             JOIN rooms r ON b.room_id = r.id
-        WHERE  booking = true
+        WHERE booking = true
         AND confirm = false
         AND finish= false
-        ORDER BY update_at DESC");
+        ORDER BY b.update_at DESC");
         $response = $this->db->resultSet();
         if (count($response) > 0) {
             return $response;
         } else {
-            throw new Exception($response);
+            throw new Exception('data is error');
 //            throw new Exception('data is empty');
         }
     }
@@ -227,7 +230,7 @@ WHERE finish=TRUE
         WHERE  booking = false
         AND confirm = false
         AND finish= false
-        ORDER BY update_at DESC");
+        ORDER BY b.update_at DESC");
         $response = $this->db->resultSet();
         if (count($response) > 0) {
             return $response;
@@ -249,7 +252,7 @@ WHERE finish=TRUE
             FROM bookings b
             JOIN rooms r ON b.room_id = r.id
         WHERE  confirm = true
-        ORDER BY update_at DESC");
+        ORDER BY b.update_at DESC");
         $response = $this->db->resultSet();
         if (count($response) > 0) {
             return $response;
@@ -290,8 +293,8 @@ WHERE finish=TRUE
                 guest_id,b.id as id_booking, guest_id, room_id, check_in_date, check_out_date, total_price, b.booking as status_booking,   name, area, price, quantity, adult, children, description, r.status as status_room, wifi, television, ac, cctv, dining_room, parking_area, bedrooms, bathrooms, wardrobe, security, image, confirm ,finish 
             FROM bookings b
             JOIN rooms r ON b.room_id = r.id
-        WHERE  finish = true
-        ORDER BY update_at DESC");
+        WHERE finish = true
+        ORDER BY b.update_at DESC");
         $response = $this->db->resultSet();
         if (count($response) > 0) {
             return $response;
@@ -414,8 +417,7 @@ WHERE finish=TRUE
         if (count($response) > 0) {
             return $response;
         } else {
-            throw new Exception($response);
-//            throw new Exception('data is empty');
+            throw new Exception('Database Sibuk');
         }
     }
 
@@ -436,7 +438,7 @@ WHERE finish=TRUE
         if (count($response) > 0) {
             return $response;
         } else {
-            throw new Exception($response);
+            throw new Exception('Database Sibuk');
 //            throw new Exception('data is empty');
         }
     }
@@ -457,7 +459,7 @@ WHERE finish=TRUE
         if (count($response) > 0) {
             return $response;
         } else {
-            throw new Exception($response);
+            throw new Exception('Database Sibuk');
 //            throw new Exception('data is empty');
         }
     }
