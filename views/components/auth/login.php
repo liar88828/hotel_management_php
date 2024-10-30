@@ -14,19 +14,22 @@
                     </button>
                 </div>
                 <form action="/auth/login" method="post" class="modal-body">
-                    <label class="mb-3">
-                        <span class="form-label">Email address</span>
-                        <input
-                                name="email"
-                                type="text" class="form-control shadow-none" aria-describedby="emailHelp">
-                    </label>
-                    <label class="mb-3">
-                        <span class="form-label">Password</span>
-                        <input type="password"
-                               name="password"
-                               class="form-control shadow-none" aria-describedby="emailHelp">
-                    </label>
+                    <div class="row  g-2-">
+                        <label class="mb-3">
+                            <span class="form-label">Email address</span>
+                            <input
+                                    name="email"
+                                    type="text" class="form-control ">
+                        </label>
 
+                        <label class="mb-3">
+                            <span class="form-label">Password</span>
+                            <input type="password"
+                                   name="password"
+                                   class="form-control " aria-describedby="emailHelp">
+                        </label>
+
+                    </div>
 
 
                     <div class="form-check">
@@ -34,13 +37,13 @@
                         <label class="form-check-label" for="guest">Guest</label>
                     </div>
 
-<!--                    <div class="form-check">-->
-<!--                        <input class="form-check-input" type="radio" name="role" id="staff" value="staff"/>-->
-<!--                        <label class="form-check-label" for="staff">Staff</label>-->
-<!--                    </div>-->
+                    <!--                    <div class="form-check">-->
+                    <!--                        <input class="form-check-input" type="radio" name="role" id="staff" value="staff"/>-->
+                    <!--                        <label class="form-check-label" for="staff">Staff</label>-->
+                    <!--                    </div>-->
 
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="role" id="admin" value="admin" />
+                        <input class="form-check-input" type="radio" name="role" id="admin" value="admin"/>
                         <label class="form-check-label" for="admin">
                             Admin
                         </label>

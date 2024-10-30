@@ -8,9 +8,7 @@
 
 </head>
 <body class="bg-light">
-<header>
     <?php require('views/components/header.php') ?>
-</header>
 
 <main>
     <div class="container-fluid px-lg-4 mt-4">

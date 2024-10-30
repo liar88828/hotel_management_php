@@ -96,6 +96,7 @@
                 <div class="card  shadow">
                     <div class="card-body">
                         <div class="row row-cols-1 justify-content-between">
+
                             <div class=" col-5">
                                 <img
                                         src="/images/rooms/<?= htmlspecialchars($room->image) ?>"
@@ -103,6 +104,7 @@
                                         style="width: 20rem; height: 20rem; object-fit: cover;"
                                         alt="<?= htmlspecialchars($room->name) ?>">
                             </div>
+
                             <div class=" col-4">
                                 <h5 class="mb-1">
                                     <?= htmlspecialchars($room->name) ?>
@@ -153,7 +155,7 @@
                                     ?>
                                     /night
                                 </h6>
-                                <?php if (getSessionGuest()): ?>
+                                <?php if (checkSessionGuest()): ?>
                                     <a href="/guest/booking/<?= $room->id ?>" class="btn btn-info   ">
                                         Book Now
                                     </a>

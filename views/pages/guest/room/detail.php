@@ -62,34 +62,42 @@
 
                     <div class="features">
                         <h5>Features</h5>
-                        <p><?= htmlspecialchars($room->bedrooms) ?>
+                        <p>
+                            <?= htmlspecialchars($room->bedrooms) ?>
                             Bedrooms, <?= htmlspecialchars($room->bathrooms) ?>
                             Bathrooms, <?= htmlspecialchars($room->wardrobe) ?> Wardrobe</p>
                     </div>
 
                     <div class="facilities">
                         <h5>Facilities</h5>
-                        <ul>
+                        <ul class="row row-cols-2">
                             <?php if ($room->wifi): ?>
-                                <li>Wi-Fi</li><?php endif; ?>
+                                <li>Wi-Fi</li>
+                            <?php endif; ?>
                             <?php if ($room->television): ?>
-                                <li>Television</li><?php endif; ?>
+                                <li>Television</li>
+                            <?php endif; ?>
                             <?php if ($room->ac): ?>
-                                <li>AC</li><?php endif; ?>
+                                <li>AC</li>
+                            <?php endif; ?>
                             <?php if ($room->cctv): ?>
-                                <li>CCTV</li><?php endif; ?>
+                                <li>CCTV</li>
+                            <?php endif; ?>
                             <?php if ($room->dining_room): ?>
-                                <li>Dining Room</li><?php endif; ?>
+                                <li>Dining Room</li>
+                            <?php endif; ?>
                             <?php if ($room->parking_area): ?>
-                                <li>Parking Area</li><?php endif; ?>
+                                <li>Parking Area</li>
+                            <?php endif; ?>
                         </ul>
                     </div>
 
                     <div class="guests">
                         <h5>Guest Capacity</h5>
-                        <p><?= htmlspecialchars($room->adult) ?>
-                            Adults, <?= htmlspecialchars($room->children) ?>
-                            Children</p>
+                        <ul class="row row-cols-2">
+                            <li>Adults : <?= htmlspecialchars($room->adult) ?></li>
+                            <li>Children : <?= htmlspecialchars($room->children) ?></li>
+                        </ul>
                     </div>
                 </div>
             </div>

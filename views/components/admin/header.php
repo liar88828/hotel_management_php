@@ -1,4 +1,6 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top ">
+<header>
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top ">
     <div class="container-fluid">
 
 
@@ -24,9 +26,7 @@
                 <li class="nav-item">
                     <a class="nav-link  " href="/admin/guest">Guest</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link  " href="/admin/settings">Settings</a>
-                </li>
+
                 <li class="nav-item">
                     <a class="nav-link  " href="/admin/testimonial">Testimonial</a>
                 </li>
@@ -37,7 +37,7 @@
                     <a class="nav-link  " href="/admin/carousel">Carousel</a>
                 </li>
                 <li class="nav-item">
-
+                    <a class="nav-link  " href="/admin/settings">Settings</a>
                 </li>
             </ul>
         </div>
@@ -48,3 +48,4 @@
         </form>
     </div>
 </nav>
+</header>

@@ -1,37 +1,40 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top ">
-    <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+<header>
 
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="navbar-brand" href="/admin/dashboard">User Panel</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " href="/">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " href="/guest/profile">Profile</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link " href="/guest/room">Rooms</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " href="/guest/booking">Booking</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link " href="/guest/history">History</a>
-                </li>
-            </ul>
-        </div>
-        <form action="/auth/logout" method="POST">
-            <button type="submit" class="btn btn-info">
-                LOGOUT
+    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top ">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
             </button>
-        </form>
-    </div>
-</nav>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="navbar-brand" href="/admin/dashboard">User Panel</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="/guest/profile">Profile</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link " href="/guest/room">Rooms</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="/guest/booking">Booking</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="/guest/history">History</a>
+                    </li>
+                </ul>
+            </div>
+            <form action="/auth/logout" method="POST">
+                <button type="submit" class="btn btn-info">
+                    LOGOUT
+                </button>
+            </form>
+        </div>
+    </nav>
+</header>

@@ -8,7 +8,10 @@ class AdminController extends Controller
     private BookingModel $bookingModel;
     private RoomModel $roomModel;
     private GuestModel $guestModel;
+    private StaffModel $staffModel;
     private SettingModel $settingModel;
+    private ImageService $imageService;
+
 
     // Constructor to initialize database connection
     public function __construct()
@@ -17,7 +20,10 @@ class AdminController extends Controller
         $this->bookingModel = $this->model('BookingModel');
         $this->roomModel = $this->model('RoomModel');
         $this->guestModel = $this->model('GuestModel');
+        $this->staffModel = $this->model('StaffModel');
         $this->settingModel = $this->model('SettingModel');
+        $this->imageService = $this->service('ImageService');
+
 
     }
 
@@ -69,7 +75,7 @@ class AdminController extends Controller
         $data = [
             'setting_general' => $this->settingModel->findGeneral(),
             'setting_contact' => $this->settingModel->findContact(),
-//            'setting_management' => $this->settingModel->findAll(),
+            'setting_management' => $this->staffModel->findAll(),
         ];
         $this->layout('admin');
         $this->view('/admin/settings/index', $data);
@@ -88,8 +94,46 @@ class AdminController extends Controller
         }
     }
 
+    public function create_staff(): void
+    {
 
-    public function setting_contact_save($id): void
+        // Register function
+        try {
+            if ($_SERVER["REQUEST_METHOD"] == "GET") {
+                $this->redirect('/admin/settings');
+            }
+
+            mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                /** @var StaffBase $data */
+                $data = [
+                    'name' => trim($_POST['name']),
+                    'email' => filter_var($_POST['email'], FILTER_SANITIZE_EMAIL),
+                    'phone' => trim($_POST['phone']),
+                    'image' => $_FILES['image']['name'], // Handle file upload separately
+                    'address' => trim($_POST['address']),
+                    'pin_code' => trim($_POST['pin_code']),
+                    'date_of_birth' => trim($_POST['date_of_birth']),
+                    'position' => trim($_POST['position']),
+                ];
+                $request = $this->staffModel->createMember($data);
+                $this->imageService->saveImage($request, $data['image']);
+                $this->redirect('/admin/settings');
+            }
+
+        } catch (Exception $e) {
+            // Handle error (log it or display guess-friendly message)
+//            echo "Error: " . $e->getMessage();
+            $this->redirect('/admin/settings');
+
+
+        }
+
+    }
+
+
+    public
+    function setting_contact_save($id): void
     {
         try {
             mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
@@ -103,18 +147,21 @@ class AdminController extends Controller
     }
 
 
-    public function setting_management(): void
+    public
+    function setting_management(): void
     {
         $this->view('admin/settings/index');
     }
 
-    public function setting_management_save()
+    public
+    function setting_management_save()
     {
         $this->view('admin/settings/index');
     }
 
 
-    public function login()
+    public
+    function login()
     {
 
         $this->view('admin/dashboard');

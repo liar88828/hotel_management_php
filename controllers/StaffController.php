@@ -41,9 +41,13 @@ class StaffController extends Controller
 
     public function detail($id)
     {
-        $data = ['staff' => $this->staffModel->findId($id)];
-        $this->layout('admin');
-        $this->view('admin/staff/detail', $data);
+        try {
+            $data = ['staff' => $this->staffModel->findId($id)];
+            $this->layout('admin');
+            $this->view('admin/staff/detail', $data);
+        } catch (Exception $e) {
+            $this->redirect('/admin/staff', ['message' => $e->getMessage()]);
+        }
     }
 
 
@@ -62,9 +66,20 @@ class StaffController extends Controller
 
     public function update($id)
     {
-        $data = ['staff' => $this->staffModel->findId($id)];
-        $this->layout('admin');
-        $this->view('admin/staff/update', $data);
+        try {
+
+            if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+                $data = ['staff' => $this->staffModel->findId($id)];
+                $this->layout('admin');
+                $this->view('admin/staff/update', $data);
+            }
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $this->edit($id);
+            }
+        } catch (Exception $e) {
+
+            $this->redirect('admin/staff', ['message' => $e->getMessage()]);
+        }
     }
 
     public function edit($id)
@@ -73,5 +88,16 @@ class StaffController extends Controller
         $this->layout('admin');
         $this->view('admin/staff/update', $data);
     }
+
+    public function delete($id)
+    {
+        try {
+            $this->staffModel->delete($id);
+            $this->redirect('admin/staff', ['message' => 'success Delete']);
+        } catch (Exception $e) {
+            $this->redirect('admin/staff', ['message' => $e->getMessage()]);
+        }
+    }
+
 
 }

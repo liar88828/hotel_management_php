@@ -9,9 +9,9 @@ class StaffBase
     public ?string $phone;
     public ?string $image;
     public ?string $address;
-    public ?string $pinCode;
-    public ?DateTime $dateOfBirth;
-    public string $password;
+    public ?string $pin_code;
+    public ?DateTime $date_of_birth;
+    public string $position;
 
     // Constructor
     public function __construct(
@@ -21,9 +21,9 @@ class StaffBase
         ?string   $phone = null,
         ?string   $image = null,
         ?string   $address = null,
-        ?string   $pinCode = null,
-        ?DateTime $dateOfBirth = null,
-        string    $password
+        ?string   $pin_code = null,
+        ?DateTime $date_of_birth = null,
+        string    $position = null,
     )
     {
         $this->id = $id;
@@ -32,8 +32,9 @@ class StaffBase
         $this->phone = $phone;
         $this->image = $image;
         $this->address = $address;
-        $this->pinCode = $pinCode;
-        $this->dateOfBirth = $dateOfBirth;
-        $this->password = $password;
+        $this->pin_code = $pin_code;
+        $this->date_of_birth = $date_of_birth;
+        $this->position = $position;
+
     }
 }

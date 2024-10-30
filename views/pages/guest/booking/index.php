@@ -34,17 +34,34 @@
                              alt="<?= htmlspecialchars($booking->name) ?>"
                         >
                     </div>
-                    <div class="col-md-5 px-lg-3 px-md-3 px-0">
-                        <h5 class=""><?= htmlspecialchars($booking->name) ?>
-                            <span class="badge rounded-pill text-bg-<?= $booking->status_booking == 1 ? 'success' : 'danger' ?> ">
-                                        <?= htmlspecialchars($booking->status_booking == 1 ? 'Available' : 'Unavailable') ?>
-                                      </span>
-                        </h5>
-                        <div class="d-flex gap-3">
-                            <p class="badge rounded-pill text-bg-info ">In
-                                : <?= htmlspecialchars($booking->check_in_date) ?></p>
-                            <p class="badge rounded-pill text-bg-info">Out
-                                : <?= htmlspecialchars($booking->check_out_date) ?></p>
+                    <div class="col-md-5 ">
+                        <h5><?= htmlspecialchars($booking->name) ?></h5>
+                        <div class="d-flex flex-wrap gap-2">
+
+                            <div class="badge rounded-pill text-bg-<?= $booking->status_booking == 1 ? 'success' : 'danger' ?> ">
+                                <?= htmlspecialchars($booking->status_booking == 1 ? 'Available' : 'Unavailable') ?>
+                            </div>
+                            <?php if ($booking->finish == 1) : ?>
+                                <div class="badge rounded-pill text-bg-info ">Finish</div>
+                            <?php elseif ($booking->confirm == 1) : ?>
+                                <div class="badge rounded-pill text-bg-success ">Confirm</div>
+                            <?php elseif ($booking->status_booking == 1) : ?>
+                                <div class="badge rounded-pill text-bg-warning ">Booking</div>
+                            <?php else : ?>
+                                <div class="badge rounded-pill text-bg-danger ">Cancel</div>
+                            <?php endif; ?>
+                        </div>
+
+                        <div class="mt-2">
+                            <h5 class="">Date </h5>
+                            <ul>
+                                <li>
+                                    Check In : <?= htmlspecialchars($booking->check_in_date) ?>
+                                </li>
+                                <li>
+                                    Check Out : <?= htmlspecialchars($booking->check_out_date) ?>
+                                </li>
+                            </ul>
                         </div>
 
                         <div class="features mb-3">
@@ -98,15 +115,6 @@
                             More Details
                         </a>
 
-                        <?php if ($booking->finish == 1) : ?>
-                            <div class="btn w-100 btn-info ">Finish</div>
-                        <?php elseif ($booking->confirm == 1) : ?>
-                            <div class="btn w-100 btn-success ">Confirm</div>
-                        <?php elseif ($booking->status_booking == 1) : ?>
-                            <div class="btn w-100 btn-warning ">Booking</div>
-                        <?php else : ?>
-                            <div class="btn w-100 btn-danger ">Cancel</div>
-                        <?php endif; ?>
 
                         <?php if ($booking->confirm): ?>
                             <div class="mt-2">

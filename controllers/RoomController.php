@@ -26,9 +26,16 @@ class RoomController extends Controller
     public function index(): void
     {
         try {
-            $data = ['rooms' => $this->roomModel->findAll()];
             $this->layout('admin');
-            $this->view('admin/room/index', $data);
+            getSessionAdmin();
+
+            if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+                $data = ['rooms' => $this->roomModel->findAll()];
+                $this->view('admin/room/index', $data);
+            }
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $this->search();
+            }
         } catch (Exception $e) {
             if ($e instanceof PDOException) {
                 $this->redirect('/', ['message' => 'Database sibuk']);
@@ -40,8 +47,6 @@ class RoomController extends Controller
     public function search(): void
     {
         try {
-            getSessionAdmin();
-            $this->layout('admin');
             $this->view('admin/room/index', ['rooms' => $this->roomModel->findName(trim($_POST['search']))]);
         } catch (Exception $e) {
 
@@ -154,8 +159,14 @@ class RoomController extends Controller
 
     public function create(): void
     {
-        $this->layout('admin');
-        $this->view('admin/room/create');
+        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+
+            $this->layout('admin');
+            $this->view('admin/room/create');
+        }
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $this->store();
+        }
     }
 
     public function store(): void

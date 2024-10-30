@@ -1,7 +1,6 @@
 <?php
 
 
-
 class GuestModel
 {
     private Database $db;
@@ -34,7 +33,7 @@ class GuestModel
 
     public function findAll()
     {
-            $this->db->query("SELECT * FROM guest");
+        $this->db->query("SELECT * FROM guest");
         $response = $this->db->resultSet();
         if (count($response) > 0) {
             return $response;
@@ -58,7 +57,7 @@ class GuestModel
     }
 
 
-    public function findId($id)
+    public function findId(int $id)
     {
         $this->db->query("SELECT * FROM guest WHERE id = :id");
         $this->db->bind(':id', $id);

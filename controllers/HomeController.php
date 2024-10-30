@@ -7,13 +7,21 @@ class HomeController extends Controller
     private RoomModel $roomModel;
     private TestimonialModel $testimonialModel;
     private CarouselModel $carouselModel;
+    private RoomImagesModel $roomImagesModel;
+    private SettingModel $settingModel;
+    private StaffModel $staffModel;
+    private GuestModel $guestModel;
 
     // Constructor to initialize database connection
     public function __construct()
     {
         $this->roomModel = $this->model('RoomModel');
+        $this->roomImagesModel = $this->model('RoomImagesModel');
         $this->testimonialModel = $this->model('TestimonialModel');
         $this->carouselModel = $this->model('CarouselModel');
+        $this->settingModel = $this->model('SettingModel');
+        $this->staffModel = $this->model('StaffModel');
+        $this->guestModel = $this->model('GuestModel');
     }
 
 
@@ -63,7 +71,7 @@ class HomeController extends Controller
     public function test(): void
     {
 
-        $this->view('home/test');
+        $this->view('test/test');
     }
 
 
@@ -117,8 +125,10 @@ class HomeController extends Controller
     public function room_detail($id): void
     {
         try {
+            $this->layout('home');
 
-            $data = ['room' => $this->roomModel->findId($id)];
+            $data = ['room' => $this->roomModel->findId($id),
+                'room_images' => $this->roomImagesModel->findAll($id)];
             $this->view('home/roomDetail', $data);
         } catch (Exception $e) {
             if ($e instanceof PDOException) {
@@ -144,8 +154,20 @@ class HomeController extends Controller
 
     public function about(): void
     {
-
-        $this->view('home/about');
+        try {
+            $this->view('home/about', [
+                'setting' => $this->settingModel->findGeneral(),
+                'staff' => $this->staffModel->findAll(),
+                'room_count' => $this->roomModel->countRoom(),
+                'guest_count' => $this->guestModel->countGuest(),
+                'member_staff' => $this->staffModel->findAll(),
+            ]);
+        } catch (Exception $e) {
+            $this->view('home/about', [
+                'setting' => [],
+                'staff' => []
+            ]);
+        }
     }
 
     public function testimonial(): void

@@ -9,9 +9,7 @@
     <?php require('./views/assets/php/links.php') ?>
 </head>
 <body class="pt-4">
-<header>
-    <?php require('views/components/admin/header.php'); ?>
-</header>
+<?php require('views/components/admin/header.php'); ?>
 
 <main class=" container  pt-5 min-vh-100">
     <?php showMessage() ?>

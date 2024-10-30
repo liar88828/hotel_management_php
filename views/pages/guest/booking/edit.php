@@ -59,7 +59,7 @@
 
                         <div class="facilities">
                             <h5>Facilities</h5>
-                            <ul>
+                            <ul class="row row-cols-2">
                                 <?php if ($booking->wifi): ?>
                                     <li>Wi-Fi</li><?php endif; ?>
                                 <?php if ($booking->television): ?>
@@ -77,9 +77,10 @@
 
                         <div class="guests">
                             <h5>Guest Capacity</h5>
-                            <p><?= htmlspecialchars($booking->adult) ?>
-                                Adults, <?= htmlspecialchars($booking->children) ?>
-                                Children</p>
+                            <ul class="row row-cols-2">
+                                <li>Adults : <?= htmlspecialchars($booking->adult) ?></li>
+                                <li>Children : <?= htmlspecialchars($booking->children) ?></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -121,8 +122,10 @@
 
                 <!-- Total Price (calculated based on room selection and dates) -->
                 <div class="mb-3">
-                    <label for="totalPrice" class="form-label"><i class="fas fa-dollar-sign"></i> Total
-                        Price</label>
+                    <label for="totalPrice" class="form-label">
+                        <i class="fas fa-dollar-sign"></i>
+                        Total Price
+                    </label>
                     <input type="number" class="form-control" id="totalPrice" name="total_price"
                            placeholder="Calculated Total" readonly
                            min="1"

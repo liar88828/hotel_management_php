@@ -251,7 +251,8 @@ WHERE finish=TRUE
                 guest_id,b.id as id_booking, guest_id, room_id, check_in_date, check_out_date, total_price, b.booking as status_booking,   name, area, price, quantity, adult, children, description, r.status as status_room, wifi, television, ac, cctv, dining_room, parking_area, bedrooms, bathrooms, wardrobe, security, image, confirm ,finish 
             FROM bookings b
             JOIN rooms r ON b.room_id = r.id
-        WHERE  confirm = true
+        WHERE  confirm = true AND
+        finish = false
         ORDER BY b.update_at DESC");
         $response = $this->db->resultSet();
         if (count($response) > 0) {
@@ -266,14 +267,14 @@ WHERE finish=TRUE
     /**
      * @throws Exception
      */
-    public function findAllAdminConfirmAction(int $id)
+    public function findAllAdminConfirmAction(int $id, bool $status)
     {
         $this->db->query("
             UPDATE bookings 
-            SET booking = true,
-                confirm = true                    
+            SET confirm = :status                    
             WHERE  id = :id ");
         $this->db->bind(':id', $id);
+        $this->db->bind(':status', $status);
         $response = $this->db->execute();
         if ($response) {
             return $response;
@@ -353,15 +354,28 @@ WHERE finish=TRUE
     }
 
     /**
+     * @param $id
+     * @return BookingBase|RoomBase
+     * @throws Exception
+     */
+    public function findIdPrint($id)
+    {
+        $this->db->query("SELECT  * FROM bookings WHERE id = :id");
+        $this->db->bind(':id', $id);
+        $response = $this->db->single();
+        if ($response) {
+            return $response;
+        } else {
+            throw new Exception($response);
+        }
+    }
+
+    /**
      * @throws Exception
      */
     public function findIdPrintGuest(int $id, int $guestId)
     {
-        $this->db->query("SELECT  
-                                guest_id,b.id as id_booking, r.id as id_room,  guest_id, room_id, check_in_date, check_out_date, total_price, b.booking as status_booking,   name, area, price, quantity, adult, children, description, r.status as status_room, wifi, television, ac, cctv, dining_room, parking_area, bedrooms, bathrooms, wardrobe, security, image,confirm,finish
-                                    FROM bookings as b 
-                                    JOIN rooms as r ON b.room_id = r.id  
-                                    WHERE b.id = :id AND guest_id = :guest_id");
+        $this->db->query("SELECT  * FROM bookings WHERE id = :id AND guest_id = :guest_id");
         $this->db->bind(':id', $id);
         $this->db->bind(':guest_id', $guestId);
         $response = $this->db->single();
@@ -407,10 +421,11 @@ WHERE finish=TRUE
                 guest_id,b.id as id_booking, guest_id, room_id, check_in_date, check_out_date, total_price, b.booking as status_booking,   name, area, price, quantity, adult, children, description, r.status as status_room, wifi, television, ac, cctv, dining_room, parking_area, bedrooms, bathrooms, wardrobe, security, image, confirm ,finish 
             FROM bookings b
             JOIN rooms r ON b.room_id = r.id
-            WHERE b.guest_id = :guest_id AND (b.booking = :status 
-            AND b.finish = false 
-            AND b.confirm = false
-                )");
+            WHERE b.guest_id = :guest_id 
+                AND b.booking = :status 
+                AND b.confirm = TRUE 
+                AND b.finish = FALSE
+                ");
         $this->db->bind(':guest_id', $guestId);
         $this->db->bind(':status', $status);
         $response = $this->db->resultSet();
@@ -432,7 +447,11 @@ WHERE finish=TRUE
                 guest_id,b.id as id_booking, guest_id, room_id, check_in_date, check_out_date, total_price, b.booking as status_booking,   name, area, price, quantity, adult, children, description, r.status as status_room, wifi, television, ac, cctv, dining_room, parking_area, bedrooms, bathrooms, wardrobe, security, image, confirm  ,finish
             FROM bookings b
             JOIN rooms r ON b.room_id = r.id
-            WHERE b.guest_id = :guest_id AND (b.confirm = true AND b.booking = true AND b.finish = FALSE)");
+            WHERE b.guest_id = :guest_id 
+                AND b.booking = TRUE 
+                AND b.confirm = TRUE 
+                AND b.finish = FALSE
+                ");
         $this->db->bind(':guest_id', $guestId);
         $response = $this->db->resultSet();
         if (count($response) > 0) {
@@ -453,7 +472,11 @@ WHERE finish=TRUE
                 guest_id,b.id as id_booking, guest_id, room_id, check_in_date, check_out_date, total_price, b.booking as status_booking,   name, area, price, quantity, adult, children, description, r.status as status_room, wifi, television, ac, cctv, dining_room, parking_area, bedrooms, bathrooms, wardrobe, security, image, confirm  ,finish
             FROM bookings b
             JOIN rooms r ON b.room_id = r.id
-            WHERE b.guest_id = :guest_id AND (b.finish = true AND b.confirm=true AND booking=true)");
+            WHERE b.guest_id = :guest_id 
+              AND b.booking = TRUE
+              AND b.confirm = TRUE 
+              AND b.finish = TRUE 
+              ");
         $this->db->bind(':guest_id', $guestId);
         $response = $this->db->resultSet();
         if (count($response) > 0) {

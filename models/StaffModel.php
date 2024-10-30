@@ -1,7 +1,6 @@
 <?php
 
 
-
 class StaffModel
 {
     private Database $db;
@@ -12,16 +11,27 @@ class StaffModel
     }
 
 
+    public function count()
+    {
+        $this->db->query("SELECT count(id) as count_staff FROM staff");
+        $response = $this->db->single();
+        if ($response > 0) {
+            return $response->count_staff;
+        } else {
+            return 0;
+        }
+
+    }
+
     public function findAll()
     {
-        $this->db->query("SELECT * FROM staff");
+        $this->db->query("SELECT * FROM staff ORDER BY id ASC");
         $response = $this->db->resultSet();
         if (count($response) > 0) {
             return $response;
         } else {
-            throw new Exception('Data is Empty');
+            return [];
         }
-        throw new Exception($response);
 
     }
 
@@ -42,9 +52,15 @@ class StaffModel
 
     public function findId($id)
     {
+
         $this->db->query("SELECT * FROM staff WHERE id = :id");
         $this->db->bind(':id', $id);
-        return $this->db->single();
+        $response = $this->db->single();
+        if ($response) {
+            return $response;
+        } else {
+            throw new Exception('Data is Empty');
+        }
     }
 
     public function findEmail($email)
@@ -63,8 +79,8 @@ class StaffModel
     {
         print_r($data);
 
-        $this->db->query("INSERT INTO staff (name, email, phone, image, address, pin_code, date_of_birth, password)
-                VALUES (:name, :email, :phone, :image, :address, :pin_code, :date_of_birth, :password)");
+        $this->db->query("INSERT INTO staff (name, email, phone, image, address, pin_code, date_of_birth )
+                VALUES (:name, :email, :phone, :image, :address, :pin_code, :date_of_birth )");
         $this->db->bind(':name', $data['name']);
         $this->db->bind(':email', $data['email']);
         $this->db->bind(':phone', $data['phone']);
@@ -72,7 +88,28 @@ class StaffModel
         $this->db->bind(':address', $data['address']);
         $this->db->bind(':pin_code', $data['pin_code']);
         $this->db->bind(':date_of_birth', $data['date_of_birth']);
-        $this->db->bind(':password', $data['password']);
+//        $this->db->bind(':password', $data['password']);
+        return $this->db->execute();
+    }
+
+    /**
+     * @param StaffBase $data
+     * @return mixed
+     */
+    public function createMember($data)
+    {
+        print_r($data);
+
+        $this->db->query("INSERT INTO staff (name, email, phone, image, address, pin_code, date_of_birth, position)
+                VALUES (:name, :email, :phone, :image, :address, :pin_code, :date_of_birth, :position)");
+        $this->db->bind(':name', $data['name']);
+        $this->db->bind(':email', $data['email']);
+        $this->db->bind(':phone', $data['phone']);
+        $this->db->bind(':image', $data['image']);
+        $this->db->bind(':address', $data['address']);
+        $this->db->bind(':pin_code', $data['pin_code']);
+        $this->db->bind(':date_of_birth', $data['date_of_birth']);
+        $this->db->bind(':position', $data['position']);
         return $this->db->execute();
     }
 
@@ -105,9 +142,16 @@ class StaffModel
 
     public function delete($id)
     {
+
         $this->db->query("DELETE FROM staff WHERE id = :id");
         $this->db->bind(':id', $id);
-        return $this->db->single();
+        $response = $this->db->execute();
+        if ($response) {
+            return $response;
+        } else {
+            throw new Exception('Fail delete data ');
+        }
+
     }
 
 

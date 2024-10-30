@@ -1,6 +1,8 @@
 <h3>Detail Booking</h3>
 
-<?php if (empty($booking)): ?>
+<?php
+/** @var BookingBase $booking */
+if (empty($booking)): ?>
     <div class="alert alert-info">
         <p> Room Is Not Found</p>
     </div>
@@ -65,14 +67,16 @@
 
                     <div class="features">
                         <h5>Features</h5>
-                        <p><?= htmlspecialchars($room->bedrooms) ?>
-                            Bedrooms, <?= htmlspecialchars($room->bathrooms) ?>
-                            Bathrooms, <?= htmlspecialchars($room->wardrobe) ?> Wardrobe</p>
+                        <ul class="row row-cols-2">
+                            <li>Bedrooms : <?= htmlspecialchars($room->bedrooms) ?></li>
+                            <li>Bathrooms : <?= htmlspecialchars($room->bathrooms) ?></li>
+                            <li>Wardrobe : <?= htmlspecialchars($room->wardrobe) ?></li>
+                        </ul>
                     </div>
 
                     <div class="facilities">
                         <h5>Facilities</h5>
-                        <ul>
+                        <ul class="row row-cols-2">
                             <?php if ($room->wifi): ?>
                                 <li>Wi-Fi</li><?php endif; ?>
                             <?php if ($room->television): ?>
@@ -90,9 +94,10 @@
 
                     <div class="guests">
                         <h5>Guest Capacity</h5>
-                        <p><?= htmlspecialchars($room->adult) ?>
-                            Adults, <?= htmlspecialchars($room->children) ?>
-                            Children</p>
+                        <ul class="row row-cols-2">
+                            <li>Adults : <?= htmlspecialchars($room->adult) ?></li>
+                            <li>Children : <?= htmlspecialchars($room->children) ?></li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -124,15 +129,19 @@
                 <!-- Total Price -->
                 <div class="col-md-3 ">
                     <strong>Total Price:</strong>
-                    <h3 id="totalPrice">
-                        Rp. <?= number_format($booking->total_price, 0, ',', '.') ?>/night
-                    </h3>
+                    <h5 id="totalPrice">
+                        <?= toRupiah($booking->total_price) ?>/night
+                    </h5>
                 </div>
                 <!-- Booking Status -->
                 <div class="col-md-3 ">
                     <strong>Booking Status:</strong>
-                    <?php if ($booking->status_booking == 1) : ?>
-                        <p id="bookingStatus" class="btn w-100 btn-success">Booking</p>
+                    <?php if ($booking->finish == 1) : ?>
+                        <p id="bookingStatus" class="btn w-100 btn-success">Finish</p>
+                    <?php elseif ($booking->confirm == 1) : ?>
+                        <p id="bookingStatus" class="btn w-100 btn-primary">Confirm</p>
+                    <?php elseif ($booking->status_booking == 1) : ?>
+                        <p id="bookingStatus" class="btn w-100 btn-warning">Booking</p>
                     <?php else : ?>
                         <p id="bookingStatus" class="btn w-100 btn-danger">Canceled</p>
                     <?php endif; ?>
@@ -142,19 +151,22 @@
             <!-- Action Buttons -->
             <div class="d-flex justify-content-center mt-2">
                 <a href="/guest/booking" class=" btn btn-secondary me-2">Back</a>
-                <?php if ($booking->confirm == 1): ?>
+                <?php
+                if ($booking->confirm == 1 && $booking->finish == 0): ?>
                     <form action="/guest/booking-finish/<?= $booking->id_booking ?>" method="POST">
                         <button class="btn btn-info me-2" type="submit">
                             Check Out / Finish
                         </button>
                     </form>
-                <?php else: ?>
+                <?php endif; ?>
+
+
+                <?php if ($booking->confirm == 0 && $booking->finish == 0) : ?>
                     <a href="/guest/booking-edit/<?= $booking->id_booking ?>"
                        class="btn btn-primary me-2">
                         Edit Booking
                     </a>
                 <?php endif; ?>
-
 
                 <?php if ($booking->confirm == 1) : ?>
                     <a href="/guest/booking/print/<?= $booking->id_booking ?>"

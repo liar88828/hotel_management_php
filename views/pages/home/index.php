@@ -26,16 +26,7 @@
                 <div class="swiper-slide">
                     <img src="../../../images/carousel/diklat7.jpg" class="w-100 d-block" alt="image2"/>
                 </div>
-                <div class="swiper-slide">
-                    <img src="../../../images/carousel/diklat5.jpg" class="w-100 d-block" alt="image3"/>
-                </div>
 
-                <div class="swiper-slide">
-                    <img src="../../../images/carousel/diklat6.jpg" class="w-100 d-block" alt="image4"/>
-                </div>
-                <div class="swiper-slide">
-                    <img src="../../../images/carousel/kamar.jpg" class="w-100 d-block" alt="image4"/>
-                </div>
             <?php endif; ?>
         </div>
 
@@ -182,9 +173,11 @@
                                 </span>
                             </div>
                             <div class="d-flex justify-content-evenly mb-2">
-                                <a href="#" class="btn btn-sm text-white custom-bg shadow-none">Book Now</a>
+                                <?php if (checkSessionGuest()): ?>
+                                    <a href="#" class="btn btn-sm text-white custom-bg shadow-none">Book Now</a>
+                                <?php endif; ?>
 
-                                <a href="/room/detail/<?= $room->id ?>" class="btn btn-sm btn-outline-dark shadow-none">More
+                                <a href="/room/<?= $room->id ?>" class="btn btn-sm btn-outline-dark shadow-none">More
                                     Details</a>
                             </div>
                         </div>

@@ -404,12 +404,19 @@ class BookingController extends Controller
         try {
             getSessionAdmin();
             $this->layout('admin');
+            $data = $this->bookingModel->findIdPrint($id);
             $this->view(
-                '/admin/booking/print',
-                ['booking' => $this->bookingModel->findId($id)]);
+                '/admin/booking/print', [
+                'booking' => $data,
+                'room' => $this->roomModel->findId($data->room_id),
+                'guest' => $this->guestModel->findId($data->guest_id)
+            ],
+            );
+
 
         } catch (Exception $e) {
-            $this->view("/admin/booking/detail/$id", ['message' => $e->getMessage()]);
+//            print_r($e->getMessage());
+            $this->view("/admin/booking/$id", ['message' => $e->getMessage()]);
         }
     }
 
@@ -457,15 +464,33 @@ class BookingController extends Controller
         }
     }
 
+    public function admin_booking_confirm_cancel($id): void
+    {
+        try {
+            getSessionAdmin();
+            $this->layout('admin');
+            $this->bookingModel->findAllAdminConfirmAction((int)$id, false);
+            $this->redirect(
+                '/admin/booking-confirm',
+                ['message' => 'success cancel']);
+
+        } catch (Exception $e) {
+            $this->redirect(
+                '/admin/booking-confirm',
+                ['message' => $e->getMessage()]);
+        }
+    }
+
+
     public function admin_booking_confirm_action($id): void
     {
         try {
             getSessionAdmin();
             $this->layout('admin');
-            $this->bookingModel->findAllAdminConfirmAction((int)$id);
+            $this->bookingModel->findAllAdminConfirmAction((int)$id, true);
             $this->redirect(
                 '/admin/booking-confirm',
-                ['message' => 'success']);
+                ['message' => 'success confirm']);
 
         } catch (Exception $e) {
             $this->redirect(
@@ -496,9 +521,15 @@ class BookingController extends Controller
     {
         try {
             getSessionAdmin();
+            /** @var BookingBase $data */
+            $data = $this->bookingModel->findIdPrint($id);
             $this->layout('admin');
             $this->view('/admin/booking/detail',
-                ['booking' => $this->bookingModel->findId($id)]
+                [
+                    'booking' => $data,
+                    'room' => $this->roomModel->findId($data->room_id),
+                    'guest' => $this->guestModel->findId($data->guest_id),
+                ]
             );
         } catch (Exception $e) {
 //            var_dump($e->getMessage());

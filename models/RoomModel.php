@@ -88,7 +88,9 @@ class RoomModel
 
     public function findAll()
     {
-        $this->db->query("SELECT * FROM rooms LIMIT 100");
+        $this->db->query("SELECT * FROM rooms 
+         ORDER BY  update_at DESC 
+         LIMIT 100 ");
         $response = $this->db->resultSet();
         if (count($response) > 0) {
             return $response;
@@ -157,7 +159,6 @@ class RoomModel
         } else {
             throw new Exception("No results found");
         }
-        throw new Exception($response);
     }
 
 
@@ -180,7 +181,6 @@ class RoomModel
         } else {
             throw new Exception("No results found");
         }
-        throw new Exception($response);
     }
 
     public function statusAction(int $id, bool $status)
@@ -197,7 +197,6 @@ class RoomModel
         } else {
             throw new Exception("No results found");
         }
-        throw new Exception($response);
     }
 
     /**
@@ -217,7 +216,9 @@ class RoomModel
 
     public function findHome()
     {
-        $this->db->query("SELECT * FROM rooms LIMIT 10");
+        $this->db->query("SELECT * FROM rooms
+         WHERE status = true
+         LIMIT 10 ");
         return $this->db->resultSet();
     }
 
@@ -287,7 +288,7 @@ class RoomModel
         $this->db->query("SELECT * 
         FROM rooms AS r
         WHERE (r.wifi = :wifi OR r.television = :television OR r.ac = :ac OR r.cctv = :cctv OR r.dining_room = :dining_room OR r.parking_area = :parking_area OR r.security = :security)
-        AND r.status = 1
+        AND r.status = TRUE
         AND (r.children <= :children OR r.adult <= :adult)
             AND NOT EXISTS (    
             SELECT 1 FROM bookings AS b
@@ -465,7 +466,6 @@ class RoomModel
         } else {
             throw new Exception('data is empty');
         }
-        throw new Exception($response);
     }
 
     public function findIdGuestSearch(int $guestId, string $search)
@@ -484,7 +484,6 @@ class RoomModel
         } else {
             throw new Exception('data is empty');
         }
-        throw new Exception($response);
     }
 
 

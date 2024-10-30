@@ -132,7 +132,7 @@ class GuestController extends Controller
     public function index(): void
     {
         try {
-            $this->layout('guest');
+            $this->layout('admin');
             if ($_SERVER['REQUEST_METHOD'] == 'GET') {
                 $data = ['guests' => $this->guestModel->findAll()];
                 $this->view('admin/guest/index', $data);
@@ -168,7 +168,7 @@ class GuestController extends Controller
 
     public function create()
     {
-        $this->layout('guest');
+        $this->layout('admin');
         $this->view('admin/guest/create');
     }
 

@@ -4,14 +4,13 @@
         <input type="text" class="form-control" placeholder="Recipient's username"
                aria-label="Recipient's username" aria-describedby="button-addon2" name="search">
         <button class="btn btn-outline-secondary" type="submit" id="button-addon2">
-            <i class="bi bi-search"></i>
+            Search <i class="bi bi-search"></i>
         </button>
-
     </form>
 
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        <i class="bi-filter bi"></i>
+        Filter <i class="bi-filter bi"></i>
     </button>
 
     <!-- Modal -->

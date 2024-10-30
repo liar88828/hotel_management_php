@@ -83,10 +83,8 @@
                     </div>
                     <div class="col-md-2 mt-lg-0 mt-md-0 mt-4 text-center">
                         <h6 class="mb-1">
-                            <?php
-                            setlocale(LC_MONETARY, "id_ID");
-                            echo "Rp. " . number_format((int)$booking->price, 0, ',', '.');
-                            ?>/night
+
+                            <?= toRupiah($booking->price) ?>/night
                         </h6>
 
 
@@ -94,21 +92,25 @@
                            class="btn w-100 btn-outline-dark mb-2">
                             More Details
                         </a>
-
-                        <?php if ($booking->status_booking == 1) : ?>
-                            <form action="/admin/booking-confirm/<?= $booking->id_booking ?>" method="post">
-                                <button type="submit" class="btn w-100 btn-info ">Confirm</button>
-                            </form>
-                        <?php else: ?>
-                            <div class="btn w-100 btn-danger ">Cancel</div>
+                        <?php if ($booking->finish == 0) : ?>
+                            <?php if ($booking->status_booking == 1 && $booking->confirm == 0) : ?>
+                                <form action="/admin/booking-confirm/<?= $booking->id_booking ?>" method="post">
+                                    <button type="submit" class="btn w-100 btn-info ">Confirm</button>
+                                </form>
+                            <?php else: ?>
+                                <form action="/admin/booking-confirm-cancel/<?= $booking->id_booking ?>" method="post">
+                                    <button type="submit" class="btn w-100 btn-danger  ">Cancel</button>
+                                </form>
+                            <?php endif; ?>
                         <?php endif; ?>
-
-                        <div class="mt-2">
-                            <a href="/admin/booking/print/<?= $booking->id_booking ?>"
-                               class="btn btn-success w-100">
-                                print
-                            </a>
-                        </div>
+                        <?php if ($booking->confirm == 1) : ?>
+                            <div class="mt-2">
+                                <a href="/admin/booking/print/<?= $booking->id_booking ?>"
+                                   class="btn btn-success w-100">
+                                    print
+                                </a>
+                            </div>
+                        <?php endif; ?>
 
                     </div>
                 </div>

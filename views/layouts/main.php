@@ -8,16 +8,12 @@
 
 </head>
 <body class="bg-light">
-<header>
-    <?php require('views/components/header.php') ?>
-</header>
+<?php require('views/components/header.php') ?>
 
-<main>
-    <div class="container-fluid px-lg-4 mt-4">
-        <?php showMessage() ?>
-        <?php /** @var mixed $content */
-        echo $content; ?>
-    </div>
+<main class=" container  pt-5 min-vh-100">
+    <?php showMessage() ?>
+    <?php /** @var mixed $content */
+    echo $content; ?>
 </main>
 
 <!-- Add your JavaScript files here -->
@@ -25,6 +21,5 @@
 <?php require('views/components/footer.php') ?>
 <?php require('views/assets/php/swiper.php') ?>
 <?php require('views/assets/php/scripts.php') ?>
-
 </body>
 </html>
