@@ -189,7 +189,7 @@ WHERE finish=TRUE
 //        print_r($response);
             return $response;
         } else {
-            throw new Exception('Error ');
+            throw new Exception('Data is Empty');
 //            throw new Exception('data is empty');
         }
     }
@@ -212,8 +212,8 @@ WHERE finish=TRUE
         if (count($response) > 0) {
             return $response;
         } else {
-            throw new Exception('data is error');
-//            throw new Exception('data is empty');
+//            return [];
+            throw new Exception('data Booking is empty');
         }
     }
 
@@ -235,7 +235,7 @@ WHERE finish=TRUE
         if (count($response) > 0) {
             return $response;
         } else {
-            throw new Exception('data is empty');
+            throw new Exception('data Cancel is empty');
         }
 //        throw new Exception($response);
     }
@@ -259,7 +259,7 @@ WHERE finish=TRUE
             return $response;
         } else {
 //            throw new Exception('data is empty');
-            throw new Exception($response);
+            throw new Exception('Data Confirm is Empty');
         }
     }
 
@@ -301,7 +301,7 @@ WHERE finish=TRUE
             return $response;
         } else {
 //            throw new Exception('data is empty');
-            throw new Exception($response);
+            throw new Exception('Data Finish is Empty');
         }
     }
 
@@ -423,7 +423,7 @@ WHERE finish=TRUE
             JOIN rooms r ON b.room_id = r.id
             WHERE b.guest_id = :guest_id 
                 AND b.booking = :status 
-                AND b.confirm = TRUE 
+                AND b.confirm = FALSE 
                 AND b.finish = FALSE
                 ");
         $this->db->bind(':guest_id', $guestId);
@@ -436,6 +436,27 @@ WHERE finish=TRUE
         }
     }
 
+
+    /**
+     * @throws Exception
+     */
+    public function findIdGuestStatusAction(int $id, int $guest_id, bool $status)
+    {
+        $this->db->query("
+            UPDATE bookings 
+            SET booking = :booking
+            WHERE id = :id AND guest_id = :guest_id 
+            ");
+        $this->db->bind(':id', $id);
+        $this->db->bind(':guest_id', $guest_id);
+        $this->db->bind(':booking', $status);
+        $response = $this->db->execute();
+        if ($response) {
+            return $response;
+        } else {
+            throw new Exception('Fail Update Booking');
+        }
+    }
 
     /**
      * @throws Exception

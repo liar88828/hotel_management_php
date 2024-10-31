@@ -100,7 +100,7 @@
 <div class="modal fade" id="contact-s" data-bs-backdrop="static" data-bs-keyboard="true" tabindex="-1"
      aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <form id="contacts_s_form" action="/admin/settings/contact/<?= htmlspecialchars($setting_contact->sr_no) ?>"
+        <form id="contacts_s_form" action="/admin/settings/contact/<?= htmlspecialchars($setting_contact->id) ?>"
               method="post">
             <div class="modal-content">
                 <div class="modal-header">

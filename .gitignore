@@ -3,3 +3,10 @@
 /images/carousel/
 /images/testimonial/
 
+!/images/about/init.php
+!/images/carousel/init.php
+!/images/facilities/init.php
+!/images/logo/init.php
+!/images/person/init.php
+!/images/rooms/init.php
+!/images/testimonial/init.php

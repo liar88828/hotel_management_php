@@ -19,8 +19,8 @@
         </div>
 
         <div class="">
-            <a href="/admin/room/create" class='btn btn-info'>Create
-                <i class="bi bi-plus-square-dotted"></i>
+            <a href="/admin/room/create" class='btn btn-info'>
+                Create <i class="bi bi-plus-square-dotted"></i>
             </a>
         </div>
     </div>
@@ -99,13 +99,6 @@
                             setlocale(LC_MONETARY, "id_ID");
                             echo "Rp. " . number_format((int)$room->price, 0, ',', '.');
                             ?>/night</h6>
-
-
-                        <!--                                    <a href="/admin/room/update/-->
-                        <?php //= $room->id ?><!--"-->
-                        <!--                                       class="btn btn-info w-100 shadow-none mb-2">-->
-                        <!--                                        <i class="bi bi-pencil-square"></i> Edit-->
-                        <!--                                    </a>-->
 
                         <a href="/admin/room/<?= $room->id ?>"
                            class="btn w-100 btn-outline-dark mb-2">More Details</a>

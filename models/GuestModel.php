@@ -33,7 +33,7 @@ class GuestModel
 
     public function findAll()
     {
-        $this->db->query("SELECT * FROM guest");
+        $this->db->query("SELECT * FROM guest ORDER BY update_at DESC");
         $response = $this->db->resultSet();
         if (count($response) > 0) {
             return $response;
@@ -46,7 +46,7 @@ class GuestModel
     public function search(string $search)
     {
 
-        $this->db->query("SELECT * FROM guest WHERE name LIKE :search");
+        $this->db->query("SELECT * FROM guest WHERE name LIKE :search ORDER BY update_at DESC");
         $this->db->bind(":search", "%$search%");
         $response = $this->db->resultSet();
         if (count($response) > 0) {

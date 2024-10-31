@@ -16,7 +16,7 @@
 
 
 <script>
-	function previewImage(event) {
+	function previewImageUpdate(event) {
 		const reader = new FileReader();
 		const imagePreview = document.getElementById('image-preview-update');
 		reader.onload = function () {

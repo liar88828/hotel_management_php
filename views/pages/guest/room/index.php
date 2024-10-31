@@ -22,7 +22,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="/guest/room-filter" method="post">
+                    <form action="/guest/room/filter" method="post">
                         <div class="border bg-light p-3 rounded mb-3">
                             <h5 class="mb-3 mt-3" style="font-size: 18px;">CHECK AVAILABILITY</h5>
                             <label class="form-label " for="check_in_date">Check-in</label>

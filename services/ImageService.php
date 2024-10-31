@@ -20,11 +20,12 @@ class ImageService
         }
     }
 
-    function deleteImage(string $imagePath)
+    function deleteImage(string $imagePath, string $dir = 'images/person/')
     {
         try {
-            if (file_exists($imagePath)) {
-                if (unlink($imagePath)) {
+            $img = $dir . $imagePath;
+            if (file_exists($img)) {
+                if (unlink($img)) {
                     return "Image deleted successfully.";
                 } else {
                     throw new Exception("Failed to delete image.");

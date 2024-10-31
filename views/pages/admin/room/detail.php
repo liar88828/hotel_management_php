@@ -105,9 +105,40 @@ if (empty($room)): ?>
             <div class="mt-4">
                 <a href="/admin/room" class="btn btn-secondary">Back to Rooms</a>
                 <a href="/admin/room/update/<?= $room->id ?>"
-                   class="btn btn-info">
-                    <i class="bi bi-pencil-square"></i> Edit
+                   class="btn btn-primary">
+                    Update <i class="bi bi-pencil-square"></i>
                 </a>
+
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-danger"
+                        data-bs-toggle="modal" data-bs-target="#exampleModal_delete">
+                    Delete <i class="bi bi-trash"></i>
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal_delete" tabindex="-1" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <form
+                                action="/admin/room-delete-data/<?= $room->id ?>"
+                                method="post"
+                                class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Hapus Data</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h1>Apakah anda yakin ingin menghapus data ini</h1>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
 
             </div>
         </div>
@@ -180,12 +211,12 @@ if (empty($room)): ?>
                     foreach ($room_images as $room_image) : ?>
 
                         <div class="card " style="flex-shrink: 0">
-                            <div class="card-body">
+                            <div class="card-body d-flex  flex-column align-items-center gap-2">
                                 <img src="/images/rooms/<?= htmlspecialchars($room_image->image) ?>"
                                      class="img-fluid rounded"
                                      style="object-fit: fill; height: 200px; width:200px ;"
                                      alt="<?= htmlspecialchars($room_image->image) ?>">
-                                <form action="/admin/room-delete/<?= htmlspecialchars($room_image->id) ?>"
+                                <form action="/admin/room-delete-image/<?= htmlspecialchars($room_image->id) ?>"
                                       method="post">
                                     <button class="btn btn-danger" type="submit">Delete</button>
                                 </form>

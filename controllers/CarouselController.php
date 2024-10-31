@@ -128,7 +128,7 @@ class CarouselController extends Controller
             ];
             $dataDB = $this->carouselModel->findId($id);
             $responseDB = $this->carouselModel->update($id, $data);
-            $this->imageService->deleteImage("images/carousel/{$dataDB->image}");
+            $this->imageService->deleteImage($dataDB->image, "images/carousel/");
             $this->imageService->saveImage($responseDB, $data['image'], "images/carousel/");
             $this->redirect('/admin/carousel');
         } catch (Exception $e) {
@@ -146,7 +146,7 @@ class CarouselController extends Controller
         try {
             $dataDB = $this->carouselModel->findId($id);
             $this->carouselModel->delete($id);
-            $this->imageService->deleteImage("images/carousel/{$dataDB->image}");
+            $this->imageService->deleteImage($dataDB->image, "images/carousel/");
             $this->redirect('/admin/carousel');
         } catch (Exception $e) {
             print_r($e->getMessage());

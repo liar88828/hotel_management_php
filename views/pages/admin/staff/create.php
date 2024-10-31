@@ -5,7 +5,7 @@
         <?= htmlspecialchars($message) ?>
     </div>
 <?php endif; ?>
-<form action="/admin/settings/staff" method="post" class="modal-body" enctype="multipart/form-data">
+<form action="/admin/staff/create" method="post" class="modal-body" enctype="multipart/form-data">
 
     <span class="badge rounded-pill text-bg-light mb-3 text-wrap ls-base">Note: Your detais must match with ID (Adhar Card, passport, Driving Licence, etc) that will be required during check in.</span>
     <div class="container-fluid">

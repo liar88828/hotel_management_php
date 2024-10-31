@@ -23,6 +23,10 @@
             <p class="card-text" id="site_about">
                 <?php print_r($setting_general->site_about); ?>
             </p>
+            <h6 class="card-subtitle mb-1 fw-bold">Describe</h6>
+            <p class="card-text" id="site_about">
+                <?php print_r($setting_general->description_about); ?>
+            </p>
         <?php endif; ?>
     </div>
 </div>
@@ -32,7 +36,7 @@
      aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <form
-                action="/admin/settings/general/<?php print_r($setting_general->sr_no); ?>"
+                action="/admin/settings/general/<?php print_r($setting_general->id); ?>"
                 method="post"
                 id="general_s_form">
             <div class="modal-content">
@@ -55,6 +59,11 @@
                         <label for="site_about_inp" class="form-label">About Us</Address></label>
                         <textarea name="site_about" id="site_about_inp" class="form-control shadow-none" rows="6"
                                   required><?= htmlspecialchars($setting_general->site_about) ?: ''; ?></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="site_about_inp" class="form-label">About Us</Address></label>
+                        <textarea name="description_about" id="site_about_inp" class="form-control shadow-none" rows="6"
+                                  required><?= htmlspecialchars($setting_general->description_about) ?: ''; ?></textarea>
                     </div>
                     <button type="submit" class="btn btn-info">
                         SUBMIT

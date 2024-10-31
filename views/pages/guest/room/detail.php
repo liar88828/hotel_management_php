@@ -107,7 +107,7 @@
     <section class="card mt-2">
         <div class="card-body ">
             <!-- Booking Form -->
-            <form action="/guest/booking-create" method="POST">
+            <form action="/guest/booking/booking-action" method="POST">
                 <!-- Guest Name -->
                 <input type="hidden" name="id_room" value="<?= $room->id ?>">
 

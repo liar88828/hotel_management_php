@@ -40,6 +40,18 @@ class RoomImagesModel
         }
     }
 
+    public function deleteRoom($id)
+    {
+        $this->db->query("DELETE FROM room_images where room_id = :id");
+        $this->db->bind(':id', $id);
+        $response = $this->db->execute();
+        if ($response) {
+            return $response;
+        } else {
+            throw new Exception($response);
+        }
+    }
+
 
     public function findAll(int $room_id): array
     {

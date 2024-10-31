@@ -89,7 +89,12 @@ class StaffModel
         $this->db->bind(':pin_code', $data['pin_code']);
         $this->db->bind(':date_of_birth', $data['date_of_birth']);
 //        $this->db->bind(':password', $data['password']);
-        return $this->db->execute();
+        $response = $this->db->execute();
+        if ($response) {
+            return $response;
+        } else {
+            throw new Exception('Fail Create Staff');
+        }
     }
 
     /**
@@ -98,7 +103,7 @@ class StaffModel
      */
     public function createMember($data)
     {
-        print_r($data);
+//        print_r($data);
 
         $this->db->query("INSERT INTO staff (name, email, phone, image, address, pin_code, date_of_birth, position)
                 VALUES (:name, :email, :phone, :image, :address, :pin_code, :date_of_birth, :position)");
@@ -115,20 +120,23 @@ class StaffModel
 
 
     /**
-     * @param $id
+     * @param int $id
      * @param StaffBase $data
      * @return mixed
      */
     public function update($id, $data)
     {
-        $this->db->query("UPDATE staff
-                    SET name = :name, 
-                        phone = :phone, 
-                        image = :image, 
-                        address = :address, 
-                        pin_code = :pin_code, 
-                        date_of_birth = :date_of_birth 
-                    WHERE id = :id");
+        $this->db->query("UPDATE staff 
+                SET 
+                    name = :name,
+                    email = :email,
+                    phone = :phone,
+                    image = :image,
+                    address = :address,
+                    pin_code = :pin_code,
+                    date_of_birth = :date_of_birth,
+                    position = :position
+                WHERE id = :id");
         $this->db->bind(':id', $id);
         $this->db->bind(':name', $data['name']);
         $this->db->bind(':email', $data['email']);
@@ -137,7 +145,15 @@ class StaffModel
         $this->db->bind(':address', $data['address']);
         $this->db->bind(':pin_code', $data['pin_code']);
         $this->db->bind(':date_of_birth', $data['date_of_birth']);
-        return $this->db->execute();
+        $this->db->bind(':position', $data['position']);
+
+        $response = $this->db->execute();
+        if ($response) {
+            return $response;
+        } else {
+            throw new Exception('Fail Update Staff');
+        }
+
     }
 
     public function delete($id)

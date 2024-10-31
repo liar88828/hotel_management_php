@@ -25,11 +25,17 @@ class BookingController extends Controller
     {
         $this->layout('guest');
         try {
-            $session = getSessionGuest();
-            $guestId = $session->id;
-            $this->view('guest/booking/index',
-                ['bookings' => $this->roomModel->findIdGuest($guestId),]
-            );
+            if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+
+                $session = getSessionGuest();
+                $guestId = $session->id;
+                $this->view('guest/booking/index',
+                    ['bookings' => $this->roomModel->findIdGuest($guestId),]
+                );
+            }
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $this->guest_booking_search();
+            }
         } catch (Exception $e) {
             $this->view('guest/booking/index',
                 [
@@ -45,14 +51,14 @@ class BookingController extends Controller
         try {
             $session = getSessionGuest();
             $guestId = $session->id;
-            $this->view('guest/booking/index',
-                ['bookings' => $this->roomModel->findIdGuestSearch($guestId, $_POST['search']),]
+            $this->view('guest/booking/index', [
+                    'bookings' => $this->roomModel->findIdGuestSearch($guestId, $_POST['search']),
+                ]
             );
         } catch (Exception $e) {
-            $this->view('guest/booking/index',
-                [
-                    'bookings' => [],
-                    'message' => $e->getMessage()]
+            $this->redirect('/guest/booking', [
+                    'message' => $e->getMessage()
+                ]
             );
         }
     }
@@ -132,6 +138,23 @@ class BookingController extends Controller
         }
     }
 
+    public function guest_booking_cancel_action($id): void
+    {
+        $this->layout('guest');
+        try {
+            $session = getSessionGuest();
+            $guestId = $session->id;
+            $this->bookingModel->findIdGuestStatusAction($id, $guestId, false);
+            $this->redirect("/guest/booking/$id", ['message' => 'Update Success']
+            );
+        } catch (Exception $e) {
+            $this->redirect("/guest/booking/$id",
+                [
+                    'bookings' => [],
+                    'message' => $e->getMessage()]);
+        }
+    }
+
     public function guest_booking_confirm(): void
     {
         $this->layout('guest');
@@ -186,11 +209,11 @@ class BookingController extends Controller
             $guestId = $session->id;
             $this->bookingModel->findIdGuestFinishAction($id, $guestId);
             $this->redirect(
-                '/guest/booking-confirm',
+                '/guest/booking/finish',
                 ['message' => 'success']
             );
         } catch (Exception $e) {
-            $this->redirect('/guest/booking-confirm',
+            $this->redirect('/guest/booking/confirm',
                 ['message' => $e->getMessage()]);
         }
     }
@@ -387,14 +410,16 @@ class BookingController extends Controller
         try {
             getSessionAdmin();
             $this->layout('admin');
-            $this->view(
-                '/admin/booking/index',
-                ['bookings' => $this->bookingModel->findAllAdminBooking()]);
+            $this->view('/admin/booking/index', [
+                'bookings' => $this->bookingModel->findAllAdminBooking()
+            ]);
 
         } catch (Exception $e) {
             $this->view(
-                '/admin/booking/index',
-                ['bookings' => [], 'message' => $e->getMessage()]);
+                '/admin/booking/index', [
+                'bookings' => [],
+                'message' => $e->getMessage()
+            ]);
         }
     }
 
@@ -453,14 +478,16 @@ class BookingController extends Controller
             getSessionAdmin();
             $this->layout('admin');
             $this->view(
-                '/admin/booking/index',
-                ['bookings' => $this->bookingModel->findAllAdminConfirm()]);
+                '/admin/booking/index', [
+                'bookings' => $this->bookingModel->findAllAdminConfirm()
+            ]);
 
         } catch (Exception $e) {
             $this->view(
-                '/admin/booking/index',
-                ['bookings' => [],
-                    'message' => $e->getMessage()]);
+                '/admin/booking/index', [
+                'bookings' => [],
+                'message' => $e->getMessage()
+            ]);
         }
     }
 
@@ -471,7 +498,7 @@ class BookingController extends Controller
             $this->layout('admin');
             $this->bookingModel->findAllAdminConfirmAction((int)$id, false);
             $this->redirect(
-                '/admin/booking-confirm',
+                '/admin/booking/confirm',
                 ['message' => 'success cancel']);
 
         } catch (Exception $e) {
@@ -489,12 +516,12 @@ class BookingController extends Controller
             $this->layout('admin');
             $this->bookingModel->findAllAdminConfirmAction((int)$id, true);
             $this->redirect(
-                '/admin/booking-confirm',
+                '/admin/booking/confirm',
                 ['message' => 'success confirm']);
 
         } catch (Exception $e) {
             $this->redirect(
-                '/admin/booking-confirm',
+                '/admin/booking/confirm',
                 ['message' => $e->getMessage()]);
         }
     }
@@ -505,14 +532,16 @@ class BookingController extends Controller
             getSessionAdmin();
             $this->layout('admin');
             $this->view(
-                '/admin/booking/index',
-                ['bookings' => $this->bookingModel->findAllAdminFinish()]);
+                '/admin/booking/index', [
+                'bookings' => $this->bookingModel->findAllAdminFinish()
+            ]);
 
         } catch (Exception $e) {
             $this->view(
-                '/admin/booking/index',
-                ['bookings' => [],
-                    'message' => $e->getMessage()]);
+                '/admin/booking/index', [
+                'bookings' => [],
+                'message' => $e->getMessage()
+            ]);
         }
     }
 

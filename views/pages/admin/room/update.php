@@ -1,5 +1,4 @@
 <h1>Update Room</h1>
-<?php showMessage(); ?>
 <?php /** @var RoomBase $room */
 if (empty($room)): ?>
     <div class="alert alert-warning">Data Is Not Found</div>
@@ -105,15 +104,15 @@ if (empty($room)): ?>
                    value="<?= $room->wardrobe ?>">
         </div>
         <div class="form-group">
-            <label class="form-label" id="image">Profile Image</label>
+            <label class="form-label" for="image">Profile Image</label>
             <input type="file" class="form-control shadow-none" id="image" name="image"
                    accept="image/*" required onchange="previewImage(event)">
         </div>
 
-        <div class="mb-3">
-            <img id="image-preview" src="" alt="Image Preview"
-                 class="img-fluid"
-                 style="max-height: 300px; display: none;">
+        <!-- Image preview -->
+        <div class="form-group mt-2">
+            <img id="image-preview" src="" alt="Image Preview" class="img-fluid"
+                 style="max-height: 300px; display: none;"/>
         </div>
         <button type="submit" class="btn btn-primary mt-2">Update Room</button>
     </form>

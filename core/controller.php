@@ -30,18 +30,25 @@ class Controller
         require_once "views/layouts/{$this->layout}.php";
     }
 
-    protected function model($model)
+    protected function model(string $modelClass)
     {
-        require_once "models/$model.php";
-        return new $model();
+        $modelPath = "models/" . basename(str_replace("\\", "/", $modelClass)) . ".php";
+        if (file_exists($modelPath)) {
+            require_once $modelPath;
+            return new $modelClass();
+        }
+        throw new Exception("Model $modelClass not found.");
     }
 
-    protected function service($service)
+    protected function service(string $serviceClass)
     {
-        require_once "services/$service.php";
-        return new $service();
+        $servicePath = "services/" . basename(str_replace("\\", "/", $serviceClass)) . ".php";
+        if (file_exists($servicePath)) {
+            require_once $servicePath;
+            return new $serviceClass();
+        }
+        throw new Exception("Service $serviceClass not found.");
     }
-
     protected function redirect(string $location, array $data = []): void
     {
         if (!empty($data)) {

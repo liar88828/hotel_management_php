@@ -12,10 +12,10 @@
     </form>
     <div class="d-flex gap-2">
         <a href="/guest/booking" class='btn btn-secondary'>All</a>
-        <a href="/guest/booking-booking" class='btn btn-warning'>Booking</a>
-        <a href="/guest/booking-cancel" class='btn btn-danger'>Cancel</a>
-        <a href="/guest/booking-confirm" class='btn btn-success'>Confirm</a>
-        <a href="/guest/booking-finish" class='btn btn-info'>Finish</a>
+        <a href="/guest/booking/booking" class='btn btn-warning'>Booking</a>
+        <a href="/guest/booking/cancel" class='btn btn-danger'>Cancel</a>
+        <a href="/guest/booking/confirm" class='btn btn-success'>Confirm</a>
+        <a href="/guest/booking/finish" class='btn btn-info'>Finish</a>
     </div>
 </section>
 <section>
@@ -38,9 +38,10 @@
                         <h5><?= htmlspecialchars($booking->name) ?></h5>
                         <div class="d-flex flex-wrap gap-2">
 
-                            <div class="badge rounded-pill text-bg-<?= $booking->status_booking == 1 ? 'success' : 'danger' ?> ">
-                                <?= htmlspecialchars($booking->status_booking == 1 ? 'Available' : 'Unavailable') ?>
-                            </div>
+                            <!--                            <div class="badge rounded-pill text-bg--->
+                            <?php //= $booking->status_booking == 1 ? 'success' : 'danger' ?><!-- ">-->
+                            <!--                                --><?php //= htmlspecialchars($booking->status_booking == 1 ? 'Available' : 'Unavailable') ?>
+                            <!--                            </div>-->
                             <?php if ($booking->finish == 1) : ?>
                                 <div class="badge rounded-pill text-bg-info ">Finish</div>
                             <?php elseif ($booking->confirm == 1) : ?>

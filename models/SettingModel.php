@@ -50,11 +50,13 @@ class SettingModel
         $this->db->query("UPDATE settings 
             SET 
                 site_title = :site_title,
-                site_about = :site_about 
-            WHERE sr_no = :sr_no");
-        $this->db->bind(':sr_no', $id);
+                site_about = :site_about,
+                description_about = :description_about 
+            WHERE id = :id");
+        $this->db->bind(':id', $id);
         $this->db->bind(':site_title', $data['site_title']);
         $this->db->bind(':site_about', $data['site_about']);
+        $this->db->bind(':description_about', $data['description_about']);
         return $this->db->execute();
     }
 
@@ -95,9 +97,9 @@ class SettingModel
                 insta = :insta, 
                 tw = :tw, 
                 iframe = :iframe 
-                WHERE sr_no = :sr_no");
+                WHERE id = :id");
 
-        $this->db->bind(':sr_no', $id);
+        $this->db->bind(':id', $id);
         $this->db->bind(':address', $data['address']);
         $this->db->bind(':gmap', $data['gmap']);
         $this->db->bind(':pn1', $data['pn1']);
@@ -107,7 +109,13 @@ class SettingModel
         $this->db->bind(':insta', $data['insta']);
         $this->db->bind(':tw', $data['tw']);
         $this->db->bind(':iframe', $data['iframe']);
-        return $this->db->execute();
+        $response = $this->db->execute();
+        if ($response) {
+            return $response;
+
+        } else {
+            throw new Exception('Fail Update Setting');
+        }
     }
 
 }

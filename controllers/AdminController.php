@@ -87,10 +87,10 @@ class AdminController extends Controller
             mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $this->settingModel->updateGeneral($id, $_POST);
-                header('Location: /admin/settings');
+                $this->redirect('/admin/settings', ['message' => 'Success Update Setting']);
             }
         } catch (Exception $e) {
-            echo "Error: " . $e->getMessage();
+            $this->redirect('/admin/settings', ['message' => $e->getMessage()]);
         }
     }
 
@@ -118,13 +118,11 @@ class AdminController extends Controller
                 ];
                 $request = $this->staffModel->createMember($data);
                 $this->imageService->saveImage($request, $data['image']);
-                $this->redirect('/admin/settings');
+                $this->redirect('/admin/settings', ['message' => 'Success Create Staff']);
             }
 
         } catch (Exception $e) {
-            // Handle error (log it or display guess-friendly message)
-//            echo "Error: " . $e->getMessage();
-            $this->redirect('/admin/settings');
+            $this->redirect('/admin/settings', ['message' => 'Fail Create Staff']);
 
 
         }
@@ -139,10 +137,10 @@ class AdminController extends Controller
             mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $this->settingModel->updateContact($id, $_POST);
-                $this->redirect('/admin/settings');
+                $this->redirect('/admin/settings', ['message' => 'Success Update Data']);
             }
         } catch (Exception $e) {
-            echo "Error: " . $e->getMessage();
+            $this->redirect('/admin/settings', ['message' => $e->getMessage()]);
         }
     }
 

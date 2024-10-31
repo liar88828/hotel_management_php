@@ -27,9 +27,18 @@ class TestimonialController extends Controller
             }
         } catch (Exception $e) {
             if ($e instanceof PDOException) {
-                $this->redirect('/admin/testimonial', ['message' => 'Database Sibuk']);
+                $this->view('admin/testimonial/index',
+                    [
+                        'testimonials' => [],
+                        'message' => 'Database Sibuk'
+                    ]
+                );
             }
-            $this->redirect('/admin/testimonial', ['message' => $e->getMessage()]);
+            $this->view('admin/testimonial/index',
+                [
+                    'testimonials' => [],
+                    'message' => $e->getMessage()
+                ]);
         }
 
     }
@@ -123,7 +132,7 @@ class TestimonialController extends Controller
             $dataDB = $this->testimonialModel->findId($id);
             $responseDB = $this->testimonialModel->update($id, $data);
             $this->imageService->saveImage($responseDB, $data['image'], 'images/testimonial/');
-            $this->imageService->deleteImage("images/testimonial/$dataDB->image");
+            $this->imageService->deleteImage($dataDB->image, "images/testimonial/");
             $this->redirect('/admin/testimonial');
         } catch (Exception $e) {
             if ($e instanceof PDOException) {
@@ -139,7 +148,7 @@ class TestimonialController extends Controller
             /** @var TestimonialBase $dataDB */
             $dataDB = $this->testimonialModel->findId($id);
             $this->testimonialModel->delete($id);
-            $this->imageService->deleteImage("images/testimonial/$dataDB->image");
+            $this->imageService->deleteImage($dataDB->image, "images/testimonial/");
             $this->redirect('/admin/testimonial');
         } catch (Exception $e) {
             print_r($e->getMessage());

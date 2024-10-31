@@ -25,9 +25,9 @@
                     <li class="nav-item">
                         <a class="nav-link " href="/guest/booking">Booking</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link " href="/guest/history">History</a>
-                    </li>
+                    <!--                    <li class="nav-item">-->
+                    <!--                        <a class="nav-link " href="/guest/history">History</a>-->
+                    <!--                    </li>-->
                 </ul>
             </div>
             <form action="/auth/logout" method="POST">

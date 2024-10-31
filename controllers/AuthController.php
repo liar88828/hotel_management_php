@@ -187,7 +187,7 @@ class AuthController extends Controller
     {
         try {
             if ($_SERVER["REQUEST_METHOD"] == "GET") {
-                $this->redirect('/');
+                $this->view('/auth/logout');
             }
 
             if ($_SERVER["REQUEST_METHOD"] == "POST") {

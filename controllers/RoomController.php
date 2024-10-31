@@ -125,15 +125,37 @@ class RoomController extends Controller
         }
     }
 
+    public function detail_admin_delete_data($id): void
+    {
+        try {
+            getSessionAdmin();
 
-    public function detail_admin_delete(int $id): void
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                /** @var RoomBase $data */
+                $data = $this->roomModel->findId($id);
+                $this->roomModel->delete($id);
+                $this->roomImagesModel->deleteRoom($id);
+                $this->imageService->deleteImage($data->image, 'images/rooms/');
+                $this->redirect("/admin/room", ['message' => 'Success']);
+            }
+
+        } catch (Exception $e) {
+            if ($e instanceof PDOException) {
+                $this->redirect("/admin/room/$id", ['message' => 'Server Sibuk']);
+            }
+            $this->redirect('/admin/room', ['message' => $e->getMessage()]);
+        }
+    }
+
+
+    public function detail_admin_delete_image(int $id): void
     {
         try {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 /** @var RoomImageBase $data */
                 $data = $this->roomImagesModel->findId($id);
                 $this->roomImagesModel->delete($data->id);
-                $this->imageService->deleteImage("images/rooms/$data->image");
+                $this->imageService->deleteImage($data->image, "images/rooms/");
                 $this->redirect("/admin/room/$data->room_id", ['message' => 'Delete Success']);
             }
         } catch (Exception $e) {
@@ -268,14 +290,16 @@ class RoomController extends Controller
             $session = getSessionGuest();
             $guestId = $session->id;
             if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-                $this->view('guest/room/index', ['rooms' => $this->roomModel->findAllGuest($guestId)]);
+                $data = ['rooms' => $this->roomModel->findAllGuest($guestId)];
+                $this->view('guest/room/index', $data);
             }
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                $this->view('guest/room/index', ['rooms' => $this->roomModel->findAllGuestSearch($_POST['search'], $guestId)]);
+                $data = ['rooms' => $this->roomModel->findAllGuestSearch($_POST['search'], $guestId)];
+                $this->view('guest/room/index', $data);
             }
         } catch (Exception $e) {
 //            print_r($e->getMessage());
-            $this->redirect('/guest/room', ['message' => 'data is not found']);
+            $this->redirect('/guest/room', ['message' => 'Data is Empty']);
         }
     }
 

@@ -166,12 +166,18 @@ if (empty($guest) && empty($room) && empty($booking)): ?>
     <section class="mt-1 row row-cols-3">
         <a class="btn btn-dark" href="/admin/booking">Back</a>
         <?php if ($booking->finish == 0) : ?>
-            <?php if ($booking->booking == 1) : ?>
-                <form action="/admin/booking-confirm/<?= $booking->id ?>" method="post">
-                    <!-- Action Buttons -->
-                    <button type="submit" class="btn btn-info w-100 ">Confirm</button>
+
+
+            <?php if ($booking->booking == 1 && $booking->confirm == 0) : ?>
+                <form action="/admin/booking/confirm-action/<?= $booking->id ?>" method="post">
+                    <button type="submit" class="btn w-100 btn-info ">Confirm</button>
+                </form>
+            <?php else: ?>
+                <form action="/admin/booking/confirm-cancel/<?= $booking->id ?>" method="post">
+                    <button type="submit" class="btn w-100 btn-danger  ">Cancel</button>
                 </form>
             <?php endif; ?>
+
         <?php endif; ?>
     </section>
 

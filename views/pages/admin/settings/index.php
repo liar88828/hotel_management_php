@@ -1,5 +1,4 @@
 <h3 class="mb-4">SETTINGS</h3>
-<?php require('views/pages/admin/settings/form-general.php'); ?>
 <!-- Shutdown Settings -->
 <!--<div class="card border-0 shadow-sm mb-4">-->
 <!--    <div class="card-body">-->
@@ -18,7 +17,7 @@
 <!--        </p>-->
 <!--    </div>-->
 <!--</div>-->
-
+<?php require('views/pages/admin/settings/form-general.php'); ?>
 <?php require('views/pages/admin/settings/form-management.php'); ?>
 <?php require('views/pages/admin/settings/form-contract.php'); ?>
 <!---->

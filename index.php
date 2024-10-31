@@ -25,15 +25,25 @@ require_once 'views/assets/php/getMessage.php';
 
 
 // Instantiate Router
+/**
+ * @param Router $router
+ * @return void
+ */
 $router = new Router();
 // auth route
-$router->addRoute('GET', '/auth/login', [AuthController::class, 'login']);
-$router->addRoute('POST', '/auth/login', [AuthController::class, 'login']);
-$router->addRoute('GET', '/auth/register', [AuthController::class, 'register']);
-$router->addRoute('POST', '/auth/register', [AuthController::class, 'register']);
-$router->addRoute('GET', '/auth/logout', [AuthController::class, 'logout']);
-$router->addRoute('POST', '/auth/logout', [AuthController::class, 'logout']);
+$router->prefix('auth', function (Router $router) {
 
+    $router->get('/login', [AuthController::class, 'login']);
+    $router->post('/login', [AuthController::class, 'login']);
+    $router->addRoute('GET', '/register', [AuthController::class, 'register']);
+    $router->addRoute('POST', '/register', [AuthController::class, 'register']);
+    $router->addRoute('GET', '/logout', [AuthController::class, 'logout']);
+    $router->addRoute('POST', '/logout', [AuthController::class, 'logout']);
+});
+
+$router->addRoute('GET', '/users', [GuestController::class, 'index']);
+$router->addRoute('GET', '/users/create', [GuestController::class, 'create']);
+$router->addRoute('POST', '/users/store', [GuestController::class, 'store']);
 // home route
 $router->addRoute('GET', '/', [HomeController::class, 'index']);
 $router->addRoute('POST', '/', [HomeController::class, 'index']);
@@ -52,125 +62,138 @@ $router->addRoute('GET', '/detail/{id}', [HomeController::class, 'detail']);
 
 
 // admin route
-$router->addRoute('GET', '/admin', [AdminController::class, 'index']);
 
+$router->prefix('admin', function (Router $router) {
+    $router->addRoute('GET', '/', [AdminController::class, 'index']);
+    $router->addRoute('GET', '/', [AdminController::class, 'index']);
 //settings
-$router->addRoute('POST', '/admin/settings/general/{id}', [AdminController::class, 'setting_general_save']);
-$router->addRoute('POST', '/admin/settings/staff', [AdminController::class, 'create_staff']);
-$router->addRoute('POST', '/admin/settings/contact/{id}', [AdminController::class, 'setting_contact_save']);
-$router->addRoute('GET', '/admin/dashboard', [AdminController::class, 'dashboard']);
-$router->addRoute('GET', '/admin/settings', [AdminController::class, 'settings']);
+    $router->addRoute('GET', '/dashboard', [AdminController::class, 'dashboard']);
 
+    $router->prefix('settings', function (Router $router) {
+        $router->addRoute('GET', '', [AdminController::class, 'settings']);
+        $router->addRoute('POST', '/staff', [AdminController::class, 'create_staff']);
+        $router->addRoute('POST', '/general/{id}', [AdminController::class, 'setting_general_save']);
+        $router->addRoute('POST', '/contact/{id}', [AdminController::class, 'setting_contact_save']);
+    });
 // admin room
-$router->addRoute('GET', '/admin/room', [RoomController::class, 'index']);
-$router->addRoute('POST', '/admin/room', [RoomController::class, 'index']);
-$router->addRoute('GET', '/admin/room-available', [RoomController::class, 'available']);
-$router->addRoute('POST', '/admin/room-available/{id}', [RoomController::class, 'available_action']);
-$router->addRoute('GET', '/admin/room-full', [RoomController::class, 'full']);
-$router->addRoute('GET', '/admin/room/create', [RoomController::class, 'create']);
-$router->addRoute('POST', '/admin/room/create', [RoomController::class, 'create']);
-$router->addRoute('GET', '/admin/room/update/{id}', [RoomController::class, 'update']);
-$router->addRoute('POST', '/admin/room/update/{id}', [RoomController::class, 'update']);
-$router->addRoute('GET', '/admin/room/{id}', [RoomController::class, 'detail_admin']);
-$router->addRoute('POST', '/admin/room/{id}', [RoomController::class, 'detail_admin']);
-$router->addRoute('POST', '/admin/room-delete/{id}', [RoomController::class, 'detail_admin_delete']);
 
-// admin guest
-$router->addRoute('GET', '/admin/guest', [GuestController::class, 'index']);
-$router->addRoute('POST', '/admin/guest', [GuestController::class, 'index']);
-$router->addRoute('GET', '/admin/guest/create', [GuestController::class, 'create']);
-$router->addRoute('POST', '/admin/guest/store', [GuestController::class, 'store']);
-$router->addRoute('GET', '/admin/guest/update/{id}', [GuestController::class, 'update']);
-$router->addRoute('POST', '/admin/guest/edit/{id}', [GuestController::class, 'edit']);
-$router->addRoute('POST', '/admin/guest/delete/{id}', [GuestController::class, 'delete']);
-$router->addRoute('GET', '/admin/guest/{id}', [GuestController::class, 'detail']);
+    $router->addRoute('GET', '/room', [RoomController::class, 'index']);
+    $router->addRoute('POST', '/room', [RoomController::class, 'index']);
+    $router->addRoute('GET', '/room-available', [RoomController::class, 'available']);
+    $router->addRoute('POST', '/room-available/{id}', [RoomController::class, 'available_action']);
+    $router->addRoute('GET', '/room-full', [RoomController::class, 'full']);
+    $router->addRoute('GET', '/room/create', [RoomController::class, 'create']);
+    $router->addRoute('POST', '/room/create', [RoomController::class, 'create']);
+    $router->addRoute('GET', '/room/update/{id}', [RoomController::class, 'update']);
+    $router->addRoute('POST', '/room/update/{id}', [RoomController::class, 'update']);
+    $router->addRoute('GET', '/room/{id}', [RoomController::class, 'detail_admin']);
+    $router->addRoute('POST', '/room/{id}', [RoomController::class, 'detail_admin']);
+    $router->addRoute('POST', '/room-delete-image/{id}', [RoomController::class, 'detail_admin_delete_image']);
+    $router->addRoute('POST', '/room-delete-data/{id}', [RoomController::class, 'detail_admin_delete_data']);
 
-// admin staff
-$router->addRoute('GET', '/admin/staff', [StaffController::class, 'index']);
-$router->addRoute('POST', '/admin/staff', [StaffController::class, 'search']);
-$router->addRoute('GET', '/admin/staff/create', [StaffController::class, 'create']);
-$router->addRoute('POST', '/admin/staff/store', [StaffController::class, 'store']);
-$router->addRoute('GET', '/admin/staff/update/{id}', [StaffController::class, 'update']);
-$router->addRoute('POST', '/admin/staff/update/{id}', [StaffController::class, 'update']);
-$router->addRoute('POST', '/admin/staff/delete/{id}', [StaffController::class, 'delete']);
-$router->addRoute('GET', '/admin/staff/{id}', [StaffController::class, 'detail']);
-//
+    $router->prefix('guest', function (Router $router) {
+        $router->addRoute('GET', '', [GuestController::class, 'index']);
+        $router->addRoute('POST', '', [GuestController::class, 'index']);
+        $router->addRoute('GET', '/create', [GuestController::class, 'create']);
+        $router->addRoute('POST', '/create', [GuestController::class, 'create']);
+        $router->addRoute('GET', '/update/{id}', [GuestController::class, 'update']);
+        $router->addRoute('POST', '/edit/{id}', [GuestController::class, 'edit']);
+        $router->addRoute('POST', '/delete/{id}', [GuestController::class, 'delete']);
+        $router->addRoute('GET', '/{id}', [GuestController::class, 'detail']);
+    });
 
-// admin testimonial
-$router->addRoute('GET', '/admin/testimonial', [TestimonialController::class, 'index']);
-$router->addRoute('POST', '/admin/testimonial', [TestimonialController::class, 'index']);
-$router->addRoute('GET', '/admin/testimonial/create', [TestimonialController::class, 'create']);
-$router->addRoute('POST', '/admin/testimonial/create', [TestimonialController::class, 'store']);
-//$router->addRoute('GET', '/admin/testimonial/update/{id}', [TestimonialController::class, 'update']);
-$router->addRoute('POST', '/admin/testimonial/update/{id}', [TestimonialController::class, 'update']);
-$router->addRoute('POST', '/admin/testimonial/delete/{id}', [TestimonialController::class, 'delete']);
-$router->addRoute('GET', '/admin/testimonial/{id}', [TestimonialController::class, 'detail']);
+    $router->prefix('staff', function (Router $router) {
+        $router->controller(StaffController::class, function ($router) {
+            $router->get('', 'index')
+                ->post('', 'search')
+                ->get('/create', 'create')
+                ->post('/create', 'create')
+                ->get('/update/{id}', 'update')
+                ->post('/update/{id}', 'update')
+                ->post('/delete/{id}', 'delete')
+                ->get('/{id}', 'detail');
+        });
+    });
 
-// admin carousel
-$router->addRoute('GET', '/admin/carousel', [CarouselController::class, 'index']);
-$router->addRoute('POST', '/admin/carousel', [CarouselController::class, 'index']);
-//$router->addRoute('GET', '/admin/carousel/create', [CarouselController::class, 'create']);
-$router->addRoute('POST', '/admin/carousel/create', [CarouselController::class, 'create']);
-//$router->addRoute('GET', '/admin/carousel/update/{id}', [CarouselController::class, 'update']);
-$router->addRoute('POST', '/admin/carousel/update/{id}', [CarouselController::class, 'update']);
-$router->addRoute('POST', '/admin/carousel/delete/{id}', [CarouselController::class, 'delete']);
-$router->addRoute('GET', '/admin/carousel/{id}', [CarouselController::class, 'detail']);
+    $router->prefix('testimonial', function (Router $router) {
+        $router->addRoute('GET', '', [TestimonialController::class, 'index']);
+        $router->addRoute('POST', '', [TestimonialController::class, 'index']);
+        $router->addRoute('GET', '/create', [TestimonialController::class, 'create']);
+        $router->addRoute('POST', '/create', [TestimonialController::class, 'store']);
+        $router->addRoute('POST', '/update/{id}', [TestimonialController::class, 'update']);
+        $router->addRoute('POST', '/delete/{id}', [TestimonialController::class, 'delete']);
+        $router->addRoute('GET', '/{id}', [TestimonialController::class, 'detail']);
+    });
 
-// admin booking
-$router->addRoute('GET', '/admin/booking', [BookingController::class, 'admin_booking']);
-$router->addRoute('GET', '/admin/booking-booking', [BookingController::class, 'admin_booking_booking']);
-$router->addRoute('GET', '/admin/booking-update/{id}', [BookingController::class, 'admin_booking_update']);
-$router->addRoute('POST', '/admin/booking-update/{id}', [BookingController::class, 'admin_booking_update']);
-$router->addRoute('GET', '/admin/booking/print/{id}', [BookingController::class, 'admin_booking_print']);
-$router->addRoute('GET', '/admin/booking-cancel', [BookingController::class, 'admin_booking_cancel']);
-$router->addRoute('GET', '/admin/booking-finish', [BookingController::class, 'admin_booking_finish']);
-$router->addRoute('GET', '/admin/booking-confirm', [BookingController::class, 'admin_booking_confirm']);
-$router->addRoute('POST', '/admin/booking-confirm-cancel/{id}', [BookingController::class, 'admin_booking_confirm_cancel']);
-$router->addRoute('POST', '/admin/booking-confirm/{id}', [BookingController::class, 'admin_booking_confirm_action']);
-$router->addRoute('POST', '/admin/booking/confirm/{id}', [BookingController::class, 'admin_confirm']);
-$router->addRoute('GET', '/admin/booking/{id}', [BookingController::class, 'admin_detail']);
+    $router->prefix('carousel', function (Router $router) {
+        $router->addRoute('GET', '', [CarouselController::class, 'index']);
+        $router->addRoute('POST', '', [CarouselController::class, 'index']);
+        $router->addRoute('POST', '/create', [CarouselController::class, 'create']);
+        $router->addRoute('POST', '/update/{id}', [CarouselController::class, 'update']);
+        $router->addRoute('POST', '/delete/{id}', [CarouselController::class, 'delete']);
+        $router->addRoute('GET', '/{id}', [CarouselController::class, 'detail']);
+    });
+
+    $router->prefix('booking', function (Router $router) {
+        $router->addRoute('GET', '', [BookingController::class, 'admin_booking']);
+        $router->addRoute('GET', '/update/{id}', [BookingController::class, 'admin_booking_update']);
+        $router->addRoute('POST', '/update/{id}', [BookingController::class, 'admin_booking_update']);
+        $router->addRoute('GET', '/print/{id}', [BookingController::class, 'admin_booking_print']);
+        $router->addRoute('GET', '/booking', [BookingController::class, 'admin_booking_booking']);
+        $router->addRoute('GET', '/cancel', [BookingController::class, 'admin_booking_cancel']);
+        $router->addRoute('GET', '/confirm', [BookingController::class, 'admin_booking_confirm']);
+        $router->addRoute('POST', '/confirm-action/{id}', [BookingController::class, 'admin_booking_confirm_action']);
+        $router->addRoute('POST', '/confirm-cancel/{id}', [BookingController::class, 'admin_booking_confirm_cancel']);
+        $router->addRoute('GET', '/finish', [BookingController::class, 'admin_booking_finish']);
+//        $router->addRoute('POST', '/confirm/{id}', [BookingController::class, 'admin_confirm']);
+        $router->addRoute('GET', '/{id}', [BookingController::class, 'admin_detail']);
+    });
+});
 
 
-//$router->addRoute('GET', '/admin/create', 'GuestController@create');
-//$router->addRoute('POST', '/admin/store', 'GuestController@store');
+//$router->addRoute('GET', '/create', 'GuestController@create');
+//$router->addRoute('POST', '/store', 'GuestController@store');
 ////
 
-$router->addRoute('GET', '/users', [GuestController::class, 'index']);
-$router->addRoute('GET', '/users/create', [GuestController::class, 'create']);
-$router->addRoute('POST', '/users/store', [GuestController::class, 'store']);
 
+$router->prefix('guest', function (Router $router) {
+    $router->addRoute('GET', '/history', [GuestController::class, 'history']);
 
 //Guest
-$router->addRoute('GET', '/guest/profile', [GuestController::class, 'profile']);
-$router->addRoute('GET', '/guest/profile-update', [GuestController::class, 'profile_update']);
-$router->addRoute('POST', '/guest/profile-edit', [GuestController::class, 'profile_edit']);
-$router->addRoute('GET', '/guest/history', [GuestController::class, 'history']);
+    $router->prefix('profile', function ($router) {
+        $router->addRoute('GET', '', [GuestController::class, 'profile']);
+        $router->addRoute('GET', 'update', [GuestController::class, 'profile_update']);
+        $router->addRoute('POST', 'edit', [GuestController::class, 'profile_edit']);
+    });
 
-$router->addRoute('GET', '/guest/room', [RoomController::class, 'guest_index']);
-$router->addRoute('POST', '/guest/room', [RoomController::class, 'guest_index']);
-$router->addRoute('POST', '/guest/room-filter', [RoomController::class, 'guest_filter']);
-$router->addRoute('GET', '/guest/room/{id}', [RoomController::class, 'guest_room_detail']);
+    $router->prefix('room', function ($router) {
 
-//$router->addRoute('GET', '/guest/room/available', [GuestController::class,'room_available']);
-//$router->addRoute('GET', '/guest/room/empty', [GuestController::class,'room_empty']);
+        $router->addRoute('GET', '', [RoomController::class, 'guest_index']);
+        $router->addRoute('POST', '', [RoomController::class, 'guest_index']);
+        $router->addRoute('POST', '/filter', [RoomController::class, 'guest_filter']);
+        $router->addRoute('GET', '/{id}', [RoomController::class, 'guest_room_detail']);
+    });
 
-$router->addRoute('GET', '/guest/booking', [BookingController::class, 'guest_booking']);
-$router->addRoute('POST', '/guest/booking', [BookingController::class, 'guest_booking_search']);
-$router->addRoute('POST', '/guest/booking-create', [BookingController::class, 'guest_booking_create']);
-$router->addRoute('GET', '/guest/booking-booking', [BookingController::class, 'guest_booking_booking']);
-$router->addRoute('GET', '/guest/booking-cancel', [BookingController::class, 'guest_booking_cancel']);
-$router->addRoute('GET', '/guest/booking-confirm', [BookingController::class, 'guest_booking_confirm']);
-$router->addRoute('GET', '/guest/booking-finish', [BookingController::class, 'guest_booking_finish']);
-$router->addRoute('POST', '/guest/booking-finish/{id}', [BookingController::class, 'guest_booking_finish_action']);
-//$router->addRoute('GET', '/guest/booking/available', [GuestController::class,'booking_available']);
-//$router->addRoute('GET', '/guest/booking/pending', [GuestController::class,'booking_pending']);
-$router->addRoute('POST', '/guest/booking/update-booking', [BookingController::class, 'booking_update_booking']);
-$router->addRoute('POST', '/guest/booking/update-cancel', [BookingController::class, 'booking_update_cancel']);
-$router->addRoute('POST', '/guest/booking-update/{id}', [BookingController::class, 'booking_update_guest']);
-$router->addRoute('GET', '/guest/booking/print/{id}', [BookingController::class, 'booking_print']);
-$router->addRoute('POST', '/guest/booking/update/{id}', [BookingController::class, 'booking_update']);
-$router->addRoute('GET', '/guest/booking-edit/{id}', [BookingController::class, 'booking_detail_edit']);
-$router->addRoute('GET', '/guest/booking/{id}', [BookingController::class, 'booking_detail']);
+    $router->prefix('booking', function ($router) {
+        $router->addRoute('GET', '', [BookingController::class, 'guest_booking']);
+        $router->addRoute('POST', '', [BookingController::class, 'guest_booking']);
+        $router->addRoute('GET', '/booking', [BookingController::class, 'guest_booking_booking']);
+        $router->addRoute('POST', '/booking-action', [BookingController::class, 'guest_booking_create']);
+        $router->addRoute('GET', '/cancel', [BookingController::class, 'guest_booking_cancel']);
+        $router->addRoute('POST', '/cancel-action/{id}', [BookingController::class, 'guest_booking_cancel_action']);
+        $router->addRoute('GET', '/confirm', [BookingController::class, 'guest_booking_confirm']);
+        $router->addRoute('GET', '/finish', [BookingController::class, 'guest_booking_finish']);
+        $router->addRoute('POST', '/finish-action/{id}', [BookingController::class, 'guest_booking_finish_action']);
+        $router->addRoute('POST', '/update/booking', [BookingController::class, 'booking_update_booking']);
+        $router->addRoute('POST', '/update/cancel', [BookingController::class, 'booking_update_cancel']);
+        $router->addRoute('POST', '/update/{id}', [BookingController::class, 'booking_update_guest']);
+        $router->addRoute('GET', '/print/{id}', [BookingController::class, 'booking_print']);
+        $router->addRoute('POST', '/update/{id}', [BookingController::class, 'booking_update']);
+        $router->addRoute('GET', '/edit/{id}', [BookingController::class, 'booking_detail_edit']);
+        $router->addRoute('GET', '/{id}', [BookingController::class, 'booking_detail']);
+    });
+});
+
 // Dispatch the route
 $router->dispatch();
 

@@ -114,7 +114,7 @@ class RoomModel
         if (count($response) > 0) {
             return $response;
         } else {
-            throw new Exception("No results found");
+            return [];
         }
     }
 
@@ -475,27 +475,14 @@ class RoomModel
                 guest_id,b.id as id_booking, guest_id, room_id, check_in_date, check_out_date, total_price, b.booking as status_booking, b.create_at,  name, area, price, quantity, adult, children, description, r.status as status_room, wifi, television, ac, cctv, dining_room, parking_area, bedrooms, bathrooms, wardrobe, security, image, confirm ,finish 
             FROM bookings b
             JOIN rooms r ON b.room_id = r.id
-            WHERE b.guest_id = :guest_id AND name = :search");
+            WHERE b.guest_id = :guest_id AND name LIKE  :search");
         $this->db->bind(':guest_id', $guestId);
-        $this->db->bind(':search', $search);
+        $this->db->bind(':search', "%$search%");
         $response = $this->db->resultSet();
         if (count($response) > 0) {
             return $response;
         } else {
             throw new Exception('data is empty');
-        }
-    }
-
-
-    public function delete($id)
-    {
-        $this->db->query("DELETE FROM rooms where id = :id");
-        $this->db->bind(':id', $id);
-        $response = $this->db->execute();
-        if ($response) {
-            return $response;
-        } else {
-            throw new Exception($response);
         }
     }
 
@@ -565,6 +552,20 @@ class RoomModel
     {
         $this->db->close();
     }
+
+    public function delete($id)
+    {
+        $this->db->query("DELETE FROM rooms WHERE id = :id");
+        $this->db->bind(':id', $id);
+        $response = $this->db->execute();
+        if ($response) {
+            return $response;
+        } else {
+            throw new Exception($response);
+        }
+    }
+
+
 }
 
 

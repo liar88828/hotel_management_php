@@ -1,7 +1,6 @@
 <?php
 
 
-
 class TestimonialModel
 {
     private Database $db;
@@ -14,12 +13,12 @@ class TestimonialModel
 
     public function findAll(): array|PDOException
     {
-        try {
-            $this->db->query("SELECT * FROM testimonial");
-            return $this->db->resultSet();
-        } catch (PDOException $e) {
-            throw new PDOException($e->getMessage());
+        $this->db->query("SELECT * FROM testimonial");
+        $response = $this->db->resultSet();
+        if (count($response) > 0) {
+            return $response;
         }
+        return [];
     }
 
     public function search(string $search)

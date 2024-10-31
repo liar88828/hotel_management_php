@@ -1,5 +1,4 @@
 <h1>Create Room</h1>
-<?php showMessage(); ?>
 <form method="post" action="/admin/room/create"
       enctype="multipart/form-data">
     <!-- Form Fields as in the previous example -->
@@ -96,5 +95,9 @@
              style="max-height: 300px; display: none;">
     </div>
 
-    <button type="submit" class="btn btn-primary mt-2">Create Room</button>
+    <div class=" mt-2">
+
+        <a href="/admin/room" class="btn btn-secondary">Back</a>
+        <button type="submit" class="btn btn-primary">Create Room</button>
+    </div>
 </form>

@@ -21,7 +21,10 @@
              tabindex="-1" aria-labelledby="exampleModalLabel"
              aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-xl">
-                <div class="modal-content">
+                <form class="modal-content"
+                      method="POST" action="/admin/testimonial/create"
+                      enctype="multipart/form-data"
+                >
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="exampleModalLabel">
                             Create New Testimonial
@@ -31,56 +34,54 @@
                                 aria-label="Close">
                         </button>
                     </div>
-                    <div class="modal-body d-flex justify-content-center">
-                        <form method="POST" action="/admin/testimonial/create" class="mb-4"
-                              enctype="multipart/form-data"
-                        >
-                            <div class="mb-3">
-                                <label for="name" class="form-label">Name</label>
-                                <input id="name" type="text" class="form-control" name="name"
-                                       placeholder="Name"
-                                       required>
-                            </div>
+                    <div class="modal-body ">
 
-                            <div class="mb-3">
-                                <label class="form-label" for="image">Profile Image</label>
-                                <input type="file" class="form-control shadow-none" id="image" name="image"
-                                       accept="image/*" required onchange="previewImage(event)">
-                            </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input id="name" type="text" class="form-control" name="name"
+                                   placeholder="Name"
+                                   required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="image">Profile Image</label>
+                            <input type="file" class="form-control shadow-none" id="image" name="image"
+                                   accept="image/*" required onchange="previewImage(event)">
+                        </div>
 
 
-                            <div class="mb-3">
-                                <label for="text" class="form-label">Text</label>
-                                <textarea id="text" class="form-control" name="text" placeholder="text"
-                                          required></textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label for="rating" class="form-label">Rating</label>
-                                <select name="rating" id="rating" class="form-select" required>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                </select>
-                            </div>
+                        <div class="mb-3">
+                            <label for="text" class="form-label">Text</label>
+                            <textarea id="text" class="form-control" name="text" placeholder="text"
+                                      required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="rating" class="form-label">Rating</label>
+                            <select name="rating" id="rating" class="form-select" required>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
 
-                            <!-- Image preview -->
-                            <div class="mb-3">
-                                <img id="image-preview" src="" alt="Image Preview" class="img-fluid"
-                                     style="max-height: 300px; display: none;">
-                            </div>
+                        <!-- Image preview -->
+                        <div class="mb-3">
+                            <img id="image-preview" src="" alt="Image Preview" class="img-fluid"
+                                 style="max-height: 300px; display: none;">
+                        </div>
 
 
-                            <button type="submit" class="btn btn-primary">Create</button>
-                        </form>
                     </div>
                     <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Create</button>
+
                         <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">Close
                         </button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -188,24 +189,23 @@
                                              tabindex="-1" aria-labelledby="exampleModalLabel"
                                              aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered modal-xl">
-                                                <div class="modal-content">
+                                                <form class="modal-content"
+                                                      method="POST"
+                                                      action="/admin/testimonial/update/<?php print_r($testimonial->id) ?>"
+                                                      enctype="multipart/form-data"
+                                                >
                                                     <div class="modal-header">
                                                         <h1 class="modal-title fs-5" id="exampleModalLabel">
-                                                            Create New Testimonial
+                                                            Update New Testimonial
                                                         </h1>
                                                         <button type="button" class="btn-close"
                                                                 data-bs-dismiss="modal"
                                                                 aria-label="Close">
                                                         </button>
                                                     </div>
-                                                    <div class="modal-body d-flex justify-content-center">
-                                                        <form
-                                                                method="POST"
-                                                                action="/admin/testimonial/update/<?php print_r($testimonial->id) ?>"
-                                                                class="mb-4"
-                                                                enctype="multipart/form-data"
-                                                        >
-                                                            <div class="mb-3">
+                                                    <div class="modal-body ">
+
+                                                        <div class="mb-3">
                                                                 <label for="name"
                                                                        class="form-label">Name</label>
                                                                 <input id="name" type="text"
@@ -223,7 +223,7 @@
                                                                        class="form-control shadow-none"
                                                                        id="image" name="image"
                                                                        accept="image/*" required
-                                                                       onchange="previewImage(event)">
+                                                                       onchange="previewImageUpdate(event)">
                                                             </div>
 
 
@@ -235,35 +235,36 @@
                                                                           required><?php print_r($testimonial->text) ?></textarea>
                                                             </div>
 
-                                                            <!-- Image preview -->
-                                                            <div class="mb-3">
-                                                                <img id="image-preview-update" src=""
-                                                                     alt="Image Preview" class="img-fluid"
-                                                                     style="max-height: 300px; display: none;">
-                                                            </div>
+                                                        <div class="mb-3">
+                                                            <label for="rating" class="form-label">Rating</label>
+                                                            <select name="rating" id="rating"
+                                                                    class="form-select" required>
+                                                                <option value="1">1</option>
+                                                                <option value="2">2</option>
+                                                                <option value="3">3</option>
+                                                                <option value="4">4</option>
+                                                                <option value="5">5</option>
+                                                            </select>
+                                                        </div>
 
-                                                            <div class="mb-3">
-                                                                <label for="rating" class="form-label">Rating</label>
-                                                                <select name="rating" id="rating"
-                                                                        class="form-select" required>
-                                                                    <option value="1">1</option>
-                                                                    <option value="2">2</option>
-                                                                    <option value="3">3</option>
-                                                                    <option value="4">4</option>
-                                                                    <option value="5">5</option>
-                                                                </select>
-                                                            </div>
-                                                            <button type="submit" class="btn btn-primary">
-                                                                Update
-                                                            </button>
-                                                        </form>
+                                                        <!-- Image preview -->
+                                                        <div class="mb-3">
+                                                            <img id="image-preview-update" src=""
+                                                                 alt="Image Preview" class="img-fluid"
+                                                                 style="max-height: 300px; display: none;">
+                                                        </div>
+
+
                                                     </div>
                                                     <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-primary">
+                                                            Update
+                                                        </button>
                                                         <button type="button" class="btn btn-secondary"
                                                                 data-bs-dismiss="modal">Close
                                                         </button>
                                                     </div>
-                                                </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>

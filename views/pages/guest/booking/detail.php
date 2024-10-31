@@ -151,10 +151,9 @@ if (empty($booking)): ?>
             <!-- Action Buttons -->
             <div class="d-flex justify-content-center mt-2">
                 <a href="/guest/booking" class=" btn btn-secondary me-2">Back</a>
-                <?php
-                if ($booking->confirm == 1 && $booking->finish == 0): ?>
-                    <form action="/guest/booking-finish/<?= $booking->id_booking ?>" method="POST">
-                        <button class="btn btn-info me-2" type="submit">
+                <?php if ($booking->confirm == 1 && $booking->finish == 0): ?>
+                    <form action="/guest/booking/finish-action/<?= $booking->id_booking ?>" method="POST">
+                        <button class="btn btn-primary me-2" type="submit">
                             Check Out / Finish
                         </button>
                     </form>
@@ -162,17 +161,28 @@ if (empty($booking)): ?>
 
 
                 <?php if ($booking->confirm == 0 && $booking->finish == 0) : ?>
-                    <a href="/guest/booking-edit/<?= $booking->id_booking ?>"
+                    <a href="/guest/booking/edit/<?= $booking->id_booking ?>"
                        class="btn btn-primary me-2">
                         Edit Booking
                     </a>
                 <?php endif; ?>
+
+
 
                 <?php if ($booking->confirm == 1) : ?>
                     <a href="/guest/booking/print/<?= $booking->id_booking ?>"
                        class="btn btn-info me-2">
                         Print
                     </a>
+                <?php else: ?>
+                    <?php if ($booking->status_booking == 1): ?>
+                        <form action="/guest/booking/cancel-action/<?= $booking->id_booking ?>"
+                              method="POST">
+                            <button class="btn btn-danger me-2">
+                                Cancel Booking
+                            </button>
+                        </form>
+                    <?php endif; ?>
                 <?php endif; ?>
 
             </div>

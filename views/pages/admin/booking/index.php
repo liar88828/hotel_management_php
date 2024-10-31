@@ -8,10 +8,10 @@
     <div class="d-flex gap-2">
 
         <a href="/admin/booking" class='btn btn-secondary'>All</a>
-        <a href="/admin/booking-booking" class='btn btn-warning'>Booking</a>
-        <a href="/admin/booking-cancel" class='btn btn-danger'>Cancel</a>
-        <a href="/admin/booking-confirm" class='btn btn-success'>Confirm</a>
-        <a href="/admin/booking-finish" class='btn btn-info'>Finish</a>
+        <a href="/admin/booking/booking" class='btn btn-warning'>Booking</a>
+        <a href="/admin/booking/cancel" class='btn btn-danger'>Cancel</a>
+        <a href="/admin/booking/confirm" class='btn btn-success'>Confirm</a>
+        <a href="/admin/booking/finish" class='btn btn-info'>Finish</a>
     </div>
 </section>
 <section>
@@ -93,15 +93,17 @@
                             More Details
                         </a>
                         <?php if ($booking->finish == 0) : ?>
+
                             <?php if ($booking->status_booking == 1 && $booking->confirm == 0) : ?>
-                                <form action="/admin/booking-confirm/<?= $booking->id_booking ?>" method="post">
+                                <form action="/admin/booking/confirm-action/<?= $booking->id_booking ?>" method="post">
                                     <button type="submit" class="btn w-100 btn-info ">Confirm</button>
                                 </form>
                             <?php else: ?>
-                                <form action="/admin/booking-confirm-cancel/<?= $booking->id_booking ?>" method="post">
+                                <form action="/admin/booking/confirm-cancel/<?= $booking->id_booking ?>" method="post">
                                     <button type="submit" class="btn w-100 btn-danger  ">Cancel</button>
                                 </form>
                             <?php endif; ?>
+
                         <?php endif; ?>
                         <?php if ($booking->confirm == 1) : ?>
                             <div class="mt-2">

@@ -71,7 +71,7 @@
     <div class="card">
         <div class="card-body  ">
             <!-- Booking Form -->
-            <form action="/guest/booking-update/<?= $booking->id_booking ?>" method="POST">
+            <form action="/guest/booking/update/<?= $booking->id_booking ?>" method="POST">
                 <!-- Guest Name -->
                 <input type="hidden" name="roomId" value="<?= $booking->id ?>">
 

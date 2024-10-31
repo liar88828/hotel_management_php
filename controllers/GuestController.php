@@ -20,11 +20,17 @@ class GuestController extends Controller
 //Guest
     public function profile(): void
     {
-        $session = getSessionGuest();
-        $guestId = $session->id;
-        $data = ['guest' => $this->guestModel->findId($guestId)];
-        $this->layout('guest');
-        $this->view('guest/profile/index', $data);
+        try {
+
+            $session = getSessionGuest();
+            $guestId = $session->id;
+            $data = ['guest' => $this->guestModel->findId($guestId)];
+            $this->layout('guest');
+            $this->view('guest/home/index', $data);
+
+        } catch (Exception $e) {
+            $this->redirect('/auth/logout', ['message' => 'Please Logout ']);
+        }
     }
 
     public function profile_update(): void
@@ -166,10 +172,20 @@ class GuestController extends Controller
     }
 
 
-    public function create()
+    public function create(): void
     {
-        $this->layout('admin');
-        $this->view('admin/guest/create');
+        try {
+            if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+                $this->layout('admin');
+                $this->view('admin/guest/create');
+            }
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $this->store();
+            }
+        } catch (Exception $e) {
+            $this->redirect('/admin/guest/',
+                ['message' => 'Fail Create Guest']);
+        }
     }
 
     public function store(): void
@@ -249,7 +265,7 @@ class GuestController extends Controller
         try {
             $dataDB = $this->guestModel->findId($id);
             $this->guestModel->delete($id);
-            $this->imageService->deleteImage("images/person/$dataDB->image");
+            $this->imageService->deleteImage($dataDB->image);
             $this->redirect('/admin/guest', ['message' => 'Delete Success ']);
         } catch (Exception $e) {
 //            print_r($e->getMessage());
