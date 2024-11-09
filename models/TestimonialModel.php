@@ -1,7 +1,5 @@
 <?php
 
-require_once 'core/database.php';
-
 
 class TestimonialModel
 {
@@ -15,22 +13,35 @@ class TestimonialModel
 
     public function findAll(): array|PDOException
     {
-        try {
-            $this->db->query("SELECT * FROM testimonial");
-            return $this->db->resultSet();
-        } catch (PDOException $e) {
-            throw new PDOException($e->getMessage());
+        $this->db->query("SELECT * FROM testimonial");
+        $response = $this->db->resultSet();
+        if (count($response) > 0) {
+            return $response;
+        }
+        return [];
+    }
+
+    public function search(string $search)
+    {
+        $this->db->query("SELECT * FROM testimonial WHERE name LIKE :name");
+        $this->db->bind(":name", "%$search%");
+        $response = $this->db->resultSet();
+        if (count($response) > 0) {
+            return $response;
+        } else {
+            throw new Exception('Data not found');
         }
     }
 
-    public function findId($id): TestimonialBase|PDOException
+    public function findId(int $id)
     {
-        try {
-            $this->db->query("SELECT * FROM testimonial WHERE id = :id");
-            $this->db->bind(':id', $id);
-            return $this->db->single();
-        } catch (PDOException $e) {
-            throw new PDOException($e->getMessage());
+        $this->db->query("SELECT * FROM testimonial WHERE id = :id");
+        $this->db->bind(':id', $id);
+        $response = $this->db->single();
+        if ($response) {
+            return $response;
+        } else {
+            throw new Exception('Data error');
         }
     }
 
@@ -41,18 +52,18 @@ class TestimonialModel
      */
     public function create($data)
     {
-        try {
 
-            $this->db->query("INSERT INTO testimonial (name,  image,text,rating) VALUES (:name, :image, :text, :rating)");
-            $this->db->bind(':name', $data['name']);
-            $this->db->bind(':image', $data['image']);
-            $this->db->bind(':text', $data['text']);
-            $this->db->bind(':rating', $data['rating']);
-            return $this->db->execute();
-        } catch (PDOException $e) {
-            throw new PDOException($e->getMessage());
+        $this->db->query("INSERT INTO testimonial (name,  image,text,rating) VALUES (:name, :image, :text, :rating)");
+        $this->db->bind(':name', $data['name']);
+        $this->db->bind(':image', $data['image']);
+        $this->db->bind(':text', $data['text']);
+        $this->db->bind(':rating', $data['rating']);
+        $response = $this->db->execute();
+        if ($response) {
+            return $response;
+        } else {
+            throw new Exception('Data error');
         }
-
     }
 
 
@@ -63,33 +74,36 @@ class TestimonialModel
      */
     public function update($id, $data)
     {
-        try {
-            $this->db->query("UPDATE testimonial
+        $this->db->query("UPDATE testimonial
                     SET name = :name, 
                         image = :image, 
                         text = :text, 
                         rating = :rating 
                     WHERE id = :id");
-            $this->db->bind(':id', $id);
-            $this->db->bind(':name', $data['name']);
-            $this->db->bind(':image', $data['image']);
-            $this->db->bind(':text', $data['text']);
-            $this->db->bind(':rating', $data['rating']);
-            return $this->db->execute();
-        } catch (PDOException $e) {
-            throw new PDOException($e->getMessage());
+        $this->db->bind(':id', $id);
+        $this->db->bind(':name', $data['name']);
+        $this->db->bind(':image', $data['image']);
+        $this->db->bind(':text', $data['text']);
+        $this->db->bind(':rating', $data['rating']);
+        $response = $this->db->execute();
+        if ($response) {
+            return $response;
+        } else {
+            throw new Exception('Data error');
         }
     }
 
     public function delete($id)
     {
-        try {
-            $this->db->query("DELETE FROM testimonial WHERE id = :id");
-            $this->db->bind(':id', $id);
-            return $this->db->single();
-        } catch (PDOException $e) {
-            throw new PDOException($e->getMessage());
+        $this->db->query("DELETE FROM testimonial WHERE id = :id");
+        $this->db->bind(':id', $id);
+        $response = $this->db->execute();
+        if ($response) {
+            return $response;
+        } else {
+            throw new Exception('DB Delete error');
         }
+
     }
 
 

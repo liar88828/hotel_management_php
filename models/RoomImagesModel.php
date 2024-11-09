@@ -1,8 +1,6 @@
 <?php
 
 
-//use Core\Database;
-require_once 'core/database.php';
 
 class RoomImagesModel
 {
@@ -33,6 +31,18 @@ class RoomImagesModel
     public function delete($id)
     {
         $this->db->query("DELETE FROM room_images where id = :id");
+        $this->db->bind(':id', $id);
+        $response = $this->db->execute();
+        if ($response) {
+            return $response;
+        } else {
+            throw new Exception($response);
+        }
+    }
+
+    public function deleteRoom($id)
+    {
+        $this->db->query("DELETE FROM room_images where room_id = :id");
         $this->db->bind(':id', $id);
         $response = $this->db->execute();
         if ($response) {

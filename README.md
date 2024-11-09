@@ -1,106 +1,197 @@
-Here’s a `README.md` file for your hotel booking website project, which you can copy and paste into your GitHub repository. It provides an overview of the project, installation instructions, and basic features.
+Here’s a `README.md` file for your hotel booking website project, which you can copy and paste into your GitHub
+repository. It provides an overview of the project, installation instructions, and basic features.
 
 # Hotel Booking Website
 
-This is a full-stack **Hotel Booking Website** built using **PHP** and **MySQL** for the backend and **HTML**, **CSS**, **Bootstrap**, and **JavaScript** for the frontend. This project includes both **user-end** and **admin-end** functionalities, allowing users to book hotel rooms, and administrators to manage bookings, users, and rooms.
+Struktur folder yang ditampilkan di atas merupakan bagian dari sistem manajemen hotel berbasis web, yang dikembangkan
+menggunakan teknologi berikut:
 
-## Features
+phpMyAdmin: Versi 5.2.1
 
-### User End:
-- **Book Hotel Rooms**: Users can browse and book rooms based on availability.
-- **Booking Management**: Users can view, modify, or cancel their bookings.
-- **Login and Registration**: Users can create an account or log in to manage their bookings.
-- **Review and Ratings**: After their stay, users can leave reviews and ratings.
-- **Profile Management**: Users can update their profile information.
-- **Online Payments**: Integration with **Paytm** for online payments (or any payment gateway of your choice).
+PHP: Versi 8.2.12
 
-### Admin End:
-- **Room Management**: Admins can add, modify, or delete rooms and their details.
-- **Booking Management**: Admins can manage booking statuses, check-in/check-out, and issue refunds.
-- **User Management**: Admins can view, delete, or ban/unban users.
-- **Review Management**: Admins can manage and moderate reviews and ratings.
-- **System Shutdown**: Admins can temporarily disable the website for maintenance.
-
-## Tech Stack
-
-- **Backend**: PHP, MySQL
-- **Frontend**: HTML, CSS, Bootstrap, JavaScript
-- **Libraries/Plugins**: Swiper.js (for carousels), Bootstrap Icons (for UI elements)
-- **Database**: MySQL for managing users, rooms, and bookings.
-- **Hosting**: Designed for hosting on platforms like Hostinger, but can be deployed on any PHP/MySQL supported platform.
-
-## Setup and Installation
-
-### Requirements:
-- PHP 7.x or later
-- MySQL Database
-- A web server (Apache, Nginx, etc.)
-- Composer (Optional for managing dependencies)
-
-### Steps to Run:
-
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/yourusername/hotel-booking-website.git
-   ```
-
-2. **Database Setup**:
-   - Create a MySQL database and import the `hotel_booking.sql` file located in the `database/` directory.
-   - Update the database configuration in `inc/db_config.php` file with your database credentials:
-     ```php
-     define('DB_HOST', 'localhost');
-     define('DB_USER', 'your_db_username');
-     define('DB_PASS', 'your_db_password');
-     define('DB_NAME', 'your_db_name');
-     ```
-
-3. **Admin Account Setup**:
-   - Manually insert admin credentials into the `admin_cred` table in the database. Example:
-     ```sql
-     INSERT INTO admin_cred (admin_name, admin_pass) VALUES ('admin', 'password');
-     ```
-
-4. **Run the Project**:
-   - Place the project files in your web server's root directory (e.g., `htdocs` for XAMPP, `www` for WAMP).
-   - Open a web browser and navigate to `http://localhost/hotel-booking-website/` to view the user side.
-   - Navigate to `http://localhost/hotel-booking-website/admin/` for the admin panel.
-
-### Admin Panel Credentials:
-- **Username**: `admin`
-- **Password**: `password` (Change this from the database after first login).
+MySQL: Ver 15.1, Distribusi MariaDB 10.4.32
 
 ## Project Structure
 
 ```
-├── assets/                     # CSS, JavaScript, and image files
-├── inc/                        # Includes essential files (DB Config, PHP Functions)
-│   ├── db_config.php           # Database configuration
-│   ├── essentials.php          # Core functions like `filteration`, `select`, `alert`, `redirect`
-│   └── links.php               # External links for CSS and JS files
-├── admin/                      # Admin-side pages
-│   ├── dashboard.php           # Admin dashboard page
-│   ├── manage_rooms.php        # Admin room management page
-│   ├── manage_users.php        # Admin user management page
-│   ├── manage_bookings.php     # Admin booking management page
-│   └── logout.php              # Admin logout page
-├── user/                       # User-side pages
-│   ├── index.php               # Home page for users
-│   ├── booking.php             # Room booking page
-│   ├── my_account.php          # User profile and booking management page
-├── inc/                        # Backend functions and configuration files
-│   ├── db_config.php           # Database connection setup
-│   ├── essentials.php          # Helper functions (redirection, filtering)
-├── database/                   # Database-related files
-│   └── hotel_booking.sql       # SQL script to create database tables
-└── README.md                   # Project documentation
+        
+├── controllers/                # Folder untuk mengelola logika kontrol aplikasi
+│
+├── core/                       # Folder inti yang berisi file dasar aplikasi
+│   ├── controller.php          # Kontroler utama aplikasi
+│   ├── database.php            # Koneksi dan pengaturan basis data
+│   └── route.php               # Pengaturan rute URL aplikasi
+│
+├── images/                     # Folder penyimpanan gambar
+│   ├── about/                  # Gambar untuk halaman "Tentang Kami"
+│   ├── carousel/               # Gambar untuk slider atau carousel
+│   ├── facilities/             # Gambar fasilitas hotel
+│   ├── logo/                   # Logo aplikasi atau hotel
+│   ├── person/                 # Gambar terkait orang (misalnya staf atau tamu)
+│   ├── rooms/                  # Gambar kamar hotel
+│   └── testimonial/            # Gambar untuk testimoni pelanggan
+│
+├── models/                     # Folder untuk mengelola data dan logika bisnis
+│   ├── interface/              # Subfolder yang berisi antarmuka model
+│   ├── AdminModel.php          # Model untuk mengelola data admin
+│   ├── AuthModel.php           # Model untuk otentikasi
+│   ├── BookingModel.php        # Model untuk mengelola data pemesanan
+│   ├── CarouselModel.php       # Model untuk mengelola data carousel
+│   ├── GuestModel.php          # Model untuk mengelola data tamu
+│   ├── RoomImagesModel.php     # Model untuk mengelola data gambar kamar
+│   ├── RoomModel.php           # Model untuk mengelola data kamar
+│   ├── SettingModel.php        # Model untuk mengelola pengaturan aplikasi
+│   ├── StaffModel.php          # Model untuk mengelola data staf
+│   └── TestimonialModel.php    # Model untuk mengelola data testimoni
+│
+├── services/                   # Folder untuk layanan tambahan aplikasi
+│   └── ImageService.php        # Layanan untuk pengelolaan gambar (unggah, ubah ukuran, dll.)
+│
+├── sql/                        # Folder untuk file SQL yang mengatur basis data
+│   ├── diklat_website.sql      # Skrip SQL untuk membuat atau memperbarui database
+│   └── new_hotel.sql           # Skrip SQL lainnya untuk struktur atau data awal basis data
+│
+├── views/                      # Folder ini menyimpan halaman-halaman yang akan dirender di bagian tampilan (View) dalam aplikasi
+│   ├── assets/                 # Folder ini menyimpan aset statis yang digunakan oleh aplikasi
+│   │   ├── css/                # Folder untuk file CSS yang mengatur tampilan atau styling aplikasi
+│   │   ├── js/                 # Folder untuk file JavaScript yang menambahkan interaktivitas atau fungsi dinamis pada aplikasi
+│   │   └── php/                # Folder untuk file PHP yang mungkin digunakan sebagai helper atau fungsi tambahan yang berkaitan dengan aset (misalnya, pemrosesan gambar atau pengaturan dinamis)
+│   │
+│   ├── components/             # Komponen tampilan yang dapat digunakan kembali
+│   │   ├── admin/              # Komponen untuk bagian admin
+│   │   ├── auth/               # Komponen untuk otentikasi
+│   │   ├── guest/              # Komponen untuk bagian tamu
+│   │   ├── room/               # Komponen untuk bagian kamar
+│   │   ├── footer.php          # Komponen footer yang digunakan di seluruh halaman
+│   │   └── header.php          # Komponen header yang digunakan di seluruh halaman
+│   ├── layouts/                # Template atau tata letak dasar untuk berbagai halaman
+│
+│   └── pages/                  # Folder untuk halaman-halaman aplikasi
+│       ├── admin/              # Halaman untuk bagian admin
+│       │   ├── booking/        # Mengelola tampilan pemesanan di bagian admin
+│       │   ├── carousel/       # Mengelola tampilan carousel gambar
+│       │   ├── guest/          # Mengelola informasi tamu di bagian admin
+│       │   ├── room/           # Mengelola tampilan data kamar di bagian admin
+│       │   ├── settings/       # Halaman pengaturan sistem atau aplikasi
+│       │   ├── staff/          # Mengelola informasi staf di bagian admin
+│       │   ├── testimonial/    # Mengelola testimoni dari tamu
+│       │   ├── dashboard.php   # Halaman utama admin untuk melihat ringkasan informasi
+│       │   ├── index.php       # Halaman beranda admin
+│       │   └── logout.php      # Halaman atau skrip untuk proses logout admin
+│       │
+│       ├── auth/               # Halaman untuk otentikasi
+│       │   └── logout.php      # Halaman atau skrip untuk logout pengguna
+│       │
+│       ├── errors/             # Halaman untuk kesalahan
+│       │   ├── 404.php         # Halaman untuk error 404 (Halaman Tidak Ditemukan)
+│       │   └── 505.php         # Halaman untuk error 505 (Error Server)
+│       │
+│       ├── guest/              # Halaman untuk bagian tamu
+│       │   ├── booking/        # Halaman pemesanan untuk tamu
+│       │   ├── home/           # Halaman utama atau beranda untuk tamu
+│       │   ├── profile/        # Halaman profil untuk tamu
+│       │   ├── room/           # Halaman untuk melihat informasi kamar bagi tamu
+│       │   └── history.php     # Halaman riwayat pemesanan atau transaksi tamu
+│       │
+│       ├── home/               # Halaman beranda
+│       │   ├── about.php       # Halaman "Tentang Kami"
+│       │   ├── contact.php     # Halaman untuk menghubungi hotel
+│       │   ├── facility.php    # Halaman yang menampilkan fasilitas hotel
+│       │   ├── index.php       # Halaman beranda umum aplikasi
+│       │   ├── room.php        # Halaman daftar kamar yang tersedia
+│       │   ├── roomDetail.php  # Halaman yang menampilkan detail setiap kamar
+│       │   └── testimonial.php # Halaman untuk menampilkan testimoni dari tamu
+│       │
+│       └── test/               # Folder untuk halaman atau skrip pengujian
+│
+├── index.php                   # File utama untuk menjalankan aplikasi
+├── .gitignore                  # File untuk mengabaikan file/folder tertentu dalam Git
+└── README.md                   # Dokumentasi dasar atau panduan untuk proyek
 ```
 
-## Contributing
+# Struktur Direktori Proyek
 
-Feel free to fork this repository and submit pull requests if you would like to contribute to this project. For major changes, please open an issue first to discuss what you would like to change.
+## controllers
 
-## License
+Berisi file kontrol utama untuk mengelola permintaan dan logika aplikasi.
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+- **controller.php**: Kontroler utama untuk mengelola permintaan dan logika aplikasi.
+- **database.php**: Mengatur koneksi dan pengelolaan basis data.
+- **route.php**: Mengatur rute URL untuk mengarahkan permintaan pengguna ke pengontrol yang sesuai.
 
-```
+## core
+
+Folder inti yang berisi file dasar yang mendukung operasi aplikasi.
+
+## images
+
+Berisi gambar yang terorganisir dalam beberapa subfolder berdasarkan kategori:
+
+- **about**: Menyimpan gambar yang mungkin digunakan pada halaman "Tentang Kami".
+- **carousel**: Berisi gambar yang digunakan dalam slider atau carousel.
+- **facilities**: Menyimpan gambar fasilitas hotel.
+- **logo**: Berisi logo aplikasi atau hotel.
+- **person**: Menyimpan gambar yang terkait dengan orang, mungkin staf atau tamu.
+- **rooms**: Menyimpan gambar kamar hotel.
+- **testimonial**: Berisi gambar yang mungkin terkait dengan testimoni pelanggan.
+
+## models
+
+Folder yang berisi model-model untuk mengelola data dan logika bisnis aplikasi.
+
+- **interface**: Subfolder yang menyimpan antarmuka model.
+- **Model Files**:
+    - **AdminModel.php**: Mengelola data dan logika terkait Admin.
+    - **AuthModel.php**: Mengelola data otentikasi.
+    - **BookingModel.php**: Mengelola data pemesanan.
+    - **CarouselModel.php**: Mengelola data untuk carousel gambar.
+    - **GuestModel.php**: Mengelola data tamu.
+    - **RoomImagesModel.php**: Mengelola data gambar kamar.
+    - **RoomModel.php**: Mengelola data kamar.
+    - **SettingModel.php**: Mengelola data pengaturan aplikasi.
+    - **StaffModel.php**: Mengelola data staf.
+    - **TestimonialModel.php**: Mengelola data testimoni.
+
+## services
+
+Folder ini menyimpan layanan atau fungsi tambahan.
+
+- **ImageService.php**: Layanan untuk mengelola gambar, seperti mengunggah atau mengubah ukuran gambar.
+
+## sql
+
+Folder ini berisi file SQL untuk mengatur struktur atau data awal basis data.
+
+## views
+
+Berisi file tampilan atau antarmuka pengguna, yang diatur dalam beberapa folder:
+
+- **assets**: Menyimpan aset seperti CSS, JavaScript, atau gambar tambahan untuk tampilan.
+- **components**: Menyimpan komponen tampilan yang dapat digunakan kembali, diatur dalam subfolder:
+    - **admin**: Komponen untuk bagian admin.
+    - **auth**: Komponen untuk otentikasi.
+    - **guest**: Komponen untuk bagian tamu.
+    - **room**: Komponen untuk bagian kamar.
+    - **footer.php**: Komponen footer yang mungkin digunakan di seluruh halaman.
+    - **header.php**: Komponen header yang mungkin digunakan di seluruh halaman.
+- **layouts**: Menyimpan template atau tata letak dasar yang mungkin digunakan di berbagai halaman.
+- **pages**: Menyimpan halaman-halaman aplikasi, diatur dalam subfolder:
+    - **admin**: Halaman untuk bagian admin.
+    - **auth**: Halaman untuk otentikasi.
+    - **errors**: Halaman untuk kesalahan.
+    - **guest**: Halaman untuk bagian tamu.
+    - **home**: Halaman untuk beranda.
+    - **test**: Halaman untuk pengujian.
+
+## index.php
+
+File utama untuk menjalankan aplikasi.
+
+## .gitignore
+
+File ini mengatur file atau folder mana yang tidak akan disertakan dalam sistem kontrol versi Git.
+
+## README.md
+
+Berisi dokumentasi dasar atau petunjuk untuk proyek ini.

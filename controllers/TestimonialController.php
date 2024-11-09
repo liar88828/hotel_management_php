@@ -1,8 +1,5 @@
 <?php
 
-require_once 'core/controller.php';
-require_once 'models/TestimonialModel.php';
-require_once 'services/ImageService.php';
 
 class TestimonialController extends Controller
 {
@@ -19,13 +16,29 @@ class TestimonialController extends Controller
     public function index(): void
     {
         try {
-
-            $data = ['testimonials' => $this->testimonialModel->findAll()];
-            $this->view('admin/testimonial/index', $data);
+            $this->layout('admin');
+            if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+                $data = ['testimonials' => $this->testimonialModel->findAll()];
+                $this->view('admin/testimonial/index', $data);
+            }
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $data = ['testimonials' => $this->testimonialModel->search(trim($_POST['search']))];
+                $this->view('admin/testimonial/index', $data);
+            }
         } catch (Exception $e) {
             if ($e instanceof PDOException) {
-                $this->redirect('/admin/testimonial', ['message' => $e->getMessage()]);
+                $this->view('admin/testimonial/index',
+                    [
+                        'testimonials' => [],
+                        'message' => 'Database Sibuk'
+                    ]
+                );
             }
+            $this->view('admin/testimonial/index',
+                [
+                    'testimonials' => [],
+                    'message' => $e->getMessage()
+                ]);
         }
 
     }
@@ -34,6 +47,7 @@ class TestimonialController extends Controller
     {
         try {
             $data = ['testimonial' => $this->testimonialModel->findId($id)];
+            $this->layout('admin');
             $this->view('admin/testimonial/detail', $data);
         } catch (Exception $e) {
             if ($e instanceof PDOException) {
@@ -45,7 +59,21 @@ class TestimonialController extends Controller
 
     public function create(): void
     {
-        $this->view('admin/testimonial/create');
+        try {
+
+            if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+                $this->view('admin/testimonial/create');
+            }
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $this->store();
+            }
+        } catch (Exception $e) {
+            if ($e instanceof PDOException) {
+                $this->redirect('/admin/testimonial', ['message' => 'Database Sibuk']);
+            }
+            $this->redirect('/admin/testimonial', ['message' => $e->getMessage()]);
+
+        }
     }
 
     public function store(): void
@@ -60,11 +88,10 @@ class TestimonialController extends Controller
             ];
 
             $responseDB = $this->testimonialModel->create($data);
-            $this->imageService->saveImage($responseDB, $data['image']);
+            $this->imageService->saveImage($responseDB, $data['image'], 'images/testimonial/');
             $this->redirect('/admin/testimonial');
-
         } catch (Exception $e) {
-//            print_r($e->getMessage());
+            print_r($e->getMessage());
             if ($e instanceof PDOException) {
                 $this->redirect('/admin/testimonial', ['message' => $e->getMessage()]);
             }
@@ -76,8 +103,14 @@ class TestimonialController extends Controller
     public function update(int $id): void
     {
         try {
-            $data = ['testimonial' => $this->testimonialModel->findId($id)];
-            $this->view('admin/testimonial/update', $data);
+            $this->layout('admin');
+            if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+                $data = ['testimonial' => $this->testimonialModel->findId($id)];
+                $this->view('admin/testimonial/update', $data);
+            }
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $this->edit($id);
+            }
         } catch (Exception $e) {
             if ($e instanceof PDOException) {
                 $this->redirect("/admin/testimonial/$id", ['message' => $e->getMessage()]);
@@ -96,13 +129,35 @@ class TestimonialController extends Controller
                 'text' => trim($_POST['text']),
                 'rating' => trim($_POST['rating']),
             ];
+            $dataDB = $this->testimonialModel->findId($id);
             $responseDB = $this->testimonialModel->update($id, $data);
-            $this->imageService->saveImage($responseDB, $data['image']);
+            $this->imageService->saveImage($responseDB, $data['image'], 'images/testimonial/');
+            $this->imageService->deleteImage($dataDB->image, "images/testimonial/");
+            $this->redirect('/admin/testimonial');
+        } catch (Exception $e) {
+            if ($e instanceof PDOException) {
+                $this->redirect('/admin/testimonial', ['message' => 'Database Sibuk']);
+            }
+            $this->redirect('/admin/testimonial', ['message' => $e->getMessage()]);
+        }
+    }
+
+    public function delete($id): void
+    {
+        try {
+            /** @var TestimonialBase $dataDB */
+            $dataDB = $this->testimonialModel->findId($id);
+            $this->testimonialModel->delete($id);
+            $this->imageService->deleteImage($dataDB->image, "images/testimonial/");
             $this->redirect('/admin/testimonial');
         } catch (Exception $e) {
             print_r($e->getMessage());
-            $this->redirect('/admin/testimonial');
+//            if ($e instanceof PDOException) {
+//                $this->redirect('/admin/testimonial', ['message' => 'Database Sibuk']);
+//            }
+//            $this->redirect('/admin/testimonial', ['message' => $e->getMessage()]);
         }
     }
+
 
 }

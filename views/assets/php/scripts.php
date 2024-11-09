@@ -14,6 +14,22 @@
 	}
 </script>
 
+
+<script>
+	function previewImageUpdate(event) {
+		const reader = new FileReader();
+		const imagePreview = document.getElementById('image-preview-update');
+		reader.onload = function () {
+			if (reader.readyState === 2) {
+				imagePreview.src = reader.result;
+				imagePreview.style.display = 'block'; // Show the image preview
+			}
+		}
+		reader.readAsDataURL(event.target.files[0]);
+	}
+</script>
+
+
 <!-- JavaScript for price calculation -->
 <script>
 	// const pricePerNight = 200;
@@ -40,5 +56,22 @@
 				document.getElementById('totalPrice').value = 0;
 			}
 		}
+	}
+
+</script>
+<!--print -->
+<script>
+	function printPDF() {
+		var element = document.getElementById('content');
+		var opt = {
+			margin     : 0.5,
+			filename   : 'booking-details.pdf',
+			image      : {type: 'jpeg', quality: 0.98},
+			html2canvas: {scale: 2},
+			jsPDF      : {unit: 'in', format: 'letter', orientation: 'portrait'}
+		};
+
+		// Convert HTML to PDF
+		html2pdf().set(opt).from(element).save();
 	}
 </script>

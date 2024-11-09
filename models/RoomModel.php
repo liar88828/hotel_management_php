@@ -2,7 +2,6 @@
 
 
 //use Core\Database;
-require_once 'core/database.php';
 
 class RoomModel
 {
@@ -89,8 +88,15 @@ class RoomModel
 
     public function findAll()
     {
-        $this->db->query("SELECT * FROM rooms LIMIT 100");
-        return $this->db->resultSet();
+        $this->db->query("SELECT * FROM rooms 
+         ORDER BY  update_at DESC 
+         LIMIT 100 ");
+        $response = $this->db->resultSet();
+        if (count($response) > 0) {
+            return $response;
+        } else {
+            return [];
+        }
     }
 
     public function findAllGuest($id_guest)
@@ -108,15 +114,17 @@ class RoomModel
         if (count($response) > 0) {
             return $response;
         } else {
-            throw new Exception("No results found");
+            return [];
         }
     }
 
     public function findAllGuestSearch(string $search, $id_guest)
     {
-        $this->db->query("SELECT rooms.* FROM rooms
-                      LEFT JOIN bookings  as b ON b.room_id = rooms.id
-                      WHERE (rooms.status = true AND rooms.name LIKE :search) AND (b.guest_id IS NULL OR b.guest_id != :id_guest)
+        $this->db->query("SELECT r.* FROM rooms as r
+                      LEFT JOIN bookings  as b ON b.room_id = r.id
+                      WHERE r.status = true 
+                            AND (b.guest_id != :id_guest OR b.guest_id IS NULL )
+                            AND r.name LIKE :search 
                       ORDER BY update_at DESC
                       LIMIT 100");
 
@@ -138,20 +146,19 @@ class RoomModel
      * @return mixed
      * @throws Exception
      */
-    public function findName($data)
+    public function findName(string $search)
     {
         $this->db->query("SELECT * FROM rooms
          WHERE name = :search
          ORDER BY  update_at DESC
          LIMIT 100 ");
-        $this->db->bind(':search', $data['search']);
+        $this->db->bind(':search', $search);
         $response = $this->db->resultSet();
         if (count($response) > 0) {
             return $response;
         } else {
             throw new Exception("No results found");
         }
-        throw new Exception($response);
     }
 
 
@@ -174,7 +181,6 @@ class RoomModel
         } else {
             throw new Exception("No results found");
         }
-        throw new Exception($response);
     }
 
     public function statusAction(int $id, bool $status)
@@ -191,7 +197,6 @@ class RoomModel
         } else {
             throw new Exception("No results found");
         }
-        throw new Exception($response);
     }
 
     /**
@@ -211,7 +216,9 @@ class RoomModel
 
     public function findHome()
     {
-        $this->db->query("SELECT * FROM rooms LIMIT 10");
+        $this->db->query("SELECT * FROM rooms
+         WHERE status = true
+         LIMIT 10 ");
         return $this->db->resultSet();
     }
 
@@ -278,23 +285,66 @@ class RoomModel
      */
     public function findSearch(mixed $data): array|Exception
     {
-        //            JOIN hotel.booking b
-//                ON r.id = b.room_id
-
         $this->db->query("SELECT * 
-    FROM rooms AS r
-    WHERE (r.wifi = :wifi OR r.television = :television OR r.ac = :ac OR r.cctv = :cctv OR r.dining_room = :dining_room OR r.parking_area = :parking_area OR r.security = :security)
-    AND r.status = 1
-    AND (r.children <= :children OR r.adult <= :adult)
-        AND NOT EXISTS (    
-        SELECT 1 FROM bookings AS b
-        WHERE b.room_id = r.id
-            AND (b.check_in_date <= :check_out_date
-            AND b.check_out_date >= :check_in_date)
+        FROM rooms AS r
+        WHERE (r.wifi = :wifi OR r.television = :television OR r.ac = :ac OR r.cctv = :cctv OR r.dining_room = :dining_room OR r.parking_area = :parking_area OR r.security = :security)
+        AND r.status = TRUE
+        AND (r.children <= :children OR r.adult <= :adult)
+            AND NOT EXISTS (    
+            SELECT 1 FROM bookings AS b
+            WHERE b.room_id = r.id
+                AND (b.check_in_date <= :check_out_date
+                AND b.check_out_date >= :check_in_date)
     )
 ");
 
 
+        $this->db->bind(':wifi', $data['wifi']);
+        $this->db->bind(':television', $data['television']);
+        $this->db->bind(':ac', $data['ac']);
+        $this->db->bind(':cctv', $data['cctv']);
+        $this->db->bind(':dining_room', $data['dining_room']);
+        $this->db->bind(':parking_area', $data['parking_area']);
+        $this->db->bind(':security', $data['security']);
+//
+        $this->db->bind(':children', $data['children']);
+        $this->db->bind(':adult', $data['adult']);
+//
+        $this->db->bind(':check_in_date', $data['check_in_date']);
+        $this->db->bind(':check_out_date', $data['check_out_date']);
+
+        $response = $this->db->resultSet();
+        if (count($response) > 0) {
+            return $response;
+        } else {
+            throw new Exception('data is not found');
+        }
+    }
+
+
+    /**
+     * @param RoomBase|BookingBase $data
+     * @return array|Exception
+     * @throws Exception
+     */
+    public function findSearchGuest(mixed $data, int $guestId)
+    {
+        $this->db->query("SELECT * 
+        FROM rooms AS r
+        WHERE (r.wifi = :wifi OR r.television = :television OR r.ac = :ac OR r.cctv = :cctv OR r.dining_room = :dining_room OR r.parking_area = :parking_area OR r.security = :security)
+        AND r.status = 1
+        AND (r.children <= :children OR r.adult <= :adult)
+            AND NOT EXISTS (    
+            SELECT 1 FROM bookings AS b
+            WHERE b.room_id = r.id
+              AND (b.guest_id!=:guestId OR b.guest_id IS NULL)
+                AND (b.check_in_date <= :check_out_date
+                AND b.check_out_date >= :check_in_date)
+    )
+");
+
+
+        $this->db->bind(':guestId', $guestId);
         $this->db->bind(':wifi', $data['wifi']);
         $this->db->bind(':television', $data['television']);
         $this->db->bind(':ac', $data['ac']);
@@ -416,7 +466,6 @@ class RoomModel
         } else {
             throw new Exception('data is empty');
         }
-        throw new Exception($response);
     }
 
     public function findIdGuestSearch(int $guestId, string $search)
@@ -426,28 +475,14 @@ class RoomModel
                 guest_id,b.id as id_booking, guest_id, room_id, check_in_date, check_out_date, total_price, b.booking as status_booking, b.create_at,  name, area, price, quantity, adult, children, description, r.status as status_room, wifi, television, ac, cctv, dining_room, parking_area, bedrooms, bathrooms, wardrobe, security, image, confirm ,finish 
             FROM bookings b
             JOIN rooms r ON b.room_id = r.id
-            WHERE b.guest_id = :guest_id AND name = :search");
+            WHERE b.guest_id = :guest_id AND name LIKE  :search");
         $this->db->bind(':guest_id', $guestId);
-        $this->db->bind(':search', $search);
+        $this->db->bind(':search', "%$search%");
         $response = $this->db->resultSet();
         if (count($response) > 0) {
             return $response;
         } else {
             throw new Exception('data is empty');
-        }
-        throw new Exception($response);
-    }
-
-
-    public function delete($id)
-    {
-        $this->db->query("DELETE FROM rooms where id = :id");
-        $this->db->bind(':id', $id);
-        $response = $this->db->execute();
-        if ($response) {
-            return $response;
-        } else {
-            throw new Exception($response);
         }
     }
 
@@ -517,6 +552,20 @@ class RoomModel
     {
         $this->db->close();
     }
+
+    public function delete($id)
+    {
+        $this->db->query("DELETE FROM rooms WHERE id = :id");
+        $this->db->bind(':id', $id);
+        $response = $this->db->execute();
+        if ($response) {
+            return $response;
+        } else {
+            throw new Exception($response);
+        }
+    }
+
+
 }
 
 

@@ -1,8 +1,5 @@
 <?php
-require_once 'core/controller.php';
-require_once 'models/AdminModel.php';
-require_once 'models/StaffModel.php';
-require_once 'models/GuestModel.php';
+
 
 class AuthController extends Controller
 {
@@ -190,7 +187,7 @@ class AuthController extends Controller
     {
         try {
             if ($_SERVER["REQUEST_METHOD"] == "GET") {
-                $this->redirect('/');
+                $this->view('/auth/logout');
             }
 
             if ($_SERVER["REQUEST_METHOD"] == "POST") {

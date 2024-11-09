@@ -7,6 +7,7 @@ function getMessage()
     return null;
 }
 
+
 function getForm()
 {
 
@@ -26,14 +27,12 @@ function removeMessage()
 function showMessage(): void
 {
     if (isset($_SESSION['redirect_data']['message'])) {
-
         if (getMessage()): ?>
             <div class="alert alert-info">
                 <?= htmlspecialchars(getMessage()) ?>
             </div>
             <?php removeMessage(); ?>
         <?php endif;
-
     }
 
 }

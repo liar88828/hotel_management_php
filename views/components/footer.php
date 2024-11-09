@@ -3,15 +3,18 @@
    <div class="row">
     <div class="col-lg-4 p-4">
      <h3 class="h-font fw-bold fs-3 mb-2">ASRAMA BALAI DIKLAT</h3>
-     <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Commodi saepe quod magnam voluptate deleniti corrupti! Praesentium eaque dolor, provident placeat inventore, pariatur nemo, cumque fuga ipsum quibusdam fugiat blanditiis illo.</p>
+        <p>
+            Kami mengundang Anda untuk datang dan menikmati pelayanan kelas dunia di hotel kami. Temukan sendiri mengapa
+            Balai Diklat adalah pilihan utama bagi wisatawan domestik maupun mancanegara.
+        </p>
     </div>
     <div class="col-lg-4 p-4">
      <h5 class="mb-3">Links</h5>
-     <a href="" class="d-inline-block mb-2 text-dark text-decoration-none">Home</a><br>
-     <a href="" class="d-inline-block mb-2 text-dark text-decoration-none">Facilities</a><br>
-     <a href="" class="d-inline-block mb-2 text-dark text-decoration-none">Rooms</a><br>
-     <a href="" class="d-inline-block mb-2 text-dark text-decoration-none">Contact Us</a><br>
-     <a href="" class="d-inline-block mb-2 text-dark text-decoration-none">About</a><br>
+        <a href="/" class="d-inline-block mb-2 text-dark text-decoration-none">Home</a><br>
+        <a href="/facility" class="d-inline-block mb-2 text-dark text-decoration-none">Facilities</a><br>
+        <a href="/room" class="d-inline-block mb-2 text-dark text-decoration-none">Rooms</a><br>
+        <a href="/contact" class="d-inline-block mb-2 text-dark text-decoration-none">Contact Us</a><br>
+        <a href="/about" class="d-inline-block mb-2 text-dark text-decoration-none">About</a><br>
     </div>
     <div class="col-lg-4 p-4">
       <h5 class="mb-3">Follow US</h5>
