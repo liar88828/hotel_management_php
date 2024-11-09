@@ -43,6 +43,6 @@ class Router {
 
         // 404 if no route matches
         header("HTTP/1.0 404 Not Found");
-        echo "404 Not Found";
+        echo "404 Not Found error bos";
     }
 }

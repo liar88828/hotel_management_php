@@ -34,7 +34,7 @@ CREATE TABLE `admin_cred`
     `password` varchar(150) NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+  COLLATE = utf8mb4_general_ci;
 
 --
 -- Dumping data for table `admin_cred`
@@ -65,7 +65,7 @@ CREATE TABLE `bookings`
     `update_at`      datetime        NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+  COLLATE = utf8mb4_general_ci;
 
 --
 -- Dumping data for table `bookings`
@@ -100,7 +100,7 @@ CREATE TABLE `carousel`
     `image` varchar(255) DEFAULT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+  COLLATE = utf8mb4_general_ci;
 
 --
 -- Dumping data for table `carousel`
@@ -130,7 +130,7 @@ CREATE TABLE `contact_details`
     `iframe`  varchar(300) NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+  COLLATE = utf8mb4_general_ci;
 
 --
 -- Dumping data for table `contact_details`
@@ -160,7 +160,7 @@ CREATE TABLE `guest`
     `password`      varchar(255) NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+  COLLATE = utf8mb4_general_ci;
 
 --
 -- Dumping data for table `guest`
@@ -208,7 +208,7 @@ CREATE TABLE `rooms`
     `create_at`    datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+  COLLATE = utf8mb4_general_ci;
 
 --
 -- Dumping data for table `rooms`
@@ -262,7 +262,7 @@ CREATE TABLE `room_facilities`
     `facilities_id` int NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+  COLLATE = utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -277,7 +277,7 @@ CREATE TABLE `room_features`
     `features_id` int NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+  COLLATE = utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -293,7 +293,7 @@ CREATE TABLE `room_images`
     `thumb`   tinyint      NOT NULL DEFAULT '0'
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+  COLLATE = utf8mb4_general_ci;
 
 --
 -- Dumping data for table `room_images`
@@ -317,7 +317,7 @@ CREATE TABLE `settings`
     `shutdown`   tinyint(1)   NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+  COLLATE = utf8mb4_general_ci;
 
 --
 -- Dumping data for table `settings`
@@ -347,7 +347,7 @@ CREATE TABLE `staff`
     `password`      varchar(255) NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+  COLLATE = utf8mb4_general_ci;
 
 --
 -- Dumping data for table `staff`
@@ -372,7 +372,7 @@ CREATE TABLE `team_details`
     `picture` int NOT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+  COLLATE = utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -389,7 +389,7 @@ CREATE TABLE `testimonial`
     `rating` int          DEFAULT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+  COLLATE = utf8mb4_general_ci;
 
 --
 -- Dumping data for table `testimonial`
